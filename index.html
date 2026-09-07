@@ -49,7 +49,8 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .hdr-div{width:1px;height:26px;background:var(--gray);flex-shrink:0}
 .hdr-name{font-size:1.2rem;font-weight:700;letter-spacing:.2px;color:var(--ink)}
 .locked-box{max-width:460px;margin:14vh auto 0;padding:clamp(28px,6vw,44px) clamp(20px,5vw,36px);background:#fff;border:1px solid var(--gray);border-radius:18px;text-align:center}
-.locked-ico{font-size:2.6rem;margin-bottom:14px}
+.locked-ico{width:60px;height:60px;margin:0 auto 16px;border-radius:18px;background:var(--brand-wash);color:var(--brand);display:flex;align-items:center;justify-content:center}
+.locked-ico svg{width:28px;height:28px}
 .locked-box h2{font-size:clamp(1.2rem,4vw,1.5rem);font-weight:800;color:var(--ink);margin-bottom:10px}
 .locked-box p{font-size:.92rem;line-height:1.6;color:var(--text-light)}
 .locked-box .btn{margin-top:22px}
@@ -304,7 +305,11 @@ textarea{resize:vertical;min-height:72px}
 .pwd-actions .btn{flex:1;padding:10px}
 
 /* feedback toast */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--green);color:#fff;padding:12px 24px;border-radius:10px;font-size:.88rem;font-weight:600;z-index:1000;transition:transform .35s ease;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--green);color:#fff;padding:11px 20px;border-radius:999px;font-size:.88rem;font-weight:600;z-index:1000;transition:transform .35s ease;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.28);display:flex;align-items:center;gap:8px}
+.toast-ic{display:flex;flex-shrink:0}
+.toast-ic svg{width:16px;height:16px}
+.toast.toast-err{background:#c0392b}
+.toast.toast-warn{background:#b9822a}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 /* ── Setup tabs ── */
@@ -357,7 +362,18 @@ textarea{resize:vertical;min-height:72px}
 .db-del-btn:hover{background:var(--red);color:#fff}
 
 /* ── Benchmark tab section headers ── */
-.setup-sec-hdr{font-size:.78rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--gray);display:flex;align-items:center;gap:6px}
+.setup-sec-hdr{font-size:.78rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--gray);display:flex;align-items:center;gap:7px}
+/* icone d'interfaccia nei contesti admin/modali */
+.setup-head h2 svg{width:18px;height:18px}
+.pwd-head span svg,.setup-sec-hdr svg{width:15px;height:15px;flex-shrink:0}
+.pwd-head span{display:flex;align-items:center;gap:8px}
+.setup-tab-btn{display:inline-flex;align-items:center;gap:7px}
+.setup-tab-btn svg{width:15px;height:15px}
+.qe-btn-sm{display:inline-flex;align-items:center;gap:5px}
+.qe-btn-sm svg,.qe-btn-del svg,.db-del-btn svg,.qe-acc-toggle svg{width:13px;height:13px}
+.qe-acc-toggle{display:flex}
+.setup-tip-ic{display:inline-flex;vertical-align:-3px;margin-right:5px}
+.setup-tip-ic svg{width:15px;height:15px}
 .setup-obj-sel{width:100%;padding:8px 12px;border:2px solid var(--gray);border-radius:8px;font-size:.88rem;font-family:inherit;color:var(--text);margin-bottom:12px;transition:border-color .2s}
 .setup-obj-sel:focus{outline:none;border-color:var(--brand)}
 
@@ -498,7 +514,7 @@ textarea.onb-input{min-height:108px;resize:vertical}
 <!-- ══════════ SCREEN LOCKED ══════════ -->
 <div class="screen" id="s_locked">
   <div class="locked-box">
-    <div class="locked-ico">🔒</div>
+    <div class="locked-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></div>
     <h2>Accesso su invito</h2>
     <p>Questo assessment è disponibile su invito di Studio Guzzetti&nbsp;/&nbsp;Promexa.
     Contatta lo studio per ricevere il tuo link personale.</p>
@@ -1566,14 +1582,38 @@ var onbIndex = 0;
 var onbModel = '';   // 'b2b' | 'b2c' | 'both'
 var onbSplit = 50;   // % B2B quando onbModel === 'both'
 
+/* ── Set icone unico — linea singola, angoli/terminazioni arrotondati, griglia 24
+   (stroke 1.8 per le icone medie/grandi, 2 per quelle piccole nei pulsanti) ── */
 function _ic(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
-
-/* icone per i pulsanti (stroke-width 2, per il sistema a 3 varianti) */
 function _bi(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
+
 var BI = {
   arrowR:_bi('<path d="M5 12h13M13 6l6 6-6 6"/>'),
   arrowL:_bi('<path d="M19 12H6M11 6l-6 6 6 6"/>'),
   check:_bi('<path d="M20 6 9 17l-5-5"/>')
+};
+
+/* icone d'interfaccia (stesse linee), usate in modali/pannello/toast */
+var ICN = {
+  lock:_ic('<rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>'),
+  eye:_ic('<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>'),
+  eyeOff:_ic('<path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.3 4.2M9.5 5.2A9.4 9.4 0 0 1 12 5c6.4 0 10 7 10 7a17.3 17.3 0 0 1-3.2 3.9M6 6.1A17 17 0 0 0 2 12s3.6 7 10 7a9.3 9.3 0 0 0 3.6-.7"/>'),
+  sliders:_ic('<path d="M4 8h9M17 8h3M4 16h3M11 16h9"/><circle cx="15" cy="8" r="2.3"/><circle cx="9" cy="16" r="2.3"/>'),
+  chart:_ic('<path d="M4 20h16M7 16v-4M12 16V8M17 16v-6"/>'),
+  editDoc:_ic('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/><path d="M17 3.5a2 2 0 0 1 3 3L14 12l-3 1 1-3Z"/>'),
+  database:_ic('<ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6M4.5 11.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6"/>'),
+  target:_ic('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>'),
+  key:_ic('<circle cx="8" cy="15" r="4"/><path d="M10.9 12.1 20 3M16.5 6.5l2.5 2.5M13.5 9.5l2.5 2.5"/>'),
+  info:_ic('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6h.01"/>'),
+  trash:_ic('<path d="M4 7h16M10 4h4M6 7l1 13h10l1-13M10 11v6M14 11v6"/>'),
+  x:_ic('<path d="M6 6l12 12M18 6 6 18"/>'),
+  chevronR:_ic('<path d="M9 6l6 6-6 6"/>'),
+  chevronD:_ic('<path d="M6 9l6 6 6-6"/>'),
+  refresh:_ic('<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/>'),
+  copy:_ic('<rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M15 5.5A2.5 2.5 0 0 0 12.5 3h-7A2.5 2.5 0 0 0 3 5.5v7A2.5 2.5 0 0 0 5.5 15"/>'),
+  check:_ic('<path d="M20 6 9 17l-5-5"/>'),
+  alert:_ic('<path d="M12 3 2 20h20L12 3Z"/><path d="M12 9.5v4.5M12 17h.01"/>'),
+  share:_ic('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>')
 };
 
 var ICO = {
@@ -2066,7 +2106,10 @@ function closePwdOnBg(e) {
 
 function togglePwdVisibility() {
   const inp = document.getElementById('pwdInput');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
+  const wasHidden = inp.type === 'password';
+  inp.type = wasHidden ? 'text' : 'password';
+  const b = document.getElementById('pwdToggleBtn');
+  if (b) b.innerHTML = wasHidden ? ICN.eyeOff : ICN.eye;
 }
 
 function checkPwd() {
@@ -2076,7 +2119,7 @@ function checkPwd() {
     _openSetupPanel();
   } else {
     const err = document.getElementById('pwdErr');
-    err.textContent = '❌ Password non corretta. Riprova.';
+    err.textContent = 'Password non corretta. Riprova.';
     document.getElementById('pwdInput').value = '';
     document.getElementById('pwdInput').focus();
     setTimeout(() => { err.textContent = ''; }, 3000);
@@ -2106,7 +2149,7 @@ function resetDefaults() {
   });
   renderBmTable();
   renderTargetTable();
-  showToast('↺ Valori predefiniti ripristinati');
+  showToast('Valori predefiniti ripristinati');
 }
 
 function applySetupValues() {
@@ -2127,7 +2170,7 @@ function applySetupValues() {
 function saveAndClose() {
   applySetupValues();
   closeSetup();
-  showToast('✅ Valori aggiornati per questa sessione');
+  showToast('Valori aggiornati per questa sessione');
 }
 
 function downloadConfigured() {
@@ -2176,14 +2219,17 @@ function downloadConfigured() {
   URL.revokeObjectURL(url);
 
   closeSetup();
-  showToast('⬇️ File cliente generato e scaricato!');
+  showToast('File cliente generato e scaricato');
 }
 
-function showToast(msg) {
+function showToast(msg, type) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3200);
+  const ic = type === 'err' ? ICN.x : (type === 'warn' ? ICN.alert : ICN.check);
+  t.innerHTML = '<span class="toast-ic">' + ic + '</span>' +
+    String(msg).replace(/[<>&]/g, c => c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&amp;');
+  t.className = 'toast show' + (type ? ' toast-' + type : '');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => t.classList.remove('show'), 3200);
 }
 // ════════════════════════════════════════════════
 //  BENCHMARK + TARGET TABLE RENDER
@@ -2261,7 +2307,7 @@ function renderQuestionsEditor() {
     nameInp.addEventListener('click', function(e) { e.stopPropagation(); });
     const toggle = document.createElement('span');
     toggle.className = 'qe-acc-toggle';
-    toggle.textContent = '▶';
+    toggle.innerHTML = ICN.chevronR;
     head.appendChild(nameInp);
     head.appendChild(toggle);
     head.addEventListener('click', function() { toggleQeAccordion(d.id); });
@@ -2292,12 +2338,12 @@ function toggleQeAccordion(dimId) {
   document.querySelectorAll('.qe-acc-body').forEach(function(b) { b.classList.remove('open'); });
   document.querySelectorAll('.qe-acc-head').forEach(function(h) {
     h.classList.remove('open');
-    h.querySelector('.qe-acc-toggle').textContent = '▶';
+    h.querySelector('.qe-acc-toggle').innerHTML = ICN.chevronR;
   });
   if (!isOpen) {
     body.classList.add('open');
     head.classList.add('open');
-    toggle.textContent = '▼';
+    toggle.innerHTML = ICN.chevronD;
   }
 }
 
@@ -2327,7 +2373,7 @@ function renderQList(dimId, seg) {
         '<input class="qe-opt-input" value="' + safeOpt + '" ' +
           'onchange="updateOpt(\'' + dimId + '\',\'' + seg + '\',' + qi + ',' + oi + ',this.value)">' +
         '<button class="qe-btn-sm qe-btn-del" ' +
-          'onclick="deleteOpt(\'' + dimId + '\',\'' + seg + '\',' + qi + ',' + oi + ')" title="Elimina risposta">✕</button>' +
+          'onclick="deleteOpt(\'' + dimId + '\',\'' + seg + '\',' + qi + ',' + oi + ')" title="Elimina risposta">' + ICN.x + '</button>' +
       '</div>';
     }).join('');
     var safeText = q.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -2339,7 +2385,7 @@ function renderQList(dimId, seg) {
         '<select class="qe-move-sel" ' +
           'onchange="moveQuestion(\'' + dimId + '\',\'' + seg + '\',' + qi + ',this.value);this.value=\'\'"><option value="">Sposta in...</option>' + moveOpts + '</select>' +
         '<button class="qe-btn-sm qe-btn-del" ' +
-          'onclick="deleteQuestion(\'' + dimId + '\',\'' + seg + '\',' + qi + ')">🗑 Elimina</button>' +
+          'onclick="deleteQuestion(\'' + dimId + '\',\'' + seg + '\',' + qi + ')">' + ICN.trash + 'Elimina</button>' +
       '</div>' +
       '<div class="qe-opt-list">' + optsHTML + '</div>';
     container.appendChild(item);
@@ -2355,7 +2401,7 @@ function addOpt(dimId, seg, qi) {
 }
 
 function deleteOpt(dimId, seg, qi, oi) {
-  if (QUESTIONS[dimId][seg][qi].opts.length <= 2) { showToast('⚠️ Minimo 2 risposte per domanda'); return; }
+  if (QUESTIONS[dimId][seg][qi].opts.length <= 2) { showToast('Minimo 2 risposte per domanda', 'warn'); return; }
   QUESTIONS[dimId][seg][qi].opts.splice(oi, 1);
   renderQList(dimId, seg);
 }
@@ -2366,7 +2412,7 @@ function addQuestion(dimId) {
 }
 
 function deleteQuestion(dimId, seg, qi) {
-  if (QUESTIONS[dimId][seg].length <= 1) { showToast('⚠️ Minimo 1 domanda per sezione'); return; }
+  if (QUESTIONS[dimId][seg].length <= 1) { showToast('Minimo 1 domanda per sezione', 'warn'); return; }
   QUESTIONS[dimId][seg].splice(qi, 1);
   renderQList(dimId, seg);
 }
@@ -2377,7 +2423,7 @@ function moveQuestion(fromDim, seg, qi, toDim) {
   QUESTIONS[toDim][seg].push(q);
   renderQList(fromDim, seg);
   var toLabel = (DIMS.find(function(d) { return d.id === toDim; }) || {}).label || toDim;
-  showToast('✅ Domanda spostata in ' + toLabel);
+  showToast('Domanda spostata in ' + toLabel);
 }
 
 // ════════════════════════════════════════════════
@@ -2389,7 +2435,7 @@ var API_KEY = 'GMA_WRITE_2026'; // write-only key per POST
 function loadDatabase() {
   var el = document.getElementById('db_container');
   if (!el) return;
-  el.innerHTML = '<p class="db-status">⏳ Caricamento in corso...</p>';
+  el.innerHTML = '<p class="db-status">Caricamento in corso…</p>';
   fetch(API_URL, { headers: {'X-GMA-Key': _k} })
     .then(function(r) {
       if (r.status === 403) throw new Error('Chiave admin non valida — accedi dal pannello Setup');
@@ -2413,14 +2459,14 @@ function loadDatabase() {
           '<td>' + (rec.compilatore_email || '—') + '</td>' +
           '<td>' + (rec.segment ? rec.segment.toUpperCase() : '—') + '</td>' +
           '<td>' + score + '</td>' +
-          '<td><button class="db-del-btn" onclick="deleteEntry(\'' + rec.id + '\')">🗑</button></td>' +
+          '<td><button class="db-del-btn" onclick="deleteEntry(\'' + rec.id + '\')">' + ICN.trash + '</button></td>' +
           '</tr>';
       });
       html += '</tbody></table></div>';
       el.innerHTML = html;
     })
     .catch(function(e) {
-      el.innerHTML = '<p class="db-status">❌ Errore connessione: ' + e.message + '</p>';
+      el.innerHTML = '<p class="db-status">Errore connessione: ' + e.message + '</p>';
     });
 }
 
@@ -2429,9 +2475,9 @@ function deleteEntry(id) {
   fetch(API_URL + '?id=' + encodeURIComponent(id), { method: 'DELETE', headers: {'X-GMA-Key': _k} })
     .then(function() {
       loadDatabase();
-      showToast('🗑 Assessment eliminato');
+      showToast('Assessment eliminato');
     })
-    .catch(function(e) { showToast('❌ Errore: ' + e.message); });
+    .catch(function(e) { showToast('Errore: ' + e.message, 'err'); });
 }
 
 function saveAssessment(nome, ruolo, settore, fatturato, dip, clientiN, b2b, b2c, obiettivo, canali, scores, overallPct, seg) {
@@ -2457,7 +2503,7 @@ function saveAssessment(nome, ruolo, settore, fatturato, dip, clientiN, b2b, b2c
     headers: { 'Content-Type': 'application/json', 'X-GMA-Key': API_KEY },
     body: JSON.stringify(payload)
   }).then(function() {
-    showToast('💾 Assessment salvato nel database');
+    showToast('Assessment salvato nel database');
   }).catch(function(e) {
     console.warn('DB save failed:', e);
   });
@@ -2489,7 +2535,7 @@ function closeShareOnBg(e) {
 function sendShare() {
   var toEmail = document.getElementById('shareToEmail').value.trim();
   if (!toEmail || toEmail.indexOf('@') === -1) {
-    document.getElementById('shareErr').textContent = '⚠️ Inserisci un indirizzo e-mail valido.';
+    document.getElementById('shareErr').textContent = 'Inserisci un indirizzo e-mail valido.';
     return;
   }
   var ccEmail = document.getElementById('shareCcEmail').value.trim();
@@ -2522,7 +2568,7 @@ function sendShare() {
 
   window.location.href = mailto;
   closeShare();
-  showToast('📧 Client e-mail aperto — invia il messaggio dal tuo programma di posta');
+  showToast('Client e-mail aperto — invia il messaggio dal tuo programma di posta');
 }
 
 // ════════════════════════════════════════════════
@@ -2544,13 +2590,13 @@ function generateNewCode() {
   if (inp) inp.value = code;
   ACCESS_CODE = code;
   updateAccessUrl();
-  showToast('🔑 Nuovo codice generato — aggiorna i link condivisi!');
+  showToast('Nuovo codice generato — aggiorna i link condivisi');
 }
 function copyAccessUrl() {
-  if (!ACCESS_CODE) { showToast('⚠️ Nessun codice impostato'); return; }
+  if (!ACCESS_CODE) { showToast('Nessun codice impostato', 'warn'); return; }
   var url = getAccessUrl();
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(url).then(function() { showToast('📋 URL copiato negli appunti!'); });
+    navigator.clipboard.writeText(url).then(function() { showToast('URL copiato negli appunti'); });
   } else { window.prompt('Copia questo URL:', url); }
 }
 
@@ -2560,13 +2606,13 @@ function copyAccessUrl() {
 <div class="pwd-overlay no-print" id="pwdOverlay" onclick="closePwdOnBg(event)">
   <div class="pwd-box">
     <div class="pwd-head">
-      <span>🔒 Accesso Setup Benchmark</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg> Accesso Setup Benchmark</span>
     </div>
     <div class="pwd-body">
       <p>Inserisci la password per accedere alla configurazione dei benchmark.</p>
       <div class="pwd-input-wrap">
         <input type="password" id="pwdInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPwd()">
-        <button class="pwd-toggle" onclick="togglePwdVisibility()" title="Mostra/Nascondi">👁</button>
+        <button class="pwd-toggle" onclick="togglePwdVisibility()" title="Mostra/Nascondi" id="pwdToggleBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <div class="pwd-err" id="pwdErr"></div>
       <div class="pwd-actions">
@@ -2581,16 +2627,16 @@ function copyAccessUrl() {
 <div class="setup-overlay no-print" id="setupOverlay" onclick="closeSetupOnBg(event)">
   <div class="setup-box">
     <div class="setup-head">
-      <h2>⚙️ Setup GoToMarket Assessment</h2>
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h9M17 8h3M4 16h3M11 16h9"/><circle cx="15" cy="8" r="2.3"/><circle cx="9" cy="16" r="2.3"/></svg> Setup GoToMarket Assessment</h2>
       <button class="setup-close" onclick="closeSetup()" title="Chiudi">×</button>
     </div>
     <div class="setup-body">
 
       <!-- Tabs -->
       <div class="setup-tabs">
-        <button class="setup-tab-btn active" data-tab="benchmark" onclick="switchSetupTab('benchmark')">📊 Benchmark</button>
-        <button class="setup-tab-btn" data-tab="domande" onclick="switchSetupTab('domande')">📝 Domande</button>
-        <button class="setup-tab-btn" data-tab="database" onclick="switchSetupTab('database')">🗄 Database</button>
+        <button class="setup-tab-btn active" data-tab="benchmark" onclick="switchSetupTab('benchmark')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M7 16v-4M12 16V8M17 16v-6"/></svg> Benchmark</button>
+        <button class="setup-tab-btn" data-tab="domande" onclick="switchSetupTab('domande')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/><path d="M17 3.5a2 2 0 0 1 3 3L14 12l-3 1 1-3Z"/></svg> Domande</button>
+        <button class="setup-tab-btn" data-tab="database" onclick="switchSetupTab('database')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6M4.5 11.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6"/></svg> Database</button>
       </div>
 
       <!-- ── Tab 1: Benchmark ── -->
@@ -2600,7 +2646,7 @@ function copyAccessUrl() {
         </div>
 
         <!-- Benchmark -->
-        <div class="setup-sec-hdr">📊 Benchmark di mercato</div>
+        <div class="setup-sec-hdr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M7 16v-4M12 16V8M17 16v-6"/></svg> Benchmark di mercato</div>
         <table class="setup-table">
           <thead>
             <tr><th>Sezione</th><th>Benchmark B2B (%)</th><th>Benchmark B2C (%)</th></tr>
@@ -2609,7 +2655,7 @@ function copyAccessUrl() {
         </table>
 
         <!-- Target -->
-        <div class="setup-sec-hdr" style="margin-top:22px">🎯 Target per obiettivo</div>
+        <div class="setup-sec-hdr" style="margin-top:22px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg> Target per obiettivo</div>
         <label class="flabel" style="margin-bottom:6px">Obiettivo commerciale</label>
         <select id="setup_obj_sel" class="setup-obj-sel" onchange="renderTargetTable()">
           <option value="0">1. Diversificare i servizi/prodotti</option>
@@ -2633,10 +2679,10 @@ function copyAccessUrl() {
           <button class="btn btn-download" onclick="downloadConfigured()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M8 12l4 4 4-4M5 21h14"/></svg>Genera file cliente</button>
         </div>
         <div class="setup-tip">
-          💡 I target variano per obiettivo: seleziona l'obiettivo dal menu per configurare i valori corrispondenti. <strong>Genera file cliente</strong> incorpora tutti i valori nel file HTML.
+          <span class="setup-tip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6h.01"/></svg></span>I target variano per obiettivo: seleziona l'obiettivo dal menu per configurare i valori corrispondenti. <strong>Genera file cliente</strong> incorpora tutti i valori nel file HTML.
         </div>
 
-        <div class="setup-sec-hdr" style="margin-top:24px">🔐 Codice di accesso</div>
+        <div class="setup-sec-hdr" style="margin-top:24px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.9 12.1 20 3M16.5 6.5l2.5 2.5M13.5 9.5l2.5 2.5"/></svg> Codice di accesso</div>
         <div style="font-size:.82rem;color:var(--text-light);margin-bottom:10px;line-height:1.55">
           Solo chi possiede il link con il codice corretto può compilare l'assessment.
           Il codice viene incluso automaticamente dal pulsante <strong>Condividi</strong>.
@@ -2644,8 +2690,8 @@ function copyAccessUrl() {
         </div>
         <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
           <input type="text" id="setup_access_code" style="flex:1;font-family:monospace;font-size:.88rem;padding:7px 10px;border:2px solid var(--gray);border-radius:7px">
-          <button class="qe-btn-sm" onclick="generateNewCode()">🔄 Nuovo</button>
-          <button class="qe-btn-sm" onclick="copyAccessUrl()">📋 Copia URL</button>
+          <button class="qe-btn-sm" onclick="generateNewCode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg> Nuovo</button>
+          <button class="qe-btn-sm" onclick="copyAccessUrl()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M15 5.5A2.5 2.5 0 0 0 12.5 3h-7A2.5 2.5 0 0 0 3 5.5v7A2.5 2.5 0 0 0 5.5 15"/></svg> Copia URL</button>
         </div>
         <div id="setup_access_url" style="font-size:.72rem;color:var(--text-light);word-break:break-all;padding:7px 9px;background:#f5f3f4;border-radius:5px;font-family:monospace;min-height:22px"></div>
       </div>
@@ -2675,7 +2721,7 @@ function copyAccessUrl() {
 <div class="pwd-overlay no-print" id="shareOverlay" onclick="closeShareOnBg(event)">
   <div class="pwd-box" style="max-width:480px">
     <div class="pwd-head">
-      <span>📤 Condividi Assessment</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg> Condividi Assessment</span>
     </div>
     <div class="pwd-body">
       <p>Inserisci l'indirizzo e-mail a cui vuoi inviare l'invito a compilare il GoToMarket Assessment. Riceverai una copia in CC.</p>

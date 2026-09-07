@@ -143,6 +143,18 @@ Schermata `s_locked` ripulita (usava `.welcome-hero` rimossa) → card chiara `.
 
 Mobile: header compatto (logo + "Assessment"), verificato a 390px.
 
+**Rev. 2026-09-07 (4) — set icone unico:**
+- Tutte le icone su un unico stile (reference allegata): linea singola, angoli e
+  terminazioni arrotondati, griglia 24, stroke 1.8 (medie/grandi) / 2 (pulsanti).
+- Helper JS: `_ic`/`_bi` (generatori) + mappe `ICO` (step onboarding), `BI`
+  (frecce/check pulsanti), `ICN` (lock, eye, sliders, chart, edit, database,
+  target, key, info, trash, x, chevron, refresh, copy, check, alert, share).
+- **Emoji rimosse ovunque** → SVG in stile: schermata locked (🔒), toast
+  (`showToast(msg, type)` ora antepone un'icona check/alert/x + variante colore),
+  modale password (🔒 + toggle 👁/👁‍🗨), pannello Setup (⚙️ + tab 📊📝🗄 + header
+  sezione 📊🎯🔐💡), modale condivisione (📤), editor domande (🗑 ✕ ▶▼), pulsanti
+  admin (🔄 📋). Toast e locked-icon ora a pillola / tinta brand.
+
 **Rev. 2026-09-07 (3):**
 - **Sistema pulsanti** rifatto sulla reference (3 varianti a pillola, icona + testo,
   hover): `btn-primary` = solid rosso; `btn-secondary` = outline rosso; `btn-ghost`
