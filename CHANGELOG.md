@@ -123,5 +123,17 @@ Mobile-first (< 720px): i titoli spariscono, restano i mini-segmenti + una riga
 ### 5. Risultati — radar + card punteggio + sintesi (`s_results`) — 🔲
 _(da compilare)_
 
-### 6. Admin — Setup benchmark / Database / editor domande — 🔲
-_(da compilare)_
+### Header + accesso Setup — 🟡 in discussione (2026-09-07)
+
+**Header rifatto** (ispirazione "Simple LinkedIn Cover"): **logo Keymove** (wordmark
+rosso, SVG inline) + divisore + kicker "GOTOMARKET" / titolo "Assessment" + a destra
+un descrittore muted ("Analisi dell'organizzazione commerciale", nascosto su mobile).
+Rimossi la sigla "GMA" e il pulsante ⚙️ Setup.
+
+**Accesso Setup nascosto ai clienti** — nessun pulsante visibile (né header né
+schermata locked). Ingressi interni: `?setup` nell'URL, oppure **5 click rapidi sul
+logo**. Resta il modal password come gate. Vedi `NOTES.md`.
+
+Schermata `s_locked` ripulita (usava `.welcome-hero` rimossa) → card chiara `.locked-box`.
+
+Mobile: header compatto (logo + "Assessment"), verificato a 390px.

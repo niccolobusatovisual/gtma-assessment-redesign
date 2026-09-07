@@ -32,8 +32,14 @@ Nascosto dietro chiave: pannello ⚙️ Setup (config benchmark), tab Database, 
 - `gma_api.php` stessa origine. `POST` con header `X-GMA-Key: GMA_WRITE_2026` salva ogni assessment; `GET`/`DELETE` con chiave admin per il pannello Database.
 - La CSP del server è `connect-src 'self'` → da una copia su altro dominio/locale il salvataggio non parte. **Irrilevante per una preview UX/UI**: tutto il flusso (welcome → sezione A → domande → risultati + grafico) gira lato client e funziona offline.
 
+## Accesso al pannello Setup (interno)
+Nessun pulsante visibile ai clienti. Due ingressi nascosti (poi comunque protetti dal modal password `KeyMoveMMP`):
+1. **URL con `?setup`** — es. `https://gtma.studioguzzetti.it/?c=GMA-2026&setup`
+2. **5 click rapidi sul logo Keymove** in alto a sinistra (entro ~1,8s)
+
 ## Note da segnalare
 - La **write key `GMA_WRITE_2026` è in chiaro** nel JS lato client, insieme a un pannello admin nello stesso file. Chiunque può leggerla e scrivere sull'API. Bassa gravità ma reale — da girare al referente.
+- La password Setup (`KeyMoveMMP`) è solo offuscata in base64 nel client: non è una vera protezione.
 - La copia è uno snapshot: se il collega continua a modificare il file live, questa versione va riallineata (basta ri-scaricare l'URL).
 
 ## Cosa NON toccare nel redesign
