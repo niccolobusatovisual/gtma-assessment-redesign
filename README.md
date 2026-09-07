@@ -4,6 +4,13 @@ Banco di prova per il redesign dell'assessment di Studio Guzzetti / Promexa.
 **Non si tocca il file in produzione.** Si lavora qui, si mostra la preview, e solo
 le parti approvate vengono poi riportate sull'HTML live.
 
+> ## ⚠️ REGOLA FISSA — MOBILE-FIRST
+> L'assessment gira soprattutto su **mobile**. Ogni modifica DEVE essere
+> estremamente responsive. **Prima** di iniziare qualunque intervento si verifica
+> che l'approccio sia responsive (type fluida con `clamp()`, unità relative, griglie
+> che collassano a 1 colonna, tap target ≥ 48px, zero scroll orizzontale); **dopo**
+> si controlla il rendering a ~390px e a desktop prima di fare push.
+
 ## File
 
 | File | Cosa è |

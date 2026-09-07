@@ -378,6 +378,57 @@ textarea{resize:vertical;min-height:72px}
   .q-text{font-size:.92rem}
   .a-cell{font-size:.85rem}
 }
+
+/* ══════════════ ONBOARDING SEZIONE A — mobile-first ══════════════ */
+#s1{max-width:680px}
+.onb{padding:clamp(6px,2vw,18px) 0}
+.onb-dots{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:clamp(18px,5vw,32px)}
+.onb-dot{width:8px;height:8px;border-radius:50%;background:var(--gray);transition:transform .25s,background .25s}
+.onb-dot.done{background:var(--ink)}
+.onb-dot.now{background:var(--brand);transform:scale(1.4)}
+.onb-dot.tap{cursor:pointer}
+.onb-step{animation:onbIn .3s cubic-bezier(.22,1,.36,1)}
+@keyframes onbIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.onb-ico{width:clamp(46px,12vw,56px);height:clamp(46px,12vw,56px);border-radius:16px;background:var(--brand-wash);color:var(--brand);display:flex;align-items:center;justify-content:center;margin:0 auto clamp(12px,3vw,16px)}
+.onb-ico svg{width:54%;height:54%}
+.onb-eyebrow{text-align:center;font-size:.72rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-light);margin-bottom:7px}
+.onb-q{text-align:center;font-size:clamp(1.22rem,4.4vw,1.62rem);font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:clamp(6px,2vw,10px)}
+.onb-hint{text-align:center;font-size:.88rem;color:var(--text-light);line-height:1.6;max-width:440px;margin:0 auto clamp(20px,5vw,28px)}
+.onb-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:clamp(10px,2.5vw,14px);margin:0 auto clamp(20px,5vw,26px)}
+.onb-cards.cols-3{grid-template-columns:repeat(3,1fr)}
+.onb-cards.cols-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:560px){.onb-cards,.onb-cards.cols-3,.onb-cards.cols-2{grid-template-columns:1fr}}
+.onb-card{position:relative;border:2px solid var(--gray);border-radius:14px;background:#fff;padding:clamp(15px,3.5vw,20px) clamp(12px,3vw,16px);text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:118px;transition:border-color .15s,background .15s,transform .1s;-webkit-tap-highlight-color:transparent}
+.onb-card:hover{border-color:var(--ink)}
+.onb-card:active{transform:scale(.985)}
+.onb-card:focus-visible{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-wash)}
+.onb-card.sel{border-color:var(--brand);background:var(--brand-wash)}
+.onb-card .oc-ico{width:32px;height:32px;color:var(--ink);flex-shrink:0}
+.onb-card .oc-ico svg{width:100%;height:100%}
+.onb-card.sel .oc-ico{color:var(--brand)}
+.onb-card .oc-t{font-weight:700;font-size:.96rem;color:var(--ink)}
+.onb-card .oc-d{font-size:.79rem;color:var(--text-light);line-height:1.4}
+.onb-card .oc-chk{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;display:none;align-items:center;justify-content:center;font-size:.68rem;font-weight:700}
+.onb-card.sel .oc-chk{display:flex}
+.onb-cards.compact .onb-card{min-height:0;flex-direction:row;text-align:left;justify-content:flex-start;padding:15px 42px 15px 16px;gap:0}
+.onb-fields{display:flex;flex-direction:column;gap:clamp(12px,3vw,15px);margin-bottom:clamp(20px,5vw,26px)}
+.onb-field label{display:block;font-weight:600;font-size:.85rem;margin-bottom:6px;color:var(--ink)}
+.onb-field .opt{color:var(--text-light);font-weight:400}
+.onb-input{width:100%;padding:13px 15px;border:2px solid var(--gray);border-radius:10px;font-size:1rem;font-family:inherit;color:var(--text);background:#fff;transition:border-color .15s}
+.onb-input:focus{outline:none;border-color:var(--brand)}
+textarea.onb-input{min-height:108px;resize:vertical}
+.onb-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+.onb-chip{border:1.5px solid var(--gray);background:#fff;border-radius:20px;padding:6px 13px;font-size:.82rem;cursor:pointer;color:var(--text-light);font-family:inherit;transition:border-color .15s,color .15s}
+.onb-chip:hover{border-color:var(--brand);color:var(--brand)}
+.onb-split{background:var(--gray-light);border:1px solid var(--gray);border-radius:12px;padding:clamp(14px,3.5vw,18px);margin:0 auto clamp(20px,5vw,24px)}
+.onb-split-top{display:flex;justify-content:space-between;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+.onb-split-top .b2c{color:var(--text-light)}
+.onb-range{width:100%;accent-color:var(--brand);height:26px}
+.onb-split-lbl{display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-light);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+.onb-nav{display:flex;flex-direction:row-reverse;gap:12px;margin-top:clamp(8px,2vw,14px)}
+.onb-nav .btn{flex:1;min-height:50px}
+.onb-skip{display:block;margin:14px auto 0;background:none;border:none;color:var(--text-light);font-weight:600;font-size:.86rem;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:560px){.onb-nav{flex-direction:column}.onb-nav .btn{width:100%}}
 </style>
 </head>
 <body>
@@ -431,99 +482,43 @@ textarea{resize:vertical;min-height:72px}
 
 <!-- ══════════ SCREEN 1 – Azienda (info) ══════════ -->
 <div class="screen" id="s1">
-  <div class="sec-head">
-    <div class="sec-tag">Sezione A</div>
-    <h2>Informazioni Aziendali</h2>
-    <p>Dati anagrafici e di contesto. Non contribuiscono al punteggio.</p>
-  </div>
-  <div class="card no-tr">
-    <div class="frow">
-      <div class="fg">
-        <label class="flabel" for="f_compilatore_nome">Nome compilatore *</label>
-        <input type="text" id="f_compilatore_nome" placeholder="es. Mario Rossi">
-      </div>
-      <div class="fg">
-        <label class="flabel" for="f_compilatore_email">E-mail compilatore *</label>
-        <input type="email" id="f_compilatore_email" placeholder="es. mario.rossi@azienda.it">
-      </div>
-    </div>
-    <div class="frow">
-      <div class="fg">
-        <label class="flabel" for="f_nome">Nome azienda *</label>
-        <input type="text" id="f_nome" placeholder="es. ACME S.p.A.">
-      </div>
-      <div class="fg">
-        <label class="flabel" for="f_ruolo">Ruolo in azienda *</label>
-        <input type="text" id="f_ruolo" placeholder="es. CEO, Direttore Commerciale">
-      </div>
-    </div>
-    <div class="frow">
-      <div class="fg">
-        <label class="flabel" for="f_settore">Settore / industria prevalente *</label>
-        <input type="text" id="f_settore" placeholder="es. Illuminazione, Meccanica...">
-      </div>
-      <div class="fg">
-        <label class="flabel" for="f_fatturato">Fatturato aziendale</label>
-        <input type="text" id="f_fatturato" placeholder="es. € 12.000.000">
-      </div>
-    </div>
-    <div class="frow">
-      <div class="fg">
-        <label class="flabel" for="f_dip">Numero dipendenti</label>
-        <input type="number" id="f_dip" placeholder="es. 34" min="1">
-      </div>
-      <div class="fg">
-        <label class="flabel" for="f_clienti_n">Clienti nuovi / anno</label>
-        <input type="number" id="f_clienti_n" placeholder="es. 40" min="0">
-      </div>
-    </div>
-    <div class="fg">
-      <label class="flabel">Approssimativamente, che % di fatturato realizzate con aziende / distributori (B2B) o direttamente con consumatori privati (B2C)?</label>
-      <div class="pct-row">
-        <div>
-          <div class="pct-label">Con aziende/distributori — B2B (%)</div>
-          <input type="number" id="f_b2b" placeholder="es. 35" min="0" max="100">
-        </div>
-        <div>
-          <div class="pct-label">Con consumatori privati — B2C (%)</div>
-          <input type="number" id="f_b2c" placeholder="es. 65" min="0" max="100">
-        </div>
-      </div>
-    </div>
-    <div class="fg">
-      <label class="flabel">Canali commerciali attivi</label>
-      <div class="cb-grid">
-        <label class="cb-item" id="cb_rv"><input type="checkbox" value="Rivenditori"> Rivenditori</label>
-        <label class="cb-item" id="cb_dist"><input type="checkbox" value="Distributori"> Distributori</label>
-        <label class="cb-item" id="cb_pv"><input type="checkbox" value="Punti vendita"> Punti vendita</label>
-        <label class="cb-item" id="cb_dir"><input type="checkbox" value="Rete diretta"> Rete vendita diretta</label>
-        <label class="cb-item" id="cb_ec"><input type="checkbox" value="E-commerce"> E-commerce</label>
-        <label class="cb-item" id="cb_alt"><input type="checkbox" value="Altro"> Altro</label>
-      </div>
-    </div>
-    <div class="fg">
-      <label class="flabel" for="f_descr">Descrizione dell'attività aziendale <span class="opt">(opzionale)</span></label>
-      <textarea id="f_descr" placeholder="Descrivi brevemente i prodotti/servizi offerti e i mercati serviti..."></textarea>
-    </div>
-    <div class="fg">
-      <label class="flabel" for="f_obiettivo">Obiettivo commerciale principale</label>
-      <select id="f_obiettivo">
-        <option value="">— Seleziona —</option>
-        <option>1. Diversificare i servizi/prodotti</option>
-        <option>2. Coprire meglio il mercato</option>
-        <option>3. Diversificare le aree geografiche</option>
-        <option>4. M&amp;A</option>
-        <option>5. Consolidare per vendere</option>
-        <option>6. Consolidare la posizione attuale</option>
-        <option>7. Altro</option>
-      </select>
+  <!-- Campi originali conservati come hidden: tutta la logica a valle
+       (nextFromA, resolveSegment, saveAssessment, resetAll) li legge invariata.
+       L'onboarding qui sotto li popola una schermata alla volta. -->
+  <div id="onbHidden" style="display:none">
+    <input type="hidden" id="f_compilatore_nome">
+    <input type="hidden" id="f_compilatore_email">
+    <input type="hidden" id="f_nome">
+    <input type="hidden" id="f_ruolo">
+    <input type="hidden" id="f_settore">
+    <input type="hidden" id="f_fatturato">
+    <input type="hidden" id="f_dip">
+    <input type="hidden" id="f_clienti_n">
+    <input type="hidden" id="f_b2b">
+    <input type="hidden" id="f_b2c">
+    <textarea id="f_descr"></textarea>
+    <select id="f_obiettivo">
+      <option value="">— Seleziona —</option>
+      <option>1. Diversificare i servizi/prodotti</option>
+      <option>2. Coprire meglio il mercato</option>
+      <option>3. Diversificare le aree geografiche</option>
+      <option>4. M&amp;A</option>
+      <option>5. Consolidare per vendere</option>
+      <option>6. Consolidare la posizione attuale</option>
+      <option>7. Altro</option>
+    </select>
+    <div class="cb-grid">
+      <label class="cb-item" id="cb_rv"><input type="checkbox" value="Rivenditori"> Rivenditori</label>
+      <label class="cb-item" id="cb_dist"><input type="checkbox" value="Distributori"> Distributori</label>
+      <label class="cb-item" id="cb_pv"><input type="checkbox" value="Punti vendita"> Punti vendita</label>
+      <label class="cb-item" id="cb_dir"><input type="checkbox" value="Rete diretta"> Rete vendita diretta</label>
+      <label class="cb-item" id="cb_ec"><input type="checkbox" value="E-commerce"> E-commerce</label>
+      <label class="cb-item" id="cb_alt"><input type="checkbox" value="Altro"> Altro</label>
     </div>
   </div>
-  <div class="warn" id="warnS1">Inserisci il nome dell'azienda, il ruolo e la quota di fatturato B2B per continuare: il questionario cambia in base al segmento prevalente.</div>
-  <div class="nav">
-    <button class="btn btn-secondary" onclick="goTo(0)">← Indietro</button>
-    <button class="btn btn-primary" onclick="nextFromA()">Continua →</button>
-  </div>
+
+  <div class="onb" id="onbHost"></div>
+  <div class="warn" id="warnS1">Completa i campi richiesti per continuare.</div>
 </div>
 
 <!-- ══════════ SCHERMATE SEZIONI (generate da DIMS) ══════════ -->
@@ -1338,6 +1333,7 @@ function goTo(n) {
   window.scrollTo(0,0);
   updateProgress(n);
   buildDimStrip(n);
+  if (n === 1 && typeof renderOnbStep === 'function') renderOnbStep();
   if (n === RESULT_SCREEN) buildResults();
 }
 
@@ -1409,6 +1405,263 @@ function nextFromA() {
   }
   renderAllQuestions();
   goTo(2);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ONBOARDING SEZIONE A — una schermata alla volta (mobile-first)
+   Card a piena larghezza < 560px, tap target >= 48px, type fluida (clamp).
+   Verificare SEMPRE il responsive prima e dopo ogni modifica.
+   I dati confluiscono nei campi hidden originali (#f_*, #cb_*):
+   nextFromA / resolveSegment / saveAssessment / resetAll restano invariati.
+   ══════════════════════════════════════════════════════════════ */
+var onbIndex = 0;
+var onbModel = '';   // 'b2b' | 'b2c' | 'both'
+var onbSplit = 50;   // % B2B quando onbModel === 'both'
+
+function _ic(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
+var ICO = {
+  both:_ic('<path d="M7 4 3 8l4 4"/><path d="M3 8h13a4 4 0 0 1 0 8"/><path d="m17 20 4-4-4-4"/>'),
+  bldg:_ic('<path d="M3 21h18"/><path d="M6 21V5l7-3v19"/><path d="M13 21V9l5 2v10"/><path d="M9 7h.01M9 11h.01M9 15h.01"/>'),
+  bag:_ic('<path d="M6 2 3 7v13a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7l-3-5Z"/><path d="M3 7h18"/><path d="M16 11a4 4 0 0 1-8 0"/>'),
+  user:_ic('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>'),
+  work:_ic('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>'),
+  tag:_ic('<path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9-9-9Z"/><circle cx="7.5" cy="7.5" r="1.5"/>'),
+  size:_ic('<path d="M3 20h18"/><path d="M7 20v-8M12 20V5M17 20v-6"/>'),
+  net:_ic('<circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M11 7 6.5 16.6M13 7l4.5 9.6M7.5 19h9"/>'),
+  goal:_ic('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6"/>'),
+  note:_ic('<path d="M4 6h16M4 11h16M4 16h9"/>'),
+  store:_ic('<path d="M4 9 5 4h14l1 5"/><path d="M4 9h16v11H4z"/><path d="M9 20v-6h6v6"/>'),
+  ppl:_ic('<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 5.3a3 3 0 0 1 0 5.4M21 20c0-2.6-1.6-4.4-4-4.9"/>'),
+  web:_ic('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.7 2.6 2.7 15 0 18M12 3c-2.7 2.6-2.7 15 0 18"/>'),
+  dots:_ic('<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>')
+};
+
+var ONB = [
+  { id:'model', ico:ICO.both, eyebrow:'Modello di business',
+    q:'Con chi lavora principalmente la tua azienda?',
+    hint:'Da qui adattiamo le domande dell’assessment al tuo contesto.' },
+  { id:'you', ico:ICO.user, eyebrow:'I tuoi dati', type:'text',
+    q:'Come possiamo intestare il report?',
+    hint:'Ti ricontattiamo qui per commentare insieme i risultati.',
+    fields:[
+      { f:'f_compilatore_nome', label:'Nome e cognome', ph:'es. Mario Rossi', req:true },
+      { f:'f_compilatore_email', label:'E-mail', ph:'es. mario.rossi@azienda.it', req:true, kind:'email' }
+    ] },
+  { id:'company', ico:ICO.work, eyebrow:'La tua azienda', type:'text',
+    q:'Qual è la tua azienda e il tuo ruolo?',
+    fields:[
+      { f:'f_nome', label:'Nome azienda', ph:'es. ACME S.p.A.', req:true },
+      { f:'f_ruolo', label:'Il tuo ruolo', ph:'es. CEO, Direttore Commerciale', req:true }
+    ] },
+  { id:'sector', ico:ICO.tag, eyebrow:'Settore', type:'text',
+    q:'In che settore operate?',
+    fields:[ { f:'f_settore', label:'Settore / industria prevalente', ph:'es. Illuminazione, Meccanica…', req:true } ],
+    chips:['Manifatturiero','Illuminazione','Meccanica','Arredo / Design','Food & Beverage','Servizi B2B','Edilizia','Moda','Tech / Software'] },
+  { id:'size', ico:ICO.size, eyebrow:'Dimensione', type:'text',
+    q:'Quanto è grande l’azienda?',
+    hint:'Tutti i campi sono facoltativi.',
+    fields:[
+      { f:'f_fatturato', label:'Fatturato annuo <span class="opt">· facoltativo</span>', ph:'es. € 12.000.000' },
+      { f:'f_dip', label:'Numero dipendenti <span class="opt">· facoltativo</span>', ph:'es. 34', num:true },
+      { f:'f_clienti_n', label:'Clienti nuovi acquisiti / anno <span class="opt">· facoltativo</span>', ph:'es. 40', num:true }
+    ] },
+  { id:'channels', ico:ICO.net, eyebrow:'Go-to-market', type:'multi',
+    q:'Quali canali commerciali sono attivi?',
+    hint:'Seleziona tutti quelli che utilizzate.',
+    opts:[
+      { cb:'cb_rv', t:'Rivenditori', ico:ICO.store },
+      { cb:'cb_dist', t:'Distributori', ico:ICO.net },
+      { cb:'cb_pv', t:'Punti vendita', ico:ICO.store },
+      { cb:'cb_dir', t:'Rete vendita diretta', ico:ICO.ppl },
+      { cb:'cb_ec', t:'E-commerce', ico:ICO.web },
+      { cb:'cb_alt', t:'Altro', ico:ICO.dots }
+    ] },
+  { id:'goal', ico:ICO.goal, eyebrow:'Obiettivo', type:'single',
+    q:'Qual è il principale obiettivo commerciale?',
+    hint:'Quello prevalente per i prossimi 12–24 mesi.',
+    opts:['Diversificare i servizi/prodotti','Coprire meglio il mercato','Diversificare le aree geografiche','M&A','Consolidare per vendere','Consolidare la posizione attuale','Altro'] },
+  { id:'descr', ico:ICO.note, eyebrow:'In breve', type:'textarea',
+    q:'Descrivi in due righe cosa fate',
+    hint:'Prodotti/servizi principali e mercati serviti. Facoltativo.', skip:true }
+];
+
+function onbProgress(){
+  var pf = document.getElementById('progFill'), pl = document.getElementById('progLabel');
+  if(!pf) return;
+  var frac = (onbIndex+1) / ONB.length;
+  pf.style.width = Math.round(10 + frac*18) + '%';
+  if(pl) pl.textContent = 'Azienda · ' + (onbIndex+1) + ' di ' + ONB.length;
+}
+
+function renderOnbStep(){
+  var host = document.getElementById('onbHost');
+  if(!host) return;
+  if(onbIndex < 0) onbIndex = 0;
+  if(onbIndex > ONB.length-1) onbIndex = ONB.length-1;
+  var s = ONB[onbIndex];
+
+  var dots = ONB.map(function(_,i){
+    var c = i===onbIndex ? 'now' : (i<onbIndex ? 'done tap' : '');
+    var attr = i<onbIndex ? ' role="button" tabindex="0" aria-label="Torna al passo '+(i+1)+'" onclick="onbGoto('+i+')" onkeydown="if(event.key===\'Enter\'){onbGoto('+i+')}"' : '';
+    return '<span class="onb-dot '+c+'"'+attr+'></span>';
+  }).join('');
+
+  var body = '';
+  if(s.id === 'model') body = onbRenderModel();
+  else if(s.type === 'text') body = onbRenderText(s);
+  else if(s.type === 'multi') body = onbRenderMulti(s);
+  else if(s.type === 'single') body = onbRenderSingle(s);
+  else if(s.type === 'textarea') body = onbRenderTextarea(s);
+
+  var last = onbIndex === ONB.length - 1;
+  var backLabel = onbIndex === 0 ? '← Torna alla presentazione' : '← Indietro';
+
+  host.innerHTML =
+    '<div class="onb-dots">'+dots+'</div>'+
+    '<div class="onb-step">'+
+      '<div class="onb-ico">'+s.ico+'</div>'+
+      '<div class="onb-eyebrow">'+s.eyebrow+'</div>'+
+      '<h2 class="onb-q">'+s.q+'</h2>'+
+      (s.hint ? '<p class="onb-hint">'+s.hint+'</p>' : '')+
+      body+
+      '<div class="onb-nav">'+
+        '<button type="button" class="btn btn-primary" onclick="onbNext()">'+(last ? 'Inizia l’assessment →' : 'Continua →')+'</button>'+
+        '<button type="button" class="btn btn-secondary" onclick="onbBack()">'+backLabel+'</button>'+
+      '</div>'+
+      (s.skip ? '<button type="button" class="onb-skip" onclick="onbNext(true)">Salta questo passaggio</button>' : '')+
+    '</div>';
+
+  onbProgress();
+  var w = document.getElementById('warnS1'); if(w) w.style.display='none';
+  if(window.matchMedia && window.matchMedia('(min-width:641px)').matches){
+    var first = host.querySelector('.onb-input'); if(first) first.focus();
+  }
+}
+
+function onbGoto(i){ onbIndex = i; renderOnbStep(); }
+function onbBack(){ if(onbIndex === 0){ goTo(0); return; } onbIndex--; renderOnbStep(); }
+function onbNext(skip){
+  var s = ONB[onbIndex];
+  var err = skip ? null : onbValidate(s);
+  if(err){ onbWarn(err); return; }
+  if(onbIndex === ONB.length - 1){ nextFromA(); return; }
+  onbIndex++; renderOnbStep();
+}
+function onbWarn(msg){
+  var w = document.getElementById('warnS1');
+  if(w){ w.textContent = msg; w.style.display='block'; w.scrollIntoView({block:'center',behavior:'smooth'}); }
+}
+function _setF(id,val){ var el = document.getElementById(id); if(el) el.value = val; }
+function _esc(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+/* --- passo: modello di business --- */
+function onbRenderModel(){
+  function opt(v,ico,t,d){
+    return '<div class="onb-card'+(onbModel===v?' sel':'')+'" role="button" tabindex="0" '+
+      'onclick="onbSetModel(\''+v+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();onbSetModel(\''+v+'\')}">'+
+      '<span class="oc-chk">✓</span><span class="oc-ico">'+ico+'</span>'+
+      '<span class="oc-t">'+t+'</span><span class="oc-d">'+d+'</span></div>';
+  }
+  var cards = '<div class="onb-cards cols-3">'+
+    opt('b2b',ICO.bldg,'B2B','Vendo ad aziende, distributori o rivenditori')+
+    opt('b2c',ICO.bag,'B2C','Vendo direttamente a consumatori privati')+
+    opt('both',ICO.both,'Entrambe','Lavoro sia con aziende sia con consumatori')+
+    '</div>';
+  var split = '';
+  if(onbModel === 'both'){
+    split = '<div class="onb-split">'+
+      '<div class="onb-split-top"><span>B2B '+onbSplit+'%</span><span class="b2c">B2C '+(100-onbSplit)+'%</span></div>'+
+      '<input type="range" class="onb-range" min="0" max="100" step="5" value="'+onbSplit+'" oninput="onbSplitChange(this.value)" aria-label="Quota di fatturato B2B">'+
+      '<div class="onb-split-lbl"><span>Tutto B2C</span><span>Tutto B2B</span></div></div>';
+  }
+  return cards + split;
+}
+function onbSetModel(v){
+  onbModel = v;
+  if(v==='b2b'){ _setF('f_b2b',100); _setF('f_b2c',0); }
+  else if(v==='b2c'){ _setF('f_b2b',0); _setF('f_b2c',100); }
+  else { _setF('f_b2b',onbSplit); _setF('f_b2c',100-onbSplit); }
+  renderOnbStep();
+}
+function onbSplitChange(v){
+  onbSplit = parseInt(v,10) || 0;
+  _setF('f_b2b',onbSplit); _setF('f_b2c',100-onbSplit);
+  var top = document.querySelector('.onb-split-top');
+  if(top) top.innerHTML = '<span>B2B '+onbSplit+'%</span><span class="b2c">B2C '+(100-onbSplit)+'%</span>';
+}
+
+/* --- passo: campi di testo --- */
+function onbRenderText(s){
+  var rows = s.fields.map(function(f){
+    var val = (document.getElementById(f.f)||{}).value || '';
+    return '<div class="onb-field"><label for="onb_'+f.f+'">'+f.label+'</label>'+
+      '<input id="onb_'+f.f+'" class="onb-input" type="'+(f.kind==='email'?'email':'text')+'" '+
+      'inputmode="'+(f.num?'numeric':(f.kind==='email'?'email':'text'))+'" autocomplete="off" '+
+      'placeholder="'+_esc(f.ph)+'" value="'+_esc(val)+'" '+
+      'oninput="_setF(\''+f.f+'\',this.value)" '+
+      'onkeydown="if(event.key===\'Enter\'){event.preventDefault();onbNext()}"></div>';
+  }).join('');
+  var chips = s.chips ? '<div class="onb-chips">'+s.chips.map(function(c){
+    return '<button type="button" class="onb-chip" onclick="onbChip(\''+s.fields[0].f+'\',this.textContent)">'+c+'</button>';
+  }).join('')+'</div>' : '';
+  return '<div class="onb-fields">'+rows+chips+'</div>';
+}
+function onbChip(fid,val){ _setF(fid,val); var el = document.getElementById('onb_'+fid); if(el) el.value = val; }
+
+/* --- passo: multi-scelta (canali) --- */
+function onbRenderMulti(s){
+  var cards = s.opts.map(function(o){
+    var box = document.getElementById(o.cb);
+    var on = box && box.querySelector('input').checked;
+    return '<div class="onb-card'+(on?' sel':'')+'" role="button" tabindex="0" aria-pressed="'+(on?'true':'false')+'" '+
+      'onclick="onbToggleCb(\''+o.cb+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();onbToggleCb(\''+o.cb+'\')}">'+
+      '<span class="oc-chk">✓</span><span class="oc-ico">'+o.ico+'</span><span class="oc-t">'+o.t+'</span></div>';
+  }).join('');
+  return '<div class="onb-cards">'+cards+'</div>';
+}
+function onbToggleCb(cbId){
+  var box = document.getElementById(cbId); if(!box) return;
+  var inp = box.querySelector('input');
+  inp.checked = !inp.checked;
+  box.classList.toggle('on', inp.checked);
+  renderOnbStep();
+}
+
+/* --- passo: scelta singola (obiettivo) --- */
+function onbRenderSingle(s){
+  var sel = (document.getElementById('f_obiettivo')||{}).value || '';
+  var cards = s.opts.map(function(t,i){
+    var val = (i+1)+'. '+t;
+    return '<div class="onb-card'+(sel===val?' sel':'')+'" role="button" tabindex="0" '+
+      'onclick="onbSetGoal('+i+')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();onbSetGoal('+i+')}">'+
+      '<span class="oc-chk">✓</span><span class="oc-t">'+t+'</span></div>';
+  }).join('');
+  return '<div class="onb-cards cols-2 compact">'+cards+'</div>';
+}
+function onbSetGoal(i){ _setF('f_obiettivo',(i+1)+'. '+ONB[onbIndex].opts[i]); renderOnbStep(); }
+
+/* --- passo: descrizione libera --- */
+function onbRenderTextarea(){
+  var val = (document.getElementById('f_descr')||{}).value || '';
+  return '<div class="onb-fields"><div class="onb-field">'+
+    '<textarea class="onb-input" placeholder="Descrivi brevemente prodotti/servizi e mercati serviti…" '+
+    'oninput="_setF(\'f_descr\',this.value)">'+_esc(val)+'</textarea></div></div>';
+}
+
+/* --- validazione per passo --- */
+function onbValidate(s){
+  if(s.id === 'model'){
+    return onbModel ? null : 'Seleziona con chi lavora principalmente la tua azienda.';
+  }
+  if(s.type === 'text'){
+    for(var i=0;i<s.fields.length;i++){
+      var f = s.fields[i]; if(!f.req) continue;
+      var v = ((document.getElementById(f.f)||{}).value || '').trim();
+      if(!v) return 'Compila il campo “'+f.label.replace(/<[^>]+>/g,'').trim()+'”.';
+      if(f.kind === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Inserisci un indirizzo e-mail valido.';
+    }
+  }
+  return null;
 }
 
 function nextSection(dimId, currentScreen, nextScreen) {
@@ -1588,6 +1841,7 @@ function resetAll() {
   document.getElementById('f_obiettivo').value='';
   document.getElementById('f_descr').value='';
   document.querySelectorAll('.cb-item input').forEach(c=>{ c.checked=false; c.closest('.cb-item').classList.remove('on'); });
+  onbIndex = 0; onbModel = ''; onbSplit = 50;
   goTo(0);
 }
 

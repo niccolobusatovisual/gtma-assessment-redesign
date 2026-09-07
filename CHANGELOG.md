@@ -46,8 +46,31 @@ _(da compilare)_
 ### 2. Welcome / hero (`s0`) — 🔲
 _(da compilare)_
 
-### 3. Sezione A — dati compilatore + azienda (`s1`) — 🔲
-_(da compilare)_
+### 3. Sezione A — dati compilatore + azienda (`s1`) — 🟡 in discussione
+
+**Onboarding a schermate (2026-09-07).** Il form unico è diventato un onboarding
+"una schermata alla volta" (ispirazione Lemonade / Typeform), minimal, con icona +
+domanda + card grandi selezionabili. Mobile-first: card a piena larghezza < 560px,
+CTA full-width, tap target ≥ 50px, type fluida `clamp()`, verificato a 390px e desktop.
+
+8 passi con indicatore a pallini in alto:
+1. **Modello di business** — 3 card grandi B2B / B2C / Entrambe. Se "Entrambe" →
+   slider quota B2B/B2C. È il primo passo perché da qui il questionario si adatta al segmento.
+2. I tuoi dati (nome + e-mail compilatore, con validazione e-mail)
+3. Azienda + ruolo
+4. Settore (con chip di suggerimento rapido)
+5. Dimensione — fatturato / dipendenti / clienti nuovi (tutti facoltativi)
+6. Canali commerciali — card multi-selezione
+7. Obiettivo commerciale — card singola scelta
+8. Descrizione libera (facoltativa, con "Salta")
+
+**Implementazione senza rischi a valle:** i campi originali `#f_*` e `#cb_*` restano
+nel DOM come hidden; l'onboarding li popola. `nextFromA`, `resolveSegment`,
+`saveAssessment`, `resetAll` invariati. Nessuna modifica a domande/scoring/branching.
+`goTo(1)` renderizza l'onboarding; `resetAll` lo riazzera.
+
+Da valutare: numero di passi (8 — accorpare?), copy delle domande, icone (Rivenditori
+e Punti vendita ora condividono l'icona), se il passo "Dimensione" va spezzato.
 
 ### 4. Schermate domande per dimensione (`sectionScreens`) — 🔲
 _(da compilare)_

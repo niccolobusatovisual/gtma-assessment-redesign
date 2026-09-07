@@ -1,5 +1,10 @@
 # GoToMarket Assessment — note tecniche
 
+> **⚠️ REGOLA FISSA — MOBILE-FIRST.** L'assessment gira soprattutto su mobile.
+> Ogni modifica va verificata responsive PRIMA di iniziare e ricontrollata a ~390px
+> e desktop prima del push. Type fluida (`clamp()`), unità relative, griglie a 1
+> colonna sotto ~560px, tap target ≥ 48px, niente scroll orizzontale.
+
 ## Provenienza
 - URL live: https://gtma.studioguzzetti.it/?c=GMA-2026
 - `original-2026-09-03.html` = copia esatta scaricata il 2026-09-07 (header `last-modified` del server: 2026-09-03). Baseline "prima", da non modificare. Copia identica anche in `../_live-snapshot-2026-09-03.html`.
