@@ -143,6 +143,18 @@ Schermata `s_locked` ripulita (usava `.welcome-hero` rimossa) → card chiara `.
 
 Mobile: header compatto (logo + "Assessment"), verificato a 390px.
 
+**Rev. 2026-09-07 (3):**
+- **Sistema pulsanti** rifatto sulla reference (3 varianti a pillola, icona + testo,
+  hover): `btn-primary` = solid rosso; `btn-secondary` = outline rosso; `btn-ghost`
+  (ex `btn-gold`) = pill chiaro con ombra morbida e icona rossa. Icone SVG su tutti
+  i pulsanti (frecce, check, mail, share, stampa, x, refresh…). Risultati: "Richiedi
+  informazioni" ora solid (CTA principale), "Stampa/PDF" outline, "Condividi" ghost.
+- **Progress bar**: track dei segmenti non ancora fatti reso visibile su bianco
+  (`#d5cfda`, prima `--gray` quasi invisibile).
+- **Header**: tutto **centrato** (logo + "GoToMarket Assessment" su una riga), su
+  desktop **più grande** (logo 25px, titolo 1.2rem); su mobile resta compatto.
+  Rimosso il descrittore di destra.
+
 **Rev. 2026-09-07 (2):**
 - **Header bianco** (era scuro): il logo Keymove rosso risalta; titolo "Assessment"
   in nero, kicker + descrittore in grigio, divisore chiaro, hairline in basso.
