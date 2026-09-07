@@ -58,15 +58,31 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .screen.active{display:block}
 
 /* ── Welcome ── */
-.welcome-hero{background:linear-gradient(135deg,var(--navy) 0%,#40121f 100%);color:#fff;border-radius:16px;padding:48px 40px;text-align:center;margin-bottom:24px}
-.welcome-hero h2{font-size:2rem;font-weight:700;margin-bottom:12px}
-.welcome-hero p{font-size:1rem;color:rgba(255,255,255,.85);max-width:520px;margin:0 auto 28px;line-height:1.7}
-.dim-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px}
-.pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:5px 14px;border-radius:20px;font-size:.82rem}
-.welcome-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:0}
-.ws{background:#fff;border-radius:12px;padding:18px;text-align:center}
-.ws .n{font-size:1.9rem;font-weight:700;color:var(--navy)}
-.ws .l{font-size:.75rem;color:var(--text-light);margin-top:2px}
+/* ══════════ WELCOME / PRESENTAZIONE (s0) — mobile-first ══════════ */
+#s0{max-width:780px;position:relative}
+#s0::before{content:"";position:absolute;inset:-24px 0 auto;height:60%;background-image:radial-gradient(var(--gray) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse 75% 100% at 50% 0,#000,transparent 72%);mask-image:radial-gradient(ellipse 75% 100% at 50% 0,#000,transparent 72%);opacity:.7;pointer-events:none;z-index:0}
+.w0{position:relative;z-index:1;text-align:center;padding:clamp(14px,4vw,34px) 0 clamp(18px,5vw,34px)}
+.w0-badge{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border:1px solid var(--gray);border-radius:999px;background:#fff;font-size:.77rem;font-weight:600;color:var(--text-light);margin-bottom:clamp(18px,5vw,26px)}
+.w0-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px var(--brand-wash)}
+.w0-title{font-size:clamp(1.85rem,5.8vw,2.7rem);line-height:1.14;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0 auto clamp(14px,3.5vw,20px);max-width:20ch}
+.w0-hl{background:var(--brand-wash);color:var(--brand);border-radius:10px;padding:.02em .16em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.w0-sub{font-size:clamp(.98rem,2.5vw,1.1rem);line-height:1.65;color:var(--text-light);max-width:54ch;margin:0 auto clamp(22px,5vw,28px)}
+.w0-sub strong{color:var(--ink);font-weight:700}
+.w0-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.w0-cta .btn{min-height:52px;padding:0 28px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.w0-note{font-size:.76rem;color:var(--text-light);margin-bottom:clamp(30px,7vw,46px)}
+.w0-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,2.5vw,16px);text-align:left;margin-bottom:clamp(24px,6vw,34px)}
+.w0-feat{background:#fff;border:1px solid var(--gray);border-radius:14px;padding:clamp(15px,3.5vw,20px)}
+.w0-feat-k{font-size:.67rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+.w0-feat-t{font-size:.89rem;line-height:1.5;color:var(--ink);font-weight:500}
+.w0-areas-k{font-size:.71rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:12px}
+.dim-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.pill{background:#fff;border:1px solid var(--gray);color:var(--text-light);padding:6px 14px;border-radius:999px;font-size:.8rem;font-weight:500}
+@media(max-width:620px){
+  .w0-cta{flex-direction:column}
+  .w0-cta .btn{width:100%}
+  .w0-feats{grid-template-columns:1fr}
+}
 
 /* ── Section header ── */
 .sec-head{background:var(--navy);color:#fff;border-radius:12px 12px 0 0;padding:22px 28px}
@@ -324,13 +340,6 @@ textarea{resize:vertical;min-height:72px}
   .dim-chip{scroll-snap-align:center;font-size:.68rem;padding:5px 10px}
   .screen{margin:14px auto 24px;padding:0 10px}
 
-  .welcome-hero{padding:30px 20px;border-radius:14px}
-  .welcome-hero h2{font-size:1.45rem}
-  .welcome-hero p{font-size:.92rem}
-  .welcome-stats{grid-template-columns:1fr;gap:10px}
-  .ws{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:12px 16px}
-  .ws .n{font-size:1.4rem}
-  .ws .l{margin-top:0}
   .card{padding:18px 16px}
   .frow{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
 
@@ -464,19 +473,42 @@ textarea.onb-input{min-height:108px;resize:vertical}
 </div>
 
 <div class="screen" id="s0">
-  <div class="welcome-hero">
-    <h2>GoToMarket Assessment</h2>
-    <p>Una metodologia per analizzare e valutare l'organizzazione commerciale, identificare punti di forza e aree di miglioramento rispetto al benchmark di mercato.</p>
-    <div class="dim-pills" id="welcomePills"></div>
-    <div class="welcome-stats">
-      <div class="ws"><div class="n" id="welcomeDims">—</div><div class="l">Dimensioni di analisi</div></div>
-      <div class="ws"><div class="n" id="welcomeQs">—</div><div class="l">Domande valutate</div></div>
-      <div class="ws"><div class="n">~20'</div><div class="l">Durata stimata</div></div>
+  <div class="w0">
+    <div class="w0-badge"><span class="w0-badge-dot"></span> GoToMarket Assessment · accesso su invito</div>
+
+    <h1 class="w0-title">Quanto è competitiva la tua <span class="w0-hl">organizzazione commerciale?</span></h1>
+
+    <p class="w0-sub">
+      Un percorso guidato su <strong>6 aree chiave</strong> e <strong id="welcomeQs">—</strong> domande a scelta multipla.
+      In circa <strong>20 minuti</strong> ottieni un punteggio confrontato con il benchmark di mercato
+      e le priorità su cui intervenire.
+    </p>
+
+    <div class="w0-cta">
+      <button class="btn btn-primary" onclick="goTo(1)">Inizia l'assessment →</button>
+      <a class="btn btn-secondary" href="https://www.studioguzzetti.it/#contatti" target="_blank" rel="noopener">Parla con lo studio</a>
     </div>
-  </div>
-  <div class="card" style="text-align:center">
-    <p style="color:var(--text-light);margin-bottom:18px;font-size:.9rem">Per ciascuna dimensione riceverai un punteggio confrontato con il benchmark di mercato e un target di riferimento.</p>
-    <button class="btn btn-primary" onclick="goTo(1)">Inizia l'Assessment →</button>
+    <div class="w0-note">A cura di Studio Guzzetti · Promexa — i tuoi dati non vengono resi pubblici</div>
+
+    <div class="w0-feats">
+      <div class="w0-feat">
+        <div class="w0-feat-k">Come funziona</div>
+        <div class="w0-feat-t"><span id="welcomeDims">—</span> dimensioni, solo scelte multiple. Nessun testo da scrivere.</div>
+      </div>
+      <div class="w0-feat">
+        <div class="w0-feat-k">Cosa ottieni</div>
+        <div class="w0-feat-t">Un punteggio per area, confrontato con il benchmark di mercato e un target.</div>
+      </div>
+      <div class="w0-feat">
+        <div class="w0-feat-k">Il passo dopo</div>
+        <div class="w0-feat-t">Un confronto con lo studio per trasformare i gap in un piano di priorità.</div>
+      </div>
+    </div>
+
+    <div class="w0-areas">
+      <div class="w0-areas-k">Le 6 aree analizzate</div>
+      <div class="dim-pills" id="welcomePills"></div>
+    </div>
   </div>
 </div>
 

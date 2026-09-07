@@ -43,8 +43,26 @@ monocromatica sul rosso; (3) rivedere le 6 tinte categoriali come set coerente;
 ### 1. Gate codice d'accesso (`s_locked`) — 🔲
 _(da compilare)_
 
-### 2. Welcome / hero (`s0`) — 🔲
-_(da compilare)_
+### 2. Welcome / presentazione (`s0`) — 🟡 in discussione
+
+**Rifatta stile landing (2026-09-07)** — ispirazione quso.ai + ticketapp.
+Da hero scuro a **layout chiaro e centrato**, molto più arioso:
+- badge pill in alto ("GoToMarket Assessment · accesso su invito")
+- **titolo grande** a due toni con parola-chiave evidenziata in box arrotondato rosso
+  ("…la tua `organizzazione commerciale?`")
+- sottotitolo sintetico con i numeri reali (6 aree, N domande, ~20 min) iniettati da `buildWelcome`
+- doppia CTA: **Inizia l'assessment** (primaria rossa) + **Parla con lo studio**
+  (secondaria, link a studioguzzetti.it/#contatti)
+- 3 card informative (Come funziona / Cosa ottieni / Il passo dopo) — eyebrow + frase
+- strip delle 6 aree analizzate (pill), texture a puntini sfumata dietro il titolo
+- Rimossi `.welcome-hero`, `.welcome-stats`, `.ws`; `.pill` ristilizzata per tema chiaro.
+  Gli id `#welcomePills` / `#welcomeDims` / `#welcomeQs` conservati → `buildWelcome` invariato.
+
+Mobile-first: verificato a 320 / 390 / 768 / 834 / 1280px, zero scroll orizzontale,
+CTA full-width < 620px, card a 1 colonna, type fluida `clamp()`.
+
+Da valutare: copy del titolo, testo del badge, aggiungere elementi decorativi
+(mini-preview del report) come nelle reference, font display.
 
 ### 3. Sezione A — dati compilatore + azienda (`s1`) — 🟡 in discussione
 
