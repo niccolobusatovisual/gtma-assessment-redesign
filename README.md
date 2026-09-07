@@ -17,7 +17,8 @@ Snapshot pristino identico anche fuori dal repo: `../_live-snapshot-2026-09-03.h
 
 ## Preview
 
-- **Online:** ogni push su `main` aggiorna il banco di prova → _URL da inserire dopo il primo deploy_
+- **Online:** ogni push su `main` aggiorna il banco di prova (~1 min) →
+  https://niccolobusatovisual.github.io/gtma-assessment-redesign/?c=GMA-2026
 - **Locale:** `python3 -m http.server 8080` dentro questa cartella, poi apri
   `http://localhost:8080/index.html?c=GMA-2026`
 
