@@ -67,9 +67,9 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .stp-seg.done .stp-lbl{color:rgba(255,255,255,.6)}
 .stp-seg.now .stp-lbl{color:#fff}
 .stp-track{position:relative;display:block;height:4px;border-radius:3px;background:rgba(255,255,255,.16)}
-.stp-track i{display:block;width:0;height:100%;border-radius:3px;background:var(--brand);transition:width .5s cubic-bezier(.34,1.06,.64,1)}
-.stp-dot{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--brand);transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(247,30,68,.3);transition:left .5s cubic-bezier(.34,1.06,.64,1),top .3s ease;z-index:2}
-.stp-flag{position:absolute;left:0;bottom:100%;margin-bottom:5px;transform:translateX(-50%);white-space:nowrap;font-size:.67rem;font-weight:700;letter-spacing:.2px;color:#fff;pointer-events:none;transition:left .5s cubic-bezier(.34,1.06,.64,1),opacity .25s ease}
+.stp-track i{display:block;width:0;height:100%;border-radius:3px;background:var(--brand);transition:width .33s cubic-bezier(.4,0,.2,1)}
+.stp-dot{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--brand);transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(247,30,68,.3);transition:left .33s cubic-bezier(.4,0,.2,1),top .3s ease;z-index:2}
+.stp-flag{position:absolute;left:0;bottom:100%;margin-bottom:5px;transform:translateX(-50%);white-space:nowrap;font-size:.67rem;font-weight:700;letter-spacing:.2px;color:#fff;pointer-events:none;transition:left .33s cubic-bezier(.4,0,.2,1),opacity .25s ease}
 .stp-mini{display:none;margin-top:6px;font-size:.72rem;color:rgba(255,255,255,.72)}
 .stp-mini b{color:#fff;font-weight:600}
 @media(max-width:720px){
@@ -1537,18 +1537,6 @@ function stepperPlaceHead(host, cur, frac, mode, done){
 }
 
 // animazione onboarding: su Continua il dot scorre da sx a dx della sezione, poi si avanza
-function stepperSweep(segIdx, after){
-  var host = document.getElementById('stepper');
-  if(!host || host.dataset.mode !== 'onb'){ after(); return; }
-  var seg = host.querySelectorAll('.stp-seg')[segIdx];
-  var t = host.querySelectorAll('.stp-track')[segIdx];
-  var row = host.querySelector('.stp-row');
-  if(!seg || !t || !row || !host._dot){ after(); return; }
-  seg.querySelector('i').style.width = '100%';
-  host._dot.style.left = ((t.offsetLeft + t.offsetWidth) / (row.clientWidth || 1) * 100) + '%';
-  setTimeout(after, 520);
-}
-
 function resolveSegment() {
   const raw = parseFloat(document.getElementById('f_b2b').value);
   return (isNaN(raw) ? 100 : raw) >= 50 ? 'b2b' : 'b2c';
@@ -1696,8 +1684,11 @@ function onbNext(skip){
   var err = skip ? null : onbValidate(s);
   if(err){ onbWarn(err); return; }
   if(onbIndex === ONB.length - 1){ nextFromA(); return; }
-  var leaving = onbIndex;
-  stepperSweep(leaving, function(){ onbIndex = leaving + 1; renderOnbStep(); });
+  // Avanza subito: il contenuto cambia all'istante e il puntino (elemento
+  // persistente) scorre da solo grazie alla transizione CSS su `left`,
+  // riempiendo la sezione appena completata. Nessun setTimeout, nessun delay.
+  onbIndex++;
+  renderOnbStep();
 }
 function onbWarn(msg){
   var w = document.getElementById('warnS1');

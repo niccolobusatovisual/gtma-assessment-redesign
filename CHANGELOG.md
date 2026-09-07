@@ -115,7 +115,12 @@ Mobile-first (< 720px): i titoli spariscono, restano i mini-segmenti + una riga
   che lo **segue** mentre il segmento si riempie con le risposte. Posizione del
   flag clampata al 6–94% per non uscire dalla barra.
 - **Onboarding**: su *Continua* il puntino fa uno **sweep animato** da sinistra a
-  destra della sezione completata (`stepperSweep`, ~520ms) prima di avanzare.
+  destra della sezione completata.
+  - **Fix 2026-09-07**: rimosso `stepperSweep` + il `setTimeout(520ms)` che
+    ritardava il cambio contenuto. Ora `onbNext` avanza subito: il contenuto
+    cambia all'istante e il puntino (elemento persistente) scorre da solo con la
+    transizione CSS su `left` (0.33s, ease-out). Sweep che parte nell'istante del
+    click, zero delay.
 - **Mobile**: la progress bar è **sticky in alto** (`position:sticky;top:0`),
   l'header diventa statico e scorre via. Verificato: dopo scroll la barra resta a
   `top:0`.
