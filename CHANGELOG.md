@@ -108,6 +108,18 @@ tutti ridondanti con lo stepper.
 Mobile-first (< 720px): i titoli spariscono, restano i mini-segmenti + una riga
 "Sezione X di Y · Nome — n/tot risposte". Verificato a 390 / 1280px.
 
+**Rev. 2026-09-07 (2):**
+- Lo stepper ora **aggiorna gli stili invece di ricostruire l'HTML** → le
+  transizioni CSS animano (dot e riempimenti con `transition`).
+- **Assessment**: una sola dicitura (nome sezione, forma breve) sopra il puntino,
+  che lo **segue** mentre il segmento si riempie con le risposte. Posizione del
+  flag clampata al 6–94% per non uscire dalla barra.
+- **Onboarding**: su *Continua* il puntino fa uno **sweep animato** da sinistra a
+  destra della sezione completata (`stepperSweep`, ~520ms) prima di avanzare.
+- **Mobile**: la progress bar è **sticky in alto** (`position:sticky;top:0`),
+  l'header diventa statico e scorre via. Verificato: dopo scroll la barra resta a
+  `top:0`.
+
 ### 5. Risultati — radar + card punteggio + sintesi (`s_results`) — 🔲
 _(da compilare)_
 

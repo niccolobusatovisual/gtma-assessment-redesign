@@ -48,20 +48,26 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .app-header .brand{font-size:1.1rem;font-weight:800;color:var(--gold);letter-spacing:1px}
 
 /* ── Progress ── */
-.progress-wrap{background:var(--navy-dark);padding:9px 32px 11px}
-.stp-row{display:flex;gap:7px}
+.progress-wrap{background:var(--navy-dark);padding:10px 32px 11px}
+#stepper{position:relative}
+#stepper[data-mode="asm"]{padding-top:16px}
+.stp-row{position:relative;display:flex;gap:7px}
 .stp-seg{flex:1;min-width:0}
-.stp-lbl{display:block;font-size:.65rem;font-weight:600;line-height:1;letter-spacing:.2px;color:rgba(255,255,255,.42);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px}
-.stp-seg.done .stp-lbl{color:rgba(255,255,255,.62)}
+.stp-lbl{display:block;font-size:.65rem;font-weight:600;line-height:1;letter-spacing:.2px;color:rgba(255,255,255,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px}
+.stp-seg.done .stp-lbl{color:rgba(255,255,255,.6)}
 .stp-seg.now .stp-lbl{color:#fff}
 .stp-track{position:relative;display:block;height:4px;border-radius:3px;background:rgba(255,255,255,.16)}
-.stp-track i{display:block;height:100%;border-radius:3px;background:var(--brand);transition:width .45s ease}
-.stp-dot{position:absolute;top:50%;width:9px;height:9px;border-radius:50%;background:var(--brand);transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(247,30,68,.28);transition:left .45s ease}
-.stp-mini{display:none;margin-top:5px;font-size:.72rem;color:rgba(255,255,255,.72)}
+.stp-track i{display:block;width:0;height:100%;border-radius:3px;background:var(--brand);transition:width .5s cubic-bezier(.34,1.06,.64,1)}
+.stp-dot{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--brand);transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(247,30,68,.3);transition:left .5s cubic-bezier(.34,1.06,.64,1),top .3s ease;z-index:2}
+.stp-flag{position:absolute;left:0;bottom:100%;margin-bottom:5px;transform:translateX(-50%);white-space:nowrap;font-size:.67rem;font-weight:700;letter-spacing:.2px;color:#fff;pointer-events:none;transition:left .5s cubic-bezier(.34,1.06,.64,1),opacity .25s ease}
+.stp-mini{display:none;margin-top:6px;font-size:.72rem;color:rgba(255,255,255,.72)}
 .stp-mini b{color:#fff;font-weight:600}
 @media(max-width:720px){
+  .app-header{position:static}
+  .progress-wrap{position:sticky;top:0;z-index:90;padding:7px 14px 8px}
+  #stepper[data-mode="asm"]{padding-top:0}
   .stp-row{gap:4px}
-  .stp-lbl{display:none}
+  .stp-lbl,.stp-flag{display:none}
   .stp-track{height:3px}
   .stp-mini{display:block}
 }
@@ -1438,41 +1444,90 @@ var ONB_SHORT = {model:'Modello',you:'Contatti',company:'Azienda',sector:'Settor
 
 function updateProgress(n) { curN = n; renderStepper(); }
 
+/* Costruisce lo scheletro una volta per "modo", poi aggiorna solo gli stili
+   (larghezze, posizione di dot/flag): così le transizioni CSS animano. */
 function renderStepper(){
   var wrap = document.getElementById('progressWrap'), host = document.getElementById('stepper');
   if(!wrap || !host) return;
   if(curN === 0){ wrap.style.display = 'none'; return; }
   wrap.style.display = '';
 
-  var names, cur, curFrac, kicker;
-  if(curN === 1){
+  var mode = (curN === 1) ? 'onb' : 'asm';
+  var names, cur, frac, mini, done = false;
+
+  if(mode === 'onb'){
     names = ONB.map(function(s){ return ONB_SHORT[s.id] || s.eyebrow; });
     cur = Math.min(onbIndex, ONB.length - 1);
-    curFrac = 0.5;
-    kicker = 'Dati azienda · <b>' + names[cur] + '</b> — passo ' + (cur+1) + ' di ' + ONB.length;
+    frac = 0;                       // il dot parte a sinistra; lo "sweep" su Continua lo porta a destra
+    mini = 'Dati azienda · <b>' + names[cur] + '</b> — passo ' + (cur+1) + ' di ' + ONB.length;
   } else {
     names = DIMS.map(function(d){ return DIM_SHORT[d.id] || d.label; });
     if(curN >= RESULT_SCREEN){
-      cur = DIMS.length; curFrac = 0;
-      kicker = '<b>Assessment completato</b>';
+      cur = names.length - 1; frac = 1; done = true;
+      mini = '<b>Assessment completato</b>';
     } else {
       cur = curN - 2;
       var d = DIMS[cur];
       var tot = (((QUESTIONS[d.id] && QUESTIONS[d.id][segment]) || []).length) || 1;
       var ans = ((answers[d.id]) || []).filter(function(x){ return x !== undefined && x !== null; }).length;
-      curFrac = Math.min(1, Math.max(0.05, ans / tot));
-      kicker = 'Sezione ' + (cur+1) + ' di ' + DIMS.length + ' · <b>' + d.label + '</b> — ' + ans + '/' + tot + ' risposte';
+      frac = Math.min(1, ans / tot);
+      mini = 'Sezione ' + (cur+1) + ' di ' + DIMS.length + ' · <b>' + d.label + '</b> — ' + ans + '/' + tot + ' risposte';
     }
   }
 
-  var segs = names.map(function(name, i){
-    var cls = i < cur ? 'done' : (i === cur ? 'now' : '');
-    var w = i < cur ? 100 : (i === cur ? Math.round(curFrac * 100) : 0);
-    var dot = (i === cur && curN < RESULT_SCREEN) ? '<b class="stp-dot" style="left:' + w + '%"></b>' : '';
-    return '<div class="stp-seg ' + cls + '"><span class="stp-lbl">' + name + '</span>' +
-           '<span class="stp-track"><i style="width:' + w + '%"></i>' + dot + '</span></div>';
-  }).join('');
-  host.innerHTML = '<div class="stp-row">' + segs + '</div><div class="stp-mini">' + kicker + '</div>';
+  // (ri)costruisci lo scheletro solo se cambia modo o numero di segmenti
+  if(host.dataset.mode !== mode || host.querySelectorAll('.stp-seg').length !== names.length){
+    host.dataset.mode = mode;
+    var segHTML = names.map(function(n){
+      return '<div class="stp-seg">' +
+        (mode === 'onb' ? '<span class="stp-lbl">' + n + '</span>' : '') +
+        '<span class="stp-track"><i></i></span></div>';
+    }).join('');
+    host.innerHTML = '<div class="stp-row">' + segHTML +
+      '<span class="stp-dot"></span>' +
+      (mode === 'asm' ? '<span class="stp-flag"></span>' : '') +
+      '</div><div class="stp-mini"></div>';
+    host._dot  = host.querySelector('.stp-dot');
+    host._flag = host.querySelector('.stp-flag');
+  }
+
+  var segEls = host.querySelectorAll('.stp-seg');
+  for(var i = 0; i < segEls.length; i++){
+    segEls[i].className = 'stp-seg' + (i < cur ? ' done' : (i === cur ? ' now' : ''));
+    segEls[i].querySelector('i').style.width = (i < cur ? 100 : (i === cur ? Math.round(frac * 100) : 0)) + '%';
+  }
+  host.querySelector('.stp-mini').innerHTML = mini;
+  stepperPlaceHead(host, cur, frac, mode, done);
+}
+
+// posiziona il dot (e, nell'assessment, la dicitura) sul punto di avanzamento
+function stepperPlaceHead(host, cur, frac, mode, done){
+  var row = host.querySelector('.stp-row');
+  var tracks = host.querySelectorAll('.stp-track');
+  var t = tracks[cur];
+  if(!row || !t || !host._dot) return;
+  var pct = (t.offsetLeft + t.offsetWidth * frac) / (row.clientWidth || 1) * 100;
+  host._dot.style.left = pct + '%';
+  host._dot.style.top = (t.offsetTop + t.offsetHeight / 2) + 'px';
+  host._dot.style.display = done ? 'none' : '';
+  if(host._flag){
+    host._flag.style.left = Math.max(6, Math.min(94, pct)) + '%';   // clamp: resta dentro la barra
+    host._flag.textContent = (mode === 'asm' && DIMS[cur]) ? (DIM_SHORT[DIMS[cur].id] || DIMS[cur].label) : '';
+    host._flag.style.opacity = done ? '0' : '1';
+  }
+}
+
+// animazione onboarding: su Continua il dot scorre da sx a dx della sezione, poi si avanza
+function stepperSweep(segIdx, after){
+  var host = document.getElementById('stepper');
+  if(!host || host.dataset.mode !== 'onb'){ after(); return; }
+  var seg = host.querySelectorAll('.stp-seg')[segIdx];
+  var t = host.querySelectorAll('.stp-track')[segIdx];
+  var row = host.querySelector('.stp-row');
+  if(!seg || !t || !row || !host._dot){ after(); return; }
+  seg.querySelector('i').style.width = '100%';
+  host._dot.style.left = ((t.offsetLeft + t.offsetWidth) / (row.clientWidth || 1) * 100) + '%';
+  setTimeout(after, 520);
 }
 
 function resolveSegment() {
@@ -1622,7 +1677,8 @@ function onbNext(skip){
   var err = skip ? null : onbValidate(s);
   if(err){ onbWarn(err); return; }
   if(onbIndex === ONB.length - 1){ nextFromA(); return; }
-  onbIndex++; renderOnbStep();
+  var leaving = onbIndex;
+  stepperSweep(leaving, function(){ onbIndex = leaving + 1; renderOnbStep(); });
 }
 function onbWarn(msg){
   var w = document.getElementById('warnS1');
