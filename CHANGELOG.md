@@ -90,8 +90,23 @@ nel DOM come hidden; l'onboarding li popola. `nextFromA`, `resolveSegment`,
 Da valutare: numero di passi (8 — accorpare?), copy delle domande, icone (Rivenditori
 e Punti vendita ora condividono l'icona), se il passo "Dimensione" va spezzato.
 
-### 4. Schermate domande per dimensione (`sectionScreens`) — 🔲
-_(da compilare)_
+### Progress bar — 🟡 in discussione (2026-09-07)
+
+Sostituita la barra unica continua con una **barra segmentata stile "1-A"**
+(segmenti con titolo di sezione sopra, riempimento per sezione, pallino sul punto
+corrente). **Due istanze distinte**, stessa componente `#stepper`:
+- **Onboarding** (screen 1): 8 segmenti = i passi (`Modello · Contatti · Azienda ·
+  Settore · Dimensione · Canali · Obiettivo · Note`). Passo corrente al 50%.
+- **Assessment** (screen 2–7): 6 segmenti = le dimensioni. Il segmento corrente si
+  riempie in base alle risposte date (`ans/tot`), aggiornato a ogni click.
+- Welcome: nessuna barra. Risultati: tutti i segmenti pieni + "Assessment completato".
+
+Rimossi: la vecchia `#progFill/#progLabel`, i pallini dentro la card onboarding
+(`.onb-dots`) e la vecchia strip dimensioni (`#dimStrip`, ora `display:none`) —
+tutti ridondanti con lo stepper.
+
+Mobile-first (< 720px): i titoli spariscono, restano i mini-segmenti + una riga
+"Sezione X di Y · Nome — n/tot risposte". Verificato a 390 / 1280px.
 
 ### 5. Risultati — radar + card punteggio + sintesi (`s_results`) — 🔲
 _(da compilare)_

@@ -48,10 +48,23 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .app-header .brand{font-size:1.1rem;font-weight:800;color:var(--gold);letter-spacing:1px}
 
 /* ── Progress ── */
-.progress-wrap{background:var(--navy-dark);padding:8px 32px 10px}
-.progress-track{background:rgba(255,255,255,.2);border-radius:4px;height:5px;margin-bottom:5px}
-.progress-fill{background:var(--gold);height:100%;border-radius:4px;transition:width .4s ease}
-.progress-label{color:rgba(255,255,255,.65);font-size:.72rem}
+.progress-wrap{background:var(--navy-dark);padding:9px 32px 11px}
+.stp-row{display:flex;gap:7px}
+.stp-seg{flex:1;min-width:0}
+.stp-lbl{display:block;font-size:.65rem;font-weight:600;line-height:1;letter-spacing:.2px;color:rgba(255,255,255,.42);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px}
+.stp-seg.done .stp-lbl{color:rgba(255,255,255,.62)}
+.stp-seg.now .stp-lbl{color:#fff}
+.stp-track{position:relative;display:block;height:4px;border-radius:3px;background:rgba(255,255,255,.16)}
+.stp-track i{display:block;height:100%;border-radius:3px;background:var(--brand);transition:width .45s ease}
+.stp-dot{position:absolute;top:50%;width:9px;height:9px;border-radius:50%;background:var(--brand);transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(247,30,68,.28);transition:left .45s ease}
+.stp-mini{display:none;margin-top:5px;font-size:.72rem;color:rgba(255,255,255,.72)}
+.stp-mini b{color:#fff;font-weight:600}
+@media(max-width:720px){
+  .stp-row{gap:4px}
+  .stp-lbl{display:none}
+  .stp-track{height:3px}
+  .stp-mini{display:block}
+}
 
 /* ── Screens ── */
 .screen{display:none;max-width:800px;margin:32px auto 64px;padding:0 16px}
@@ -115,6 +128,8 @@ textarea{resize:vertical;min-height:72px}
 .cb-item input{cursor:pointer;accent-color:var(--navy)}
 
 /* ── Dimension strip ── */
+/* strip dimensioni sostituita dalla progress bar segmentata (#stepper) */
+#dimStrip{display:none!important}
 .dim-strip{background:var(--ink);padding:9px 20px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
 .dim-strip::-webkit-scrollbar{display:none}
 .dim-chip{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:16px;font-size:.7rem;font-weight:600;white-space:nowrap;border:2px solid transparent;flex-shrink:0;transition:all .22s;letter-spacing:.1px;color:rgba(255,255,255,.35)}
@@ -448,8 +463,7 @@ textarea.onb-input{min-height:108px;resize:vertical}
   <button class="btn-gear no-print" onclick="openSetup()">⚙️ Setup</button>
 </div>
 <div class="progress-wrap" id="progressWrap">
-  <div class="progress-track"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-  <div class="progress-label" id="progLabel">Benvenuto</div>
+  <div id="stepper"></div>
 </div>
 <div class="dim-strip no-print" id="dimStrip" style="display:none"></div>
 
@@ -1285,6 +1299,7 @@ function selectOpt(dimId, qi, oi, color) {
       el.style.background = '';
     }
   });
+  renderStepper(); // aggiorna il riempimento della sezione corrente
 }
 
 // ════════════════════════════════════════════════
@@ -1410,11 +1425,54 @@ function buildDimStrip(screenIdx) {
   }).join('');
 }
 
-function updateProgress(n) {
-  const pct = Math.round((n / (TOTAL_SCREENS-1))*100);
-  document.getElementById('progFill').style.width = pct+'%';
-  const labels = ['Benvenuto','Azienda'].concat(DIMS.map(function(d){ return d.label; }), ['Risultati']);
-  document.getElementById('progLabel').textContent = (labels[n]||'') + ' — ' + pct + '%';
+/* ══════════ PROGRESS BAR SEGMENTATA (stile 1-A) ══════════
+   Due barre distinte, stessa componente:
+   · onboarding (screen 1)  → 8 segmenti = i passi dell'onboarding
+   · assessment (screen 2-7) → 6 segmenti = le dimensioni; il segmento
+     corrente si riempie in base alle risposte date nella sezione.
+   Mobile-first: sotto i 720px le etichette lasciano il posto a una riga
+   "Sezione X di Y · Nome — risposte". Verificare sempre il responsive. */
+var curN = 0;
+var DIM_SHORT = {mercato:'Mercato',clienti:'Clienti',offerta:'Offerta',organizzazione:'Organizzazione',marketing:'Marketing',strumenti:'Strumenti'};
+var ONB_SHORT = {model:'Modello',you:'Contatti',company:'Azienda',sector:'Settore',size:'Dimensione',channels:'Canali',goal:'Obiettivo',descr:'Note'};
+
+function updateProgress(n) { curN = n; renderStepper(); }
+
+function renderStepper(){
+  var wrap = document.getElementById('progressWrap'), host = document.getElementById('stepper');
+  if(!wrap || !host) return;
+  if(curN === 0){ wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+
+  var names, cur, curFrac, kicker;
+  if(curN === 1){
+    names = ONB.map(function(s){ return ONB_SHORT[s.id] || s.eyebrow; });
+    cur = Math.min(onbIndex, ONB.length - 1);
+    curFrac = 0.5;
+    kicker = 'Dati azienda · <b>' + names[cur] + '</b> — passo ' + (cur+1) + ' di ' + ONB.length;
+  } else {
+    names = DIMS.map(function(d){ return DIM_SHORT[d.id] || d.label; });
+    if(curN >= RESULT_SCREEN){
+      cur = DIMS.length; curFrac = 0;
+      kicker = '<b>Assessment completato</b>';
+    } else {
+      cur = curN - 2;
+      var d = DIMS[cur];
+      var tot = (((QUESTIONS[d.id] && QUESTIONS[d.id][segment]) || []).length) || 1;
+      var ans = ((answers[d.id]) || []).filter(function(x){ return x !== undefined && x !== null; }).length;
+      curFrac = Math.min(1, Math.max(0.05, ans / tot));
+      kicker = 'Sezione ' + (cur+1) + ' di ' + DIMS.length + ' · <b>' + d.label + '</b> — ' + ans + '/' + tot + ' risposte';
+    }
+  }
+
+  var segs = names.map(function(name, i){
+    var cls = i < cur ? 'done' : (i === cur ? 'now' : '');
+    var w = i < cur ? 100 : (i === cur ? Math.round(curFrac * 100) : 0);
+    var dot = (i === cur && curN < RESULT_SCREEN) ? '<b class="stp-dot" style="left:' + w + '%"></b>' : '';
+    return '<div class="stp-seg ' + cls + '"><span class="stp-lbl">' + name + '</span>' +
+           '<span class="stp-track"><i style="width:' + w + '%"></i>' + dot + '</span></div>';
+  }).join('');
+  host.innerHTML = '<div class="stp-row">' + segs + '</div><div class="stp-mini">' + kicker + '</div>';
 }
 
 function resolveSegment() {
@@ -1517,13 +1575,7 @@ var ONB = [
     hint:'Prodotti/servizi principali e mercati serviti. Facoltativo.', skip:true }
 ];
 
-function onbProgress(){
-  var pf = document.getElementById('progFill'), pl = document.getElementById('progLabel');
-  if(!pf) return;
-  var frac = (onbIndex+1) / ONB.length;
-  pf.style.width = Math.round(10 + frac*18) + '%';
-  if(pl) pl.textContent = 'Azienda · ' + (onbIndex+1) + ' di ' + ONB.length;
-}
+function onbProgress(){ renderStepper(); }
 
 function renderOnbStep(){
   var host = document.getElementById('onbHost');
@@ -1531,12 +1583,6 @@ function renderOnbStep(){
   if(onbIndex < 0) onbIndex = 0;
   if(onbIndex > ONB.length-1) onbIndex = ONB.length-1;
   var s = ONB[onbIndex];
-
-  var dots = ONB.map(function(_,i){
-    var c = i===onbIndex ? 'now' : (i<onbIndex ? 'done tap' : '');
-    var attr = i<onbIndex ? ' role="button" tabindex="0" aria-label="Torna al passo '+(i+1)+'" onclick="onbGoto('+i+')" onkeydown="if(event.key===\'Enter\'){onbGoto('+i+')}"' : '';
-    return '<span class="onb-dot '+c+'"'+attr+'></span>';
-  }).join('');
 
   var body = '';
   if(s.id === 'model') body = onbRenderModel();
@@ -1549,7 +1595,6 @@ function renderOnbStep(){
   var backLabel = onbIndex === 0 ? '← Torna alla presentazione' : '← Indietro';
 
   host.innerHTML =
-    '<div class="onb-dots">'+dots+'</div>'+
     '<div class="onb-step">'+
       '<div class="onb-ico">'+s.ico+'</div>'+
       '<div class="onb-eyebrow">'+s.eyebrow+'</div>'+
