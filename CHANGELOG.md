@@ -142,3 +142,12 @@ logo**. Resta il modal password come gate. Vedi `NOTES.md`.
 Schermata `s_locked` ripulita (usava `.welcome-hero` rimossa) → card chiara `.locked-box`.
 
 Mobile: header compatto (logo + "Assessment"), verificato a 390px.
+
+**Rev. 2026-09-07 (2):**
+- **Header bianco** (era scuro): il logo Keymove rosso risalta; titolo "Assessment"
+  in nero, kicker + descrittore in grigio, divisore chiaro, hairline in basso.
+- **Progress bar bianca** anch'essa (formano un blocco chrome unico): track grigi,
+  fill/dot rossi, label sezione corrente in rosso, "done" in nero.
+- **Progress bar sempre fissa in alto anche su desktop** (`position:sticky;top:0`):
+  l'header scorre via, la barra resta. Verificato con scroll a 1400px → barra a
+  `top:0`. Stesso comportamento su mobile.
