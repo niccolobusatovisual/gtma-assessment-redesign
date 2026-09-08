@@ -544,17 +544,52 @@ textarea.onb-input{min-height:108px;resize:vertical}
 .onb-chip.on{border-color:var(--brand);color:var(--brand);background:var(--brand-wash);font-weight:600}
 
 /* ── Riepilogo di fine onboarding (passo "review") ── */
-.onb-review{display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(20px,5vw,26px);text-align:left}
-.orv{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;border:1.5px solid var(--gray);border-radius:12px;background:#fff;padding:13px 15px;transition:border-color .15s,box-shadow .15s}
-.orv:hover{border-color:#d5cfda}
-.orv-main{min-width:0}
-.orv-k{font-size:.66rem;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--text-light)}
-.orv-v{font-size:.92rem;color:var(--ink);font-weight:500;margin-top:3px;line-height:1.45;overflow-wrap:anywhere}
-.orv-v.empty{color:var(--text-light);font-weight:400;font-style:italic}
-.orv-edit{align-self:center;border:1.5px solid var(--gray);background:#fff;color:var(--brand);border-radius:999px;padding:8px 15px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:border-color .15s,background .15s}
-.orv-edit:hover{border-color:var(--brand);background:var(--brand-wash)}
-.orv-edit svg{width:14px;height:14px;stroke:currentColor;fill:none}
-@media(max-width:520px){.orv{grid-template-columns:1fr}.orv-edit{justify-self:start;margin-top:4px}}
+.onb-review{margin-bottom:clamp(20px,5vw,26px);text-align:left}
+/* Carta d'identità azienda */
+.idc{background:#fff;border:1.5px solid var(--gray);border-radius:22px;padding:clamp(18px,4.5vw,26px);box-shadow:0 14px 40px rgba(28,28,34,.07)}
+.idc-head{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.idc-emblem{grid-row:1;flex-shrink:0;width:54px;height:54px;border:none;border-radius:16px;background:var(--brand-wash);color:var(--brand);display:grid;place-items:center;cursor:pointer;padding:0;transition:box-shadow .15s,transform .1s}
+.idc-emblem svg{width:25px;height:25px}
+.idc-emblem:hover{box-shadow:0 0 0 3px var(--brand-wash),0 0 0 4.5px var(--brand)}
+.idc-emblem:active{transform:scale(.96)}
+.idc-id{grid-row:2;grid-column:1/-1;min-width:0}
+.idc-name{font-size:clamp(1.25rem,5.4vw,1.7rem);font-weight:800;font-style:italic;color:var(--ink);line-height:1.08;letter-spacing:-.01em;overflow-wrap:anywhere}
+.idc-role{font-size:.9rem;color:var(--text-light);margin-top:3px;overflow-wrap:anywhere}
+.idc-badge{grid-row:1;grid-column:3;border:none;background:var(--ink);color:#fff;font-family:inherit;font-weight:700;font-size:.72rem;letter-spacing:.6px;padding:8px 15px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.idc-badge:hover{background:var(--brand)}
+.idc-split{display:flex;height:9px;border-radius:999px;overflow:hidden;margin-top:18px;background:var(--gray)}
+.idc-split>span{display:block}
+.idc-split .b2b{background:var(--ink)}
+.idc-split .b2c{background:var(--brand)}
+.idc-split-lbl{display:flex;justify-content:space-between;font-size:.72rem;font-weight:600;color:var(--text-light);margin-top:6px}
+.idc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.idc-stat{position:relative;border:1.5px solid transparent;background:var(--gray-light);border-radius:15px;padding:15px 10px 13px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;cursor:pointer;font-family:inherit;transition:border-color .15s,background .15s,transform .1s}
+.idc-stat:hover,.idc-stat:focus-visible{border-color:var(--brand);background:#fff;outline:none}
+.idc-stat:active{transform:translateY(1px)}
+.idc-stat-ic{color:var(--brand);display:grid;place-items:center}
+.idc-stat-ic svg{width:22px;height:22px}
+.idc-stat-v{font-size:clamp(1rem,4.2vw,1.28rem);font-weight:800;color:var(--ink);line-height:1.12;overflow-wrap:anywhere}
+.idc-stat-v.na{color:var(--text-light);font-weight:600}
+.idc-stat-k{font-size:.64rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-light)}
+.idc-ed{position:absolute;top:8px;right:8px;width:13px;height:13px;color:var(--text-light);opacity:0;transition:opacity .15s}
+.idc-ed svg{width:100%;height:100%;stroke:currentColor;fill:none}
+.idc-stat:hover .idc-ed,.idc-stat:focus-visible .idc-ed{opacity:.75}
+@media(hover:none){.idc-ed{opacity:.4}}
+.idc-rows{display:flex;flex-direction:column;margin-top:16px}
+.idc-row{display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center;padding:12px 2px;border-top:1px solid var(--gray)}
+.idc-row-ic{flex-shrink:0;width:36px;height:36px;border-radius:11px;background:var(--brand-wash);color:var(--brand);display:grid;place-items:center}
+.idc-row-ic svg{width:19px;height:19px}
+.idc-row-main{min-width:0}
+.idc-row-k{font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light)}
+.idc-row-v{font-size:.9rem;color:var(--ink);font-weight:500;margin-top:2px;line-height:1.4;overflow-wrap:anywhere}
+.idc-row-v.empty{color:var(--text-light);font-weight:400;font-style:italic}
+.idc-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+.idc-pill{display:inline-flex;align-items:center;background:var(--gray-light);border:1px solid var(--gray);border-radius:999px;padding:3px 11px;font-size:.8rem;font-weight:500;color:var(--ink)}
+.idc-row-edit{align-self:center;border:1.5px solid var(--gray);background:#fff;color:var(--brand);border-radius:999px;padding:8px 14px;font-size:.79rem;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:border-color .15s,background .15s}
+.idc-row-edit:hover{border-color:var(--brand);background:var(--brand-wash)}
+.idc-row-edit svg{width:14px;height:14px;stroke:currentColor;fill:none}
+@media(max-width:400px){.idc-stats{grid-template-columns:1fr 1fr}.idc-stat:last-child{grid-column:1/-1;flex-direction:row;justify-content:center;gap:11px;padding:13px 10px}.idc-stat:last-child .idc-stat-k{align-self:center}}
+@media(max-width:520px){.idc-row{grid-template-columns:auto 1fr}.idc-row-edit{grid-column:2;justify-self:start;margin-top:7px}}
 .onb-split{background:var(--gray-light);border:1px solid var(--gray);border-radius:12px;padding:clamp(14px,3.5vw,18px);margin:0 auto clamp(20px,5vw,24px)}
 .onb-split-top{display:flex;justify-content:space-between;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:8px}
 .onb-split-top .b2c{color:var(--text-light)}
@@ -1848,8 +1883,8 @@ var ONB = [
     q:'Descrivi in due righe cosa fate',
     hint:'Prodotti/servizi principali e mercati serviti. Facoltativo.', skip:true },
   { id:'review', ico:ICO.list, eyebrow:'Riepilogo', type:'review',
-    q:'Controlla i tuoi dati',
-    hint:'Rivedi tutto prima di iniziare. Tocca “Modifica” per correggere un punto: ti riporto qui appena salvato.' }
+    q:'La carta d’identità della tua azienda',
+    hint:'Controlla che sia tutto giusto. Tocca un dato — o “Modifica” — per correggerlo: ti riporto qui appena salvato.' }
 ];
 
 function onbProgress(){ renderStepper(); }
@@ -2058,42 +2093,80 @@ function onbSetGoal(i){
   });
 }
 
-/* --- passo: riepilogo finale (dati modificabili al volo) --- */
-function _onbReviewRows(){
+/* --- passo: riepilogo finale = "carta d'identità" dell'azienda (dati modificabili al volo) --- */
+function onbRenderReview(){
   function g(id){ return ((document.getElementById(id)||{}).value || '').trim(); }
-  var modelTxt = onbModel === 'b2b' ? 'B2B — vendita ad aziende'
-    : onbModel === 'b2c' ? 'B2C — vendita a consumatori'
-    : onbModel === 'both' ? ('Entrambe — B2B '+onbSplit+'% / B2C '+(100-onbSplit)+'%')
-    : '';
-  var size = [];
-  if(g('f_fatturato')) size.push('Fatturato '+g('f_fatturato'));
-  if(g('f_dip')) size.push(g('f_dip')+' dipendenti');
-  if(g('f_clienti_n')) size.push(g('f_clienti_n')+' clienti nuovi/anno');
+  var azienda = g('f_nome'), ruolo = g('f_ruolo'), settore = g('f_settore');
+  var nome = g('f_compilatore_nome'), email = g('f_compilatore_email');
+  var fatt = g('f_fatturato'), dip = g('f_dip'), clienti = g('f_clienti_n');
+  var obiett = g('f_obiettivo').replace(/^\d+\.\s*/,''), descr = g('f_descr');
   var canali = [];
   document.querySelectorAll('.cb-item input:checked').forEach(function(c){ canali.push(c.value); });
-  return [
-    { k:'Modello di business', step:0, v:modelTxt },
-    { k:'Referente',           step:1, v:[g('f_compilatore_nome'), g('f_compilatore_email')].filter(Boolean).join('  ·  ') },
-    { k:'Azienda e ruolo',     step:2, v:[g('f_nome'), g('f_ruolo')].filter(Boolean).join('  ·  ') },
-    { k:'Settore',             step:3, v:g('f_settore') },
-    { k:'Dimensione',          step:4, v:size.join('  ·  ') },
-    { k:'Canali commerciali',  step:5, v:canali.join(', ') },
-    { k:'Obiettivo commerciale', step:6, v:g('f_obiettivo').replace(/^\d+\.\s*/,'') },
-    { k:'Descrizione',         step:7, v:g('f_descr') }
-  ];
-}
-function onbRenderReview(){
-  var rows = _onbReviewRows().map(function(r){
-    var empty = !r.v;
-    return '<div class="orv">'+
-      '<div class="orv-main">'+
-        '<div class="orv-k">'+r.k+'</div>'+
-        '<div class="orv-v'+(empty?' empty':'')+'">'+(empty ? 'Non compilato' : _esc(r.v))+'</div>'+
+
+  var modelShort = onbModel === 'b2b' ? 'B2B'
+    : onbModel === 'b2c' ? 'B2C'
+    : onbModel === 'both' ? 'B2B · B2C' : '—';
+  var emblemIco = settore ? sectorIco(settore) : ICO.work;
+  var roleLine = [ruolo, settore].filter(Boolean).join(' · ') || 'Profilo azienda';
+
+  var split = '';
+  if(onbModel === 'both'){
+    split =
+      '<div class="idc-split" role="img" aria-label="Quota B2B '+onbSplit+' percento, B2C '+(100-onbSplit)+' percento">'+
+        '<span class="b2b" style="width:'+onbSplit+'%"></span><span class="b2c" style="width:'+(100-onbSplit)+'%"></span>'+
       '</div>'+
-      '<button type="button" class="orv-edit" onclick="onbEditStep('+r.step+')">'+ICN.editDoc+'Modifica</button>'+
+      '<div class="idc-split-lbl"><span>B2B '+onbSplit+'%</span><span>B2C '+(100-onbSplit)+'%</span></div>';
+  }
+
+  function stat(ico, val, lbl, step){
+    var na = !val;
+    return '<button type="button" class="idc-stat" onclick="onbEditStep('+step+')" aria-label="Modifica '+lbl+'">'+
+      '<span class="idc-stat-ic">'+ico+'</span>'+
+      '<span class="idc-stat-v'+(na?' na':'')+'">'+(na ? '—' : _esc(val))+'</span>'+
+      '<span class="idc-stat-k">'+lbl+'</span>'+
+      '<span class="idc-ed">'+ICN.editDoc+'</span>'+
+    '</button>';
+  }
+  var stats = '<div class="idc-stats">'+
+    stat(ICO.size, fatt,    'Fatturato',      4)+
+    stat(ICO.ppl,  dip,     'Dipendenti',     4)+
+    stat(ICO.goal, clienti, 'Clienti / anno', 4)+
+  '</div>';
+
+  function row(ico, k, valHtml, empty, step){
+    return '<div class="idc-row">'+
+      '<span class="idc-row-ic">'+ico+'</span>'+
+      '<div class="idc-row-main">'+
+        '<div class="idc-row-k">'+k+'</div>'+
+        '<div class="idc-row-v'+(empty?' empty':'')+'">'+valHtml+'</div>'+
+      '</div>'+
+      '<button type="button" class="idc-row-edit" onclick="onbEditStep('+step+')">'+ICN.editDoc+'Modifica</button>'+
     '</div>';
-  }).join('');
-  return '<div class="onb-review">'+rows+'</div>';
+  }
+  var referente = [nome, email].filter(Boolean).join('  ·  ');
+  var canaliHtml = canali.length
+    ? '<div class="idc-pills">'+canali.map(function(c){ return '<span class="idc-pill">'+_esc(c)+'</span>'; }).join('')+'</div>'
+    : 'Nessun canale selezionato';
+  var rows = '<div class="idc-rows">'+
+    row(ICO.user, 'Referente',             referente ? _esc(referente) : 'Non compilato', !referente,      1)+
+    row(ICO.net,  'Canali commerciali',    canaliHtml,                                    !canali.length,  5)+
+    row(ICO.goal, 'Obiettivo commerciale', obiett ? _esc(obiett) : 'Non compilato',       !obiett,         6)+
+    row(ICO.note, 'Descrizione',           descr ? _esc(descr) : 'Non compilata',         !descr,          7)+
+  '</div>';
+
+  return '<div class="onb-review">'+
+    '<div class="idc">'+
+      '<div class="idc-head">'+
+        '<button type="button" class="idc-emblem" onclick="onbEditStep(3)" aria-label="Modifica settore">'+emblemIco+'</button>'+
+        '<div class="idc-id">'+
+          '<div class="idc-name">'+(azienda ? _esc(azienda) : 'La tua azienda')+'</div>'+
+          '<div class="idc-role">'+_esc(roleLine)+'</div>'+
+        '</div>'+
+        '<button type="button" class="idc-badge" onclick="onbEditStep(0)" aria-label="Modifica modello di business">'+modelShort+'</button>'+
+      '</div>'+
+      split + stats + rows +
+    '</div>'+
+  '</div>';
 }
 
 /* --- passo: descrizione libera --- */

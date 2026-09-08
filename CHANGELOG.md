@@ -7,6 +7,35 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Riepilogo → "carta d'identità" azienda — 2026-09-08 — 🟡 in discussione
+
+Il passo finale `review` non è più un elenco chiave/valore ma una **card
+identità** (ispirazione: profile card tipo Dribbble mandata da Nick). Solo
+`onbRenderReview()` + CSS `.idc*`; struttura dati e flusso (`onbEditStep` /
+`onbEditReturn`) invariati.
+
+- **Header**: emblema con l'**icona del settore** (riquadro arrotondato brand,
+  `sectorIco()`) in alto a sx; **badge scuro** col modello (`B2B` / `B2C` /
+  `B2B · B2C`) in alto a dx; **nome azienda** grande bold corsivo + riga
+  ruolo · settore sotto.
+- **Barra split B2B/B2C** bicolore (inchiostro / rosso) sotto l'header, solo se
+  modello = "Entrambe", con le percentuali.
+- **3 stat-tile** icona + numero + label: Fatturato · Dipendenti · Clienti/anno
+  (dal passo Dimensione). Stato vuoto = "—". Su < 400px vanno a 2 colonne e la
+  terza diventa una riga piena.
+- **Righe dettaglio** con chip-icona brand: Referente · Canali (come pill) ·
+  Obiettivo · Descrizione.
+- **Ogni elemento è modificabile**: emblema → Settore, badge → Modello, tile →
+  Dimensione, righe → passo relativo. Le tile mostrano una matita (sempre
+  visibile su touch, in hover su desktop); le righe tengono il bottone
+  "Modifica". `onbEditStep(i)` → correggi → torni dritto al riepilogo.
+
+Mobile-first: verificato via CDP a 360 / 390 / 1280px su card piena e card con
+soli campi obbligatori (stati vuoti) + round-trip di modifica di una tile →
+zero scroll orizzontale, ritorno al riepilogo OK.
+
+---
+
 ## Round feedback Michele — 2026-09-08 — 🟡 in discussione
 
 Sette richieste dalla review vocale. Nessuna modifica a `QUESTIONS`, `DIMS`,

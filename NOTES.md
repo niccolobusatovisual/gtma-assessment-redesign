@@ -18,7 +18,7 @@
 | `<script>` #2 | GSAP 3.12.5 incollato inline, stesso motivo (agg. dal 2026-09-08). Aggiornare ri-scaricando `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js` |
 | `<style>` | tutto il CSS inline |
 | markup `<body>` | le schermate |
-| `<script>` #3 | logica applicativa in JS vanilla: helper GSAP (`gfrom/gto/gcount`, fallback se GSAP assente), `QUESTIONS`, `DIMS`, scoring, branching per segmento, render schermate (onboarding con passo `review`, rivelazione progressiva domande `syncQuestionReveal`, risultati a 2 colonne), admin |
+| `<script>` #3 | logica applicativa in JS vanilla: helper GSAP (`gfrom/gto/gcount`, fallback se GSAP assente), `QUESTIONS`, `DIMS`, scoring, branching per segmento, render schermate (onboarding con passo `review` reso come "carta d'identità" azienda `.idc` in `onbRenderReview`, rivelazione progressiva domande `syncQuestionReveal`, risultati a 2 colonne), admin |
 
 ## Flusso schermate (single-page, JS mostra/nasconde i `.screen`)
 1. `s_locked` — gate con codice d'accesso (`?c=...`)
