@@ -11,13 +11,14 @@
 - `index.html` = copia di lavoro del redesign (quella pubblicata sul banco di prova).
 - È un file **statico servito da nginx**: quello che scarichi È il sorgente completo. Nessun build, nessun framework.
 
-## Com'è fatto (un solo file, 2280 righe, ~323 KB)
-| Righe | Contenuto |
-|-------|-----------|
-| 8–29 | `<script>` Chart.js 4.4.0 incollato inline (CDN bloccato dalla CSP del server) |
-| 30–375 | `<style>` — tutto il CSS inline (~345 righe) |
-| 377–573 | markup `<body>` — le schermate |
-| 574–2134 | `<script>` — logica applicativa in JS vanilla (~1560 righe): `QUESTIONS`, `DIMS`, scoring, branching per segmento, render schermate, admin |
+## Com'è fatto (un solo file statico, ~430 KB)
+| Blocco | Contenuto |
+|--------|-----------|
+| `<script>` #1 | Chart.js 4.4.0 incollato inline (CDN bloccato dalla CSP del server) |
+| `<script>` #2 | GSAP 3.12.5 incollato inline, stesso motivo (agg. dal 2026-09-08). Aggiornare ri-scaricando `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js` |
+| `<style>` | tutto il CSS inline |
+| markup `<body>` | le schermate |
+| `<script>` #3 | logica applicativa in JS vanilla: helper GSAP (`gfrom/gto/gcount`, fallback se GSAP assente), `QUESTIONS`, `DIMS`, scoring, branching per segmento, render schermate (onboarding con passo `review`, rivelazione progressiva domande `syncQuestionReveal`, risultati a 2 colonne), admin |
 
 ## Flusso schermate (single-page, JS mostra/nasconde i `.screen`)
 1. `s_locked` — gate con codice d'accesso (`?c=...`)

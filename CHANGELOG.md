@@ -7,6 +7,64 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Round feedback Michele — 2026-09-08 — 🟡 in discussione
+
+Sette richieste dalla review vocale. Nessuna modifica a `QUESTIONS`, `DIMS`,
+scoring o branching: solo markup + CSS + funzioni di render.
+
+1. **Colore della risposta selezionata = rosso del logo.** Le celle risposta
+   (`.a-cell.sel`) ora hanno sfondo `--brand` (`#f71e44`, il rosso del logo)
+   invece di `--brand-dark`. Tolto lo stile inline `background:var(--brand-dark)`
+   da `renderQuestions`/`selectOpt`: il colore è tutto in CSS.
+
+2. **Icone sui settori.** Il passo "Settore" dell'onboarding: le chip di
+   suggerimento ora hanno un'icona lineare dedicata per settore
+   (`SECTOR_ICO` + `sectorIco()`), stile coerente col resto (`_ic`). La chip
+   che corrisponde al valore digitato si evidenzia (`.onb-chip.on`).
+
+3. **Niente più "scatto" alla selezione.** Le selezioni dentro un passo
+   dell'onboarding (`onbSetModel`, `onbToggleCb`, `onbSetGoal`, `onbChip`)
+   aggiornavano l'interfaccia ri-eseguendo `renderOnbStep()` → l'intero passo
+   veniva ricostruito e l'animazione `onbIn` ripartiva (sembrava un reload).
+   Ora aggiornano **solo** la card/chip toccata (via `data-*` attributi).
+   L'animazione CSS `onbIn` è stata spostata su `html.no-gsap .onb-step`
+   (fallback); con GSAP la transizione fra passi è esplicita.
+
+4. **Domande una alla volta.** Le sezioni mostravano tutte le domande insieme.
+   Ora `syncQuestionReveal()` mostra solo le domande già risposte + la prima
+   ancora senza risposta; quando ne rispondi una, la card successiva compare
+   (fade GSAP) e viene portata nel viewport. "Continua" resta bloccato finché
+   non sono tutte compilate (invariato).
+
+5. **Schermata risultati riorganizzata.** Layout a due colonne su desktop:
+   **grafico grande a sinistra** (`.chart-box` alto fino a 620px,
+   `maintainAspectRatio:false`, sticky durante lo scroll) e **statistiche a
+   destra** (tessera punteggio complessivo + dettaglio per dimensione, più
+   compatto). Su < 900px torna a colonna singola. **CTA resa prominente**:
+   blocco rosso pieno `.res-cta` subito sotto l'hero, titolo grande + bottone
+   bianco grande "Prenota il confronto"; la CTA in fondo (`nav`) resta.
+   Stampa/PDF: il layout torna a colonna singola (regole `@media print`
+   aggiornate, + fix `#s9` → `#s_results`).
+
+6. **Riepilogo di fine onboarding.** Nuovo passo finale `review`: card con
+   tutti i dati inseriti, ognuno con "Modifica" che porta **dritto** a quel
+   passo (`onbEditStep`); al primo "Continua"/"Indietro" valido si torna al
+   Riepilogo (`onbEditReturn`), senza indietro-indietro. "Inizia l'assessment"
+   parte da qui.
+
+7. **GSAP.** Libreria `gsap` 3.12.5 **incorporata inline** nell'`<head>`
+   (stesso motivo di Chart.js: la CSP `script-src` del server blocca i CDN).
+   Usata per: transizione fra i passi dell'onboarding, comparsa progressiva
+   delle domande, ingresso e conta-su dei numeri nella schermata risultati,
+   pulse della CTA. Tutti gli helper (`gfrom` / `gto` / `gcount`) degradano
+   senza errori se GSAP non è caricato e rispettano `prefers-reduced-motion`.
+
+Mobile-first: verificato a 390px (viewport reale via CDP) su onboarding,
+riepilogo, domande e risultati — **zero scroll orizzontale**. Ricontrollato a
+1120 / 1440.
+
+---
+
 ## Baseline
 - **2026-09-07** — importato snapshot del file live (`last-modified` server: 2026-09-03)
   come `original-2026-09-03.html`. `index.html` parte identico.
