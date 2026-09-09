@@ -7,6 +7,24 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Ritocchi Nick — 2026-09-09 (9) — 🟡 in discussione
+
+- **Logo Keymove cliccabile** → apre `https://www.keymove.it/`. Il logo era un
+  `<span>`, ora è un `<a>`. L'ingresso nascosto al pannello Setup (5 click rapidi)
+  è passato dal logo Keymove al **marchio RR** (`#rrLogo`); `?setup` nell'URL resta.
+- **Sotto B2B / B2C** un sottotitolo: "Mercati industriali" / "Anche il mondo retail".
+- **Sintesi valutativa**, riga di chiusura: "Rispetto al benchmark di settore, ci
+  sono sempre margini di miglioramento. Contattaci, senza impegno, per approfondire
+  ulteriormente."
+- **CTA in fondo ai risultati**: da "Prenota il confronto" a **"Chiamaci"** (icona
+  telefono). Href ancora alla pagina contatti dello studio — quando c'è un numero
+  si può mettere `tel:`.
+- **Condividi**: `shareLink()` ora restituisce un link pulito (solo origine + path
+  + `?c=<codice>`), senza `?dev` / `?setup` / hash. I risultati non sono mai
+  nell'URL, quindi si condivide solo l'assessment.
+
+---
+
 ## Logo Keymove corretto — 2026-09-09 (8) — 🟡 in discussione
 
 Sostituito il wordmark Keymove con la versione corretta fornita da Nick: quello
