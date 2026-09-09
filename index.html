@@ -3510,6 +3510,11 @@ function devGo(target) {
     if (on) sessionStorage.setItem('gma_dev', '1');
   } catch (e) {}
   if (!on) return;
+  // il markup della barra sta in fondo al body, dopo questo script: aspetta il DOM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDev);
+    return;
+  }
   var bar = document.getElementById('devbar');
   if (!bar) return;
   bar.hidden = false;
