@@ -67,5 +67,12 @@ caricano, `HAS_DRAWSVG` / `HAS_MORPHSVG` tornano `false` e gli effetti degradano
   "Inizia l'assessment" della welcome chiama `startAssessment()`.
   Riutilizzabile: `wipeTransition(function(){ /* cambia schermata */ })`.
 
+## Da rimuovere prima del rilascio
+
+- **Barra DEV** (`?dev` nell'URL): `initDev()`, `devGo()`, `devFill()`, markup
+  `#devbar`, CSS `.devbar/.dev-*`. Serve solo alla review interna.
+- **Testi provvisori** di privacy e termini (`LEGAL` in JS) — da far validare.
+- **`requestPdf()`** è un segnaposto: manca l'endpoint che genera il PDF e lo invia.
+
 ## Cosa NON toccare nel redesign
 `QUESTIONS`, `DIMS`, matematica benchmark/target, branching per segmento — è il dominio del collega consulente. Il redesign lavora su markup + CSS + funzioni di render delle schermate.

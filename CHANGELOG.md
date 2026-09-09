@@ -7,6 +7,44 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Round correzioni Nick — 2026-09-09 (5) — 🟡 in discussione
+
+**Landing rifatta con una gerarchia esplicita.** Ordine di lettura: occhiello
+("Keymove · accesso su invito") → titolo su 2 righe con la parola-chiave in rosso →
+sommario → CTA grande → **fascia dei numeri** (un blocco unico con filetti divisori,
+non tre voci sciolte) → due **schede con icona**, titolo e testo, riscritte più corte
+per bilanciarle → pastiglie delle sei dimensioni → note legali. Nonostante più aria,
+resta a **zero scroll a 1440×900**.
+
+**Condividi = condivisione vera del link** (modello YouTube). La modale non manda più
+un invito via e-mail: mostra sei **destinazioni** (WhatsApp, LinkedIn, E-mail, X,
+Facebook, Telegram — semplici URL di intent), il **link con pulsante Copia**
+(`navigator.clipboard`, con feedback "Copiato") e, dove il browser lo supporta,
+**"Altre app…"** che apre il foglio di condivisione nativo (`navigator.share`).
+
+**Schermate di caricamento:** tolta la barra di avanzamento, restano **solo i loghi**
+che si trasformano. Durata portata a **2,5 s** su entrambe.
+
+**Mobile — più respiro.** `.screen` passa da 10px a `clamp(16px,4.5vw,20px)` di
+padding laterale (e da 8px a 16px sotto i 420px): testi, campi e pulsanti non toccano
+più il bordo. Ritoccati anche header (18px), card (18px) e nav sticky.
+
+**Mobile — progress bar più grande e leggibile.** La riga informativa passa **sopra** i
+segmenti: nome della sezione grande e in grassetto a sinistra, avanzamento
+("3 di 7 risposte") sotto, e **numero di sezione in una pastiglia scura allineata a
+destra** ("2/6"). Track da 3px a 6px, puntino da 10px a 14px, più padding.
+
+**⚠️ Barra DEV provvisoria.** Con `?dev` nell'URL compare in basso a sinistra un
+pulsante che apre l'elenco delle schermate: si salta dove si vuole senza compilare
+nulla (i dati di esempio vengono riempiti da `devFill()`). C'è una spunta **"con
+schermata di caricamento"** per rivedere i loader a ogni salto. Resta attiva per la
+sessione (sessionStorage). **DA RIMUOVERE prima del rilascio** — cerca `initDev`,
+`devGo`, `devFill`, `.devbar`.
+
+Verificato via CDP a 390 / 1440px: zero scroll orizzontale, zero errori in console.
+
+---
+
 ## Round correzioni Nick — 2026-09-09 (4) — 🟡 in discussione
 
 **Testi.** Adottati i contenuti del documento *"Testi template questionario 02.09.26"*

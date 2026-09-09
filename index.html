@@ -114,15 +114,21 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .stp-track i{display:block;width:0;height:100%;border-radius:3px;background:var(--brand);transition:width .33s cubic-bezier(.4,0,.2,1)}
 .stp-dot{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--brand);transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(247,30,68,.16);transition:left .33s cubic-bezier(.4,0,.2,1),top .3s ease;z-index:2}
 .stp-flag{position:absolute;left:0;bottom:100%;margin-bottom:5px;transform:translateX(-50%);white-space:nowrap;font-size:.67rem;font-weight:700;letter-spacing:.2px;color:var(--ink);pointer-events:none;transition:left .33s cubic-bezier(.4,0,.2,1),opacity .25s ease}
-.stp-mini{display:none;margin-top:6px;font-size:.72rem;color:var(--text-light)}
-.stp-mini b{color:var(--ink);font-weight:600}
+.stp-mini{display:none}
 @media(max-width:720px){
-  .progress-wrap{padding:7px 14px 8px}
+  /* su mobile lo spazio verticale abbonda: barra più spessa e riga informativa
+     grande sopra, col numero di sezione allineato a destra */
+  .progress-wrap{padding:12px 18px 14px}
   #stepper[data-mode="asm"]{padding-top:0}
-  .stp-row{gap:4px}
+  .stp-row{gap:5px}
   .stp-lbl,.stp-flag{display:none}
-  .stp-track{height:3px}
-  .stp-mini{display:block}
+  .stp-track{height:6px;border-radius:4px}
+  .stp-dot{width:14px;height:14px;box-shadow:0 0 0 4px rgba(247,30,68,.18)}
+  .stp-mini{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .stp-mini-l{flex:1;min-width:0}
+  .stp-mini-l b{display:block;font-size:.95rem;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stp-mini-l span{display:block;font-size:.73rem;color:var(--text-light);margin-top:3px}
+  .stp-mini-num{flex-shrink:0;background:var(--ink);color:#fff;border-radius:999px;padding:6px 13px;font-size:.75rem;font-weight:800;letter-spacing:.4px;font-variant-numeric:tabular-nums}
 }
 
 /* ── Screens ── */
@@ -131,38 +137,51 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 
 /* ── Welcome ── */
 /* ══════════ WELCOME / PRESENTAZIONE (s0) — mobile-first ══════════ */
-/* Compattata (2026-09-09): niente badge, CTA unica grande, ritmo verticale
-   ridotto per stare in un viewport desktop senza scroll. */
-#s0{max-width:780px;position:relative}
-#s0::before{content:"";position:absolute;inset:-24px 0 auto;height:60%;background-image:radial-gradient(var(--gray) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse 75% 100% at 50% 0,#000,transparent 72%);mask-image:radial-gradient(ellipse 75% 100% at 50% 0,#000,transparent 72%);opacity:.7;pointer-events:none;z-index:0}
-.w0{position:relative;z-index:1;text-align:center;padding:clamp(6px,1.6vw,11px) 0 clamp(10px,2vw,14px)}
-.w0-title{font-size:clamp(1.75rem,5vw,2.45rem);line-height:1.14;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0 auto clamp(9px,2vw,13px);max-width:24ch}
-.w0-hl{background:var(--brand-wash);color:var(--brand);border-radius:10px;padding:.02em .16em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.w0-sub{font-size:clamp(.93rem,2.2vw,1.02rem);line-height:1.55;color:var(--text-light);max-width:64ch;margin:0 auto clamp(14px,2.6vw,18px)}
+/* Gerarchia: occhiello → titolo → sommario → CTA → numeri → schede → aree → note.
+   Ogni blocco ha un peso tipografico diverso, così la lettura ha un ordine. */
+#s0{max-width:840px;position:relative}
+#s0::before{content:"";position:absolute;inset:-24px 0 auto;height:52%;background-image:radial-gradient(var(--gray) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse 72% 100% at 50% 0,#000,transparent 70%);mask-image:radial-gradient(ellipse 72% 100% at 50% 0,#000,transparent 70%);opacity:.65;pointer-events:none;z-index:0}
+.w0{position:relative;z-index:1;text-align:center;padding:clamp(12px,2.6vw,20px) 0 clamp(12px,2.4vw,18px)}
+
+.w0-eyebrow{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-light);background:#fff;border:1px solid var(--gray);border-radius:999px;padding:6px 15px;margin-bottom:clamp(12px,2.4vw,16px)}
+.w0-title{font-size:clamp(1.95rem,5.4vw,2.75rem);line-height:1.08;font-weight:800;letter-spacing:-.03em;color:var(--ink);margin:0 auto clamp(12px,2.2vw,16px)}
+.w0-hl{color:var(--brand)}
+.w0-sub{font-size:clamp(.97rem,2.2vw,1.08rem);line-height:1.58;color:var(--text-light);max-width:64ch;margin:0 auto clamp(18px,3.2vw,24px)}
 .w0-sub strong{color:var(--ink);font-weight:700}
-/* CTA unica e prominente */
-.w0-cta{display:flex;justify-content:center;margin-bottom:10px}
-.w0-cta-main{min-height:56px;padding:0 clamp(28px,5vw,44px);font-size:clamp(1rem,2.4vw,1.1rem);font-weight:800;border-radius:999px;box-shadow:0 14px 30px -12px rgba(247,30,68,.65)}
+
+.w0-cta{display:flex;justify-content:center;margin-bottom:clamp(20px,3.8vw,28px)}
+.w0-cta-main{min-height:56px;padding:0 clamp(30px,5vw,46px);font-size:clamp(1rem,2.4vw,1.1rem);font-weight:800;border-radius:999px;box-shadow:0 16px 34px -14px rgba(247,30,68,.7)}
 .w0-cta-main svg{width:20px;height:20px}
-/* riga stats: 6 dimensioni · N domande · ~10' */
-.w0-stats{display:flex;justify-content:center;gap:clamp(10px,3vw,20px);margin:clamp(15px,3vw,21px) auto clamp(11px,2.2vw,15px);flex-wrap:wrap}
-.w0-stat{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:96px}
-.w0-stat-n{font-size:clamp(1.4rem,4vw,1.85rem);font-weight:800;color:var(--brand);line-height:1;letter-spacing:-.02em}
-.w0-stat-k{font-size:.7rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-light)}
-.w0-feats{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(9px,2vw,13px);text-align:left;margin-bottom:clamp(12px,2.4vw,16px)}
-.w0-feat{background:#fff;border:1px solid var(--gray);border-radius:13px;padding:clamp(11px,2.2vw,15px)}
-.w0-feat-k{font-size:.64rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--brand);margin-bottom:6px}
-.w0-feat-t{font-size:.83rem;line-height:1.42;color:var(--ink);font-weight:500}
-.w0-areas{margin-bottom:clamp(12px,2.4vw,15px)}
-.w0-areas-k{font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:9px}
+
+/* fascia dei numeri: un blocco unico, separato da filetti */
+.w0-stats{display:grid;grid-template-columns:repeat(3,1fr);background:#fff;border:1px solid var(--gray);border-radius:16px;overflow:hidden;margin-bottom:clamp(12px,2.4vw,17px)}
+.w0-stat{padding:clamp(12px,2.4vw,15px) clamp(6px,2vw,12px);display:flex;flex-direction:column;align-items:center;gap:4px}
+.w0-stat + .w0-stat{border-left:1px solid var(--gray)}
+.w0-stat-n{font-size:clamp(1.5rem,4.4vw,2rem);font-weight:800;color:var(--brand);line-height:1;letter-spacing:-.03em}
+.w0-stat-k{font-size:.72rem;font-weight:600;line-height:1.35;letter-spacing:.3px;text-transform:uppercase;color:var(--text-light)}
+
+/* schede informative */
+.w0-feats{display:grid;grid-template-columns:1fr 1fr;gap:clamp(11px,2.2vw,15px);text-align:left;margin-bottom:clamp(14px,2.6vw,19px)}
+.w0-feat{background:#fff;border:1px solid var(--gray);border-radius:16px;padding:clamp(14px,2.6vw,18px)}
+.w0-feat-h{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.w0-feat-ic{flex-shrink:0;display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--brand-wash);color:var(--brand)}
+.w0-feat-ic svg{width:18px;height:18px}
+.w0-feat-t{font-size:.98rem;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.w0-feat-d{font-size:.87rem;line-height:1.55;color:var(--text-light)}
+.w0-feat-d strong{color:var(--ink);font-weight:700}
+
+.w0-areas{margin-bottom:clamp(14px,2.6vw,19px)}
+.w0-areas-k{font-size:.68rem;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--text-light);margin-bottom:9px}
 .dim-pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
-.pill{background:#fff;border:1px solid var(--gray);color:var(--text-light);padding:5px 12px;border-radius:999px;font-size:.77rem;font-weight:500}
-/* Privacy / termini */
-.w0-legal{border-top:1px solid var(--gray);padding-top:clamp(9px,1.8vw,11px)}
-.w0-legal-txt{font-size:.79rem;line-height:1.55;color:var(--text-light)}
+.pill{background:#fff;border:1px solid var(--gray);color:var(--text-light);padding:6px 13px;border-radius:999px;font-size:.79rem;font-weight:500}
+
+/* privacy / termini */
+.w0-legal{border-top:1px solid var(--gray);padding-top:clamp(11px,2.2vw,14px)}
+.w0-legal-txt{font-size:.8rem;line-height:1.6;color:var(--text-light)}
 .w0-legal-lnk{background:none;border:none;padding:0;font:inherit;color:var(--brand);font-weight:700;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .w0-legal-lnk:hover{color:var(--brand-dark)}
-.w0-legal-meta{font-size:.71rem;line-height:1.5;color:var(--text-light);opacity:.8;margin-top:5px;max-width:96ch;margin-left:auto;margin-right:auto}
+.w0-legal-meta{font-size:.72rem;line-height:1.55;color:var(--text-light);opacity:.75;margin-top:7px;max-width:96ch;margin-left:auto;margin-right:auto}
+
 @media(max-width:620px){
   .w0-cta{display:block}
   .w0-cta-main{width:100%}
@@ -173,15 +192,13 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .loader{position:fixed;inset:0;z-index:9500;background:var(--gray-light);display:grid;place-items:center;padding:24px}
 .loader[hidden]{display:none}
 .loader-inner{text-align:center;width:min(340px,100%)}
-.loader-logos{position:relative;height:clamp(46px,11vw,62px);display:grid;place-items:center;margin-bottom:clamp(20px,5vw,28px)}
+.loader-logos{position:relative;height:clamp(52px,12vw,70px);display:grid;place-items:center;margin-bottom:clamp(22px,5vw,30px)}
 .loader-mark{position:absolute;inset:0;display:grid;place-items:center}
 .loader-km{color:var(--brand)}
 .loader-km svg{height:clamp(28px,7vw,38px);width:auto;display:block}
 .loader-rr{color:var(--ink)}
 .loader-rr svg{height:clamp(44px,10.5vw,58px);width:auto;display:block}
-.loader-msg{font-size:clamp(.95rem,2.4vw,1.08rem);font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:clamp(16px,4vw,22px)}
-.loader-track{height:4px;border-radius:3px;background:var(--gray);overflow:hidden}
-.loader-fill{height:100%;width:0;border-radius:3px;background:var(--brand)}
+.loader-msg{font-size:clamp(.95rem,2.4vw,1.08rem);font-weight:700;color:var(--ink);line-height:1.4}
 
 /* ── Tendina di transizione a curva (GSAP MorphSVG, con fallback core) ── */
 .wipe{position:fixed;inset:0;z-index:9999;pointer-events:none;visibility:hidden}
@@ -488,6 +505,38 @@ textarea{resize:vertical;min-height:72px}
 .pwd-err{color:var(--red);font-size:.78rem;margin-bottom:12px;min-height:18px;font-weight:600}
 .pwd-actions{display:flex;gap:8px}
 .pwd-actions .btn{flex:1;padding:10px}
+/* ── ⚠️ Barra DEV provvisoria (solo con ?dev) ── */
+.devbar{position:fixed;left:14px;bottom:14px;z-index:9600;font-family:inherit}
+.devbar[hidden]{display:none}
+.dev-toggle{background:var(--ink);color:#fff;border:none;border-radius:999px;padding:9px 15px;font-family:inherit;font-size:.7rem;font-weight:800;letter-spacing:1px;cursor:pointer;box-shadow:0 8px 22px -8px rgba(0,0,0,.5)}
+.dev-panel{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:250px;background:#fff;border:1px solid var(--gray);border-radius:14px;padding:13px;box-shadow:0 18px 44px -14px rgba(0,0,0,.35)}
+.devbar.open .dev-panel{display:block}
+.dev-k{font-size:.62rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--text-light);margin-bottom:9px}
+.dev-btns{display:flex;flex-direction:column;gap:4px;margin-bottom:11px}
+.dev-btns button{text-align:left;background:var(--gray-light);border:1px solid var(--gray);border-radius:9px;padding:8px 11px;font-family:inherit;font-size:.79rem;font-weight:600;color:var(--ink);cursor:pointer}
+.dev-btns button:hover{border-color:var(--brand);color:var(--brand)}
+.dev-chk{display:flex;align-items:center;gap:7px;font-size:.73rem;color:var(--text-light);cursor:pointer}
+
+/* ── Foglio "Condividi" ── */
+.share-box{max-width:420px}
+.share-box .pwd-head{justify-content:space-between}
+.share-targets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:18px}
+.share-t{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 4px;border-radius:12px;text-decoration:none;transition:background .15s}
+.share-t:hover{background:var(--gray-light)}
+.share-t-ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center}
+.share-t-ic svg{width:22px;height:22px;fill:none}
+.share-t-l{font-size:.72rem;font-weight:600;color:var(--text-light);text-align:center}
+.share-link{display:flex;align-items:center;gap:8px;background:var(--gray-light);border:1.5px solid var(--gray);border-radius:12px;padding:5px 5px 5px 13px}
+.share-link input{flex:1;min-width:0;border:none;background:none;padding:0;font-size:.83rem;color:var(--text-light);font-family:inherit;text-overflow:ellipsis}
+.share-link input:focus{outline:none}
+.share-copy{flex-shrink:0;background:var(--brand);color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:inherit;font-size:.83rem;font-weight:700;cursor:pointer;transition:background .16s}
+.share-copy:hover{background:var(--brand-dark)}
+.share-copy.done{background:#188a56}
+.share-native{width:100%;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px;background:none;border:1.5px solid var(--gray);border-radius:12px;padding:12px;font-family:inherit;font-size:.85rem;font-weight:600;color:var(--ink);cursor:pointer}
+.share-native:hover{border-color:var(--ink)}
+.share-native svg{width:17px;height:17px}
+.share-native[hidden]{display:none}
+
 /* ── Modale privacy / termini (testi provvisori) ── */
 .legal-box{max-width:640px}
 .legal-box .pwd-head{justify-content:space-between}
@@ -578,16 +627,16 @@ textarea{resize:vertical;min-height:72px}
 
 /* ══════════ RESPONSIVE / MOBILE ══════════ */
 @media(max-width:760px){
-  .app-header{padding:10px 14px;gap:10px}
+  .app-header{padding:12px 18px;gap:12px}
   .km-logo svg{height:16px}
   .rr-logo svg{height:21px}
   .hdr-div{height:21px}
   .progress-wrap{padding:7px 14px 8px}
   .dim-strip{padding:8px 12px;scroll-snap-type:x proximity}
   .dim-chip{scroll-snap-align:center;font-size:.68rem;padding:5px 10px}
-  .screen{margin:14px auto 24px;padding:0 10px}
+  .screen{margin:16px auto 28px;padding:0 clamp(16px,4.5vw,20px)}
 
-  .card{padding:18px 16px}
+  .card{padding:20px 18px}
   .frow{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
 
   .sec-head{padding:2px 2px 14px}
@@ -596,7 +645,7 @@ textarea{resize:vertical;min-height:72px}
   .a-cell{-webkit-tap-highlight-color:transparent}
 
   /* Navigazione sempre raggiungibile (non sui risultati, dove scorrerebbe sopra i grafici) */
-  .screen:not(#s_results) .nav{position:sticky;bottom:0;z-index:50;padding:10px 0 12px;
+  .screen:not(#s_results) .nav{position:sticky;bottom:0;z-index:50;padding:12px 0 14px;
        background:rgba(250,248,248,.97);border-top:1px solid var(--gray)}
   .nav{margin-top:14px;gap:10px;flex-wrap:wrap}
   .nav .btn{flex:1 1 40%;min-height:48px;padding:13px 12px;text-align:center}
@@ -610,7 +659,7 @@ textarea{resize:vertical;min-height:72px}
   .setup-panel,.pwd-modal,.share-modal{width:calc(100vw - 24px);max-height:88vh;overflow-y:auto}
 }
 @media(max-width:420px){
-  .screen{padding:0 8px}
+  .screen{padding:0 16px}
   .a-cell{font-size:.88rem}
 }
 
@@ -753,7 +802,6 @@ textarea.onb-input{min-height:108px;resize:vertical}
       <span class="loader-mark loader-rr" id="loaderRr"><svg viewBox="0 0 74.44 74.44" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M51.99,24.37c-5.08-.58-8.82,1.9-11.41,6.27,0,0,0,0,0,0l-9.27,13.41s-1.32,1.89-1.61,2.22c-.5.59-1.13,1.04-1.75,1.51-1.23.93-2.68,1.3-4.23,1.23-3.66-.18-7.15-3.22-7.57-6.86-.54-4.68,3.12-8.65,7.68-8.65,1.55,0,2.98.45,4.19,1.23.48.31.6.96.26,1.43l-5.2,7.26c-.39.54,0,1.3.67,1.3h1.51c.23,0,.46-.11.59-.3l4.83-6.75s0,0,0,0l2.1-2.94,5.21-7.29,2.12-2.96c.2-.28,0-.66-.34-.66h-2.22c-.28,0-.54.14-.71.36l-4.03,5.63c-.15.21-.39.34-.65.34h-5.44c-.44,0-.81-.36-.81-.81v-4.66c0-.47-.39-.86-.86-.86h-1.76c-.47,0-.86.39-.86.86v5.54s-.01.04-.03.04c-5.64.72-9.95,5.67-9.65,11.57.28,5.52,4.7,10.05,10.21,10.47,4.36.33,8.24-1.86,10.33-5.27l10.82-15.7c.83-1.33,1.81-2.14,2.37-2.5,1.66-1.05,3.74-1.48,5.91-.98,2.89.66,5.17,2.98,5.77,5.88,1.04,4.99-2.76,9.39-7.56,9.39-1.55,0-2.98-.45-4.19-1.23-.48-.31-.6-.96-.26-1.43l5.2-7.26c.39-.54,0-1.3-.67-1.3h-1.45c-.28,0-.53.13-.7.36l-4.79,6.7s0,0,0,0l-2.1,2.94-5.21,7.29-1.62,2.26c-.41.57,0,1.36.7,1.36h1.36c.28,0,.54-.13.7-.36l4.03-5.63c.15-.21.4-.34.66-.34h5.44c.44,0,.81.36.81.81v4.66c0,.47.39.86.86.86h1.76c.47,0,.86-.39.86-.86v-5.54s.01-.04.03-.04c6.68-.86,11.5-7.65,8.99-14.92-1.21-3.51-5.34-6.65-9.03-7.07Z"/><circle cx="37.22" cy="37.22" r="35" fill="none" stroke="currentColor" stroke-width="4.44" stroke-miterlimit="10"/></svg></span>
     </div>
     <div class="loader-msg" id="loaderMsg"></div>
-    <div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div>
   </div>
 </div>
 
@@ -797,7 +845,9 @@ textarea.onb-input{min-height:108px;resize:vertical}
 
 <div class="screen" id="s0">
   <div class="w0">
-    <h1 class="w0-title">Questionario di <span class="w0-hl">autovalutazione 2R</span></h1>
+    <div class="w0-eyebrow">Keymove · accesso su invito</div>
+
+    <h1 class="w0-title">Questionario di<br><span class="w0-hl">autovalutazione 2R</span></h1>
 
     <p class="w0-sub">
       Uno strumento di analisi per leggere la tua organizzazione su <strong>sei dimensioni chiave</strong>,
@@ -816,16 +866,12 @@ textarea.onb-input{min-height:108px;resize:vertical}
 
     <div class="w0-feats">
       <div class="w0-feat">
-        <div class="w0-feat-k">Due riferimenti</div>
-        <div class="w0-feat-t">Per ciascuna dimensione ricevi un punteggio su due riferimenti: il
-          <strong>benchmark ideale di mercato</strong>, valido per tutte le tipologie e dimensioni di
-          azienda, e un <strong>target di riferimento</strong> costruito su 100+ anni di esperienza
-          con clienti B2B e B2C.</div>
+        <div class="w0-feat-h"><span class="w0-feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.4"/><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2"/></svg></span><h3 class="w0-feat-t">Due riferimenti</h3></div>
+        <p class="w0-feat-d">Per ogni dimensione un punteggio confrontato con il <strong>benchmark ideale di mercato</strong> e con un <strong>target</strong> costruito su 100+ anni di esperienza con clienti B2B e B2C.</p>
       </div>
       <div class="w0-feat">
-        <div class="w0-feat-k">Output</div>
-        <div class="w0-feat-t">Un <strong>report grafico immediato</strong> sulla tua organizzazione.
-          Poi, se ti interessa, contattaci per un confronto dedicato, senza impegno.</div>
+        <div class="w0-feat-h"><span class="w0-feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M7 16v-5M12 16V6M17 16v-8"/></svg></span><h3 class="w0-feat-t">Cosa ottieni</h3></div>
+        <p class="w0-feat-d">Un <strong>report grafico immediato</strong> sulla tua organizzazione. Poi, se ti interessa, un confronto dedicato con lo studio — senza impegno.</p>
       </div>
     </div>
 
@@ -1010,9 +1056,8 @@ function showLoader(msg, mode, ms, done) {
   if (!el) { if (done) done(); return; }
   var km = document.getElementById('loaderKm');
   var rr = document.getElementById('loaderRr');
-  var fill = document.getElementById('loaderFill');
   document.getElementById('loaderMsg').textContent = msg;
-  ms = ms || 2000;
+  ms = ms || 2500;
   el.hidden = false;
 
   if (_loaderTl) { _loaderTl.kill(); _loaderTl = null; }
@@ -1043,12 +1088,7 @@ function showLoader(msg, mode, ms, done) {
           .fromTo(kmPaths, { opacity: .15 }, { opacity: 1, duration: .5, stagger: .07, ease: 'sine.inOut', yoyo: true, repeat: 1 });
       }
     }
-    GSAP.fromTo(fill, { width: '0%' }, { width: '100%', duration: ms / 1000, ease: 'power1.inOut' });
     gfrom(el, { opacity: 0, duration: .2, ease: 'power1.out' });
-  } else {
-    fill.style.transition = 'width ' + (ms / 1000) + 's linear';
-    fill.style.width = '0%';
-    setTimeout(function () { fill.style.width = '100%'; }, 20);
   }
 
   setTimeout(function () { hideLoader(); if (done) done(); }, ms);
@@ -1979,6 +2019,10 @@ function updateProgress(n) { curN = n; renderStepper(); }
 
 /* Costruisce lo scheletro una volta per "modo", poi aggiorna solo gli stili
    (larghezze, posizione di dot/flag): così le transizioni CSS animano. */
+function stpMini(name, sub, num){
+  return '<div class="stp-mini-l"><b>' + name + '</b><span>' + sub + '</span></div>' +
+         '<span class="stp-mini-num">' + num + '</span>';
+}
 function renderStepper(){
   var wrap = document.getElementById('progressWrap'), host = document.getElementById('stepper');
   if(!wrap || !host) return;
@@ -1992,19 +2036,19 @@ function renderStepper(){
     names = ONB.map(function(s){ return ONB_SHORT[s.id] || s.eyebrow; });
     cur = Math.min(onbIndex, ONB.length - 1);
     frac = 0;                       // il dot parte a sinistra; lo "sweep" su Continua lo porta a destra
-    mini = 'Dati azienda · <b>' + names[cur] + '</b> — passo ' + (cur+1) + ' di ' + ONB.length;
+    mini = stpMini(names[cur], 'Passo ' + (cur+1) + ' di ' + ONB.length, (cur+1) + '/' + ONB.length);
   } else {
     names = DIMS.map(function(d){ return DIM_SHORT[d.id] || d.label; });
     if(curN >= RESULT_SCREEN){
       cur = names.length - 1; frac = 1; done = true;
-      mini = '<b>Assessment completato</b>';
+      mini = stpMini('Autovalutazione completata', 'Tutte le sezioni compilate', '✓');
     } else {
       cur = curN - 2;
       var d = DIMS[cur];
       var tot = (((QUESTIONS[d.id] && QUESTIONS[d.id][segment]) || []).length) || 1;
       var ans = ((answers[d.id]) || []).filter(function(x){ return x !== undefined && x !== null; }).length;
       frac = Math.min(1, ans / tot);
-      mini = 'Sezione ' + (cur+1) + ' di ' + DIMS.length + ' · <b>' + d.label + '</b> — ' + ans + '/' + tot + ' risposte';
+      mini = stpMini(d.label, ans + ' di ' + tot + ' risposte', (cur+1) + '/' + DIMS.length);
     }
   }
 
@@ -2016,10 +2060,11 @@ function renderStepper(){
         (mode === 'onb' ? '<span class="stp-lbl">' + n + '</span>' : '') +
         '<span class="stp-track"><i></i></span></div>';
     }).join('');
-    host.innerHTML = '<div class="stp-row">' + segHTML +
+    host.innerHTML = '<div class="stp-mini"></div>' +
+      '<div class="stp-row">' + segHTML +
       '<span class="stp-dot"></span>' +
       (mode === 'asm' ? '<span class="stp-flag"></span>' : '') +
-      '</div><div class="stp-mini"></div>';
+      '</div>';
     host._dot  = host.querySelector('.stp-dot');
     host._flag = host.querySelector('.stp-flag');
   }
@@ -2263,7 +2308,7 @@ function onbNext(skip){
     onbEditReturn = false; onbIndex = ONB.length - 1; renderOnbStep(); return;
   }
   if(onbIndex === ONB.length - 1){
-    showLoader('Stiamo creando il tuo profilo aziendale…', 'alt', 2200, nextFromA);
+    showLoader('Stiamo creando il tuo profilo aziendale…', 'alt', 2500, nextFromA);
     return;
   }
   // Avanza subito: il contenuto cambia all'istante e il puntino (elemento
@@ -2540,7 +2585,7 @@ function nextSection(dimId, currentScreen, nextScreen) {
   if (!allAnswered(dimId)) { w.style.display='block'; return; }
   w.style.display='none';
   if (nextScreen === RESULT_SCREEN) {
-    showLoader('Stiamo raccogliendo le tue risposte…', 'draw', 2400, function(){ goTo(nextScreen); });
+    showLoader('Stiamo raccogliendo le tue risposte…', 'draw', 2500, function(){ goTo(nextScreen); });
     return;
   }
   goTo(nextScreen);
@@ -3423,63 +3468,124 @@ function openLegal(kind) {
 function closeLegal() { document.getElementById('legalOverlay').classList.remove('open'); }
 function closeLegalOnBg(e) { if (e.target === document.getElementById('legalOverlay')) closeLegal(); }
 
+// ══════════════════════════════════════════════════════════════════════
+//  ⚠️ PROVVISORIO — scorciatoie di navigazione per la review interna.
+//  Attivo solo con ?dev nell'URL (poi resta per la sessione). DA RIMUOVERE.
+// ══════════════════════════════════════════════════════════════════════
+function devFill() {
+  _setF('f_compilatore_nome','Marco Rossi'); _setF('f_compilatore_email','marco.rossi@rossiluce.it');
+  _setF('f_consenso','si'); _setF('f_nome','Rossi Illuminazione'); _setF('f_ruolo','Direttore commerciale');
+  _setF('f_settore','Illuminazione'); _setF('f_fatturato','€ 12.000.000'); _setF('f_dip','54');
+  _setF('f_clienti_n','40'); _setF('f_b2b',100); _setF('f_b2c',0);
+  onbModel = 'b2b';
+  var ob = document.getElementById('f_obiettivo'); if (ob) ob.selectedIndex = 2;
+  var de = document.getElementById('f_descr');
+  if (de) de.value = 'Produzione di apparecchi di illuminazione tecnica per il mercato professionale.';
+  document.querySelectorAll('.cb-item input').forEach(function (c, i) {
+    c.checked = i < 2; c.closest('.cb-item').classList.toggle('on', i < 2);
+  });
+  DIMS.forEach(function (d, di) {
+    var qs = (QUESTIONS[d.id] && QUESTIONS[d.id][segment]) || [];
+    answers[d.id] = qs.map(function (q, qi) { return (di + qi + 1) % q.opts.length; });
+  });
+  renderAllQuestions();
+}
+function devGo(target) {
+  document.getElementById('devbar').classList.remove('open');
+  var withLoader = (document.getElementById('devLoader') || {}).checked;
+  var jump = function () {
+    if (target === 'results') { devFill(); goTo(RESULT_SCREEN); }
+    else if (target === 'onb') { goTo(1); }
+    else if (target === 'welcome') { goTo(0); }
+    else { devFill(); goTo(parseInt(target, 10)); }
+  };
+  if (!withLoader || target === 'welcome') { jump(); return; }
+  if (target === 'results') showLoader('Stiamo raccogliendo le tue risposte…', 'draw', 2500, jump);
+  else showLoader('Stiamo creando il tuo profilo aziendale…', 'alt', 2500, jump);
+}
+(function initDev() {
+  var on = false;
+  try {
+    on = new URLSearchParams(window.location.search).has('dev') || sessionStorage.getItem('gma_dev') === '1';
+    if (on) sessionStorage.setItem('gma_dev', '1');
+  } catch (e) {}
+  if (!on) return;
+  var bar = document.getElementById('devbar');
+  if (!bar) return;
+  bar.hidden = false;
+  var rows = [['welcome', 'Landing'], ['onb', 'Onboarding (sezione A)']]
+    .concat(DIMS.map(function (d, i) { return [String(i + 2), 'Sezione ' + (i + 1) + ' \u00b7 ' + (DIM_SHORT[d.id] || d.label)]; }))
+    .concat([['results', 'Risultati']]);
+  document.getElementById('devBtns').innerHTML = rows.map(function (r) {
+    return '<button type="button" onclick="devGo(\'' + r[0] + '\')">' + r[1] + '</button>';
+  }).join('');
+})();
+
+// ── Condividi: foglio con link, copia e app di destinazione ────────────
+// Stessa logica del pannello "Condividi" di YouTube: gli intent social sono
+// semplici URL https, la copia usa navigator.clipboard, e su mobile si può
+// aprire il foglio nativo del sistema (navigator.share).
+var SHARE_TARGETS = [
+  { id:'whatsapp', label:'WhatsApp', color:'#25D366',
+    url:function(u,t){ return 'https://wa.me/?text=' + encodeURIComponent(t + ' ' + u); },
+    ico:'<path d="M20.5 3.5A10.4 10.4 0 0 0 3.6 16.1L2.5 21.5l5.5-1.1a10.4 10.4 0 0 0 12.5-16.9z"/><path d="M8.5 8.4c.3-.7.6-.7.9-.7h.7c.2 0 .5 0 .8.6l1 2.4c.1.3 0 .5-.1.7l-.5.6c-.2.2-.3.4-.1.7a8 8 0 0 0 3.6 3.1c.3.1.5.1.7-.1l.7-.8c.2-.2.4-.2.7-.1l2.2 1.1c.3.2.5.3.5.5s0 1-.4 1.5c-.4.5-1.3 1-2 1-2.9 0-6.1-2.3-7.7-4.6-1.1-1.6-1.6-3-1.6-4.2 0-.9.4-1.5.6-1.7z"/>' },
+  { id:'linkedin', label:'LinkedIn', color:'#0A66C2',
+    url:function(u){ return 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(u); },
+    ico:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.6v.01M11.5 16.5v-6M11.5 13c0-1.4 1-2.5 2.4-2.5s2.6 1 2.6 2.7v3.3"/>' },
+  { id:'email', label:'E-mail', color:'#5c5c68',
+    url:function(u,t){ return 'mailto:?subject=' + encodeURIComponent(t) + '&body=' + encodeURIComponent(t + '\n\n' + u); },
+    ico:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' },
+  { id:'x', label:'X', color:'#111',
+    url:function(u,t){ return 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(t) + '&url=' + encodeURIComponent(u); },
+    ico:'<path d="M4 4l7.5 9.5L4.5 20M20 4l-7.4 8.3L20 20h-4.2L4 4h4.2z"/>' },
+  { id:'facebook', label:'Facebook', color:'#1877F2',
+    url:function(u){ return 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(u); },
+    ico:'<path d="M14.5 21v-7h2.4l.4-3h-2.8V9.2c0-.9.2-1.5 1.5-1.5H17V5.1A19 19 0 0 0 14.9 5c-2.2 0-3.6 1.3-3.6 3.8V11H9v3h2.3v7z"/>' },
+  { id:'telegram', label:'Telegram', color:'#26A5E4',
+    url:function(u,t){ return 'https://t.me/share/url?url=' + encodeURIComponent(u) + '&text=' + encodeURIComponent(t); },
+    ico:'<path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 10-7-6 9"/>' }
+];
+function shareLink() { return window.location.href; }
+function shareTitle() { return 'Questionario di autovalutazione 2R — Keymove'; }
+
 function openShareModal() {
-  // Pre-popola CC con l'e-mail del compilatore se disponibile
-  var compEmail = '';
-  var el = document.getElementById('f_compilatore_email');
-  if (el) compEmail = el.value.trim();
-  document.getElementById('shareCcEmail').value = compEmail;
-  document.getElementById('shareToEmail').value = '';
-  document.getElementById('shareErr').textContent = '';
-  document.getElementById('shareOverlay').classList.add('open');
-  setTimeout(function() { document.getElementById('shareToEmail').focus(); }, 80);
+  var url = shareLink(), title = shareTitle();
+  document.getElementById('shareUrl').value = url;
+  document.getElementById('shareTargets').innerHTML = SHARE_TARGETS.map(function (t) {
+    return '<a class="share-t" href="' + t.url(url, title) + '" target="_blank" rel="noopener">' +
+      '<span class="share-t-ic" style="background:' + t.color + '">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + t.ico + '</svg>' +
+      '</span><span class="share-t-l">' + t.label + '</span></a>';
+  }).join('');
+  var nat = document.getElementById('shareNativeBtn');
+  nat.hidden = !navigator.share;
+  var btn = document.getElementById('shareCopyBtn');
+  btn.textContent = 'Copia'; btn.classList.remove('done');
+
+  var ov = document.getElementById('shareOverlay');
+  ov.classList.add('open');
+  gfrom(ov.querySelector('.pwd-box'), { opacity: 0, y: 20, scale: .97, duration: .3, ease: 'power3.out' });
+  gfrom('#shareTargets .share-t', { opacity: 0, y: 12, duration: .3, stagger: .04, delay: .06, ease: 'power2.out' });
 }
+function closeShare() { document.getElementById('shareOverlay').classList.remove('open'); }
+function closeShareOnBg(e) { if (e.target === document.getElementById('shareOverlay')) closeShare(); }
 
-function closeShare() {
-  document.getElementById('shareOverlay').classList.remove('open');
+function copyShareUrl() {
+  var input = document.getElementById('shareUrl');
+  var btn = document.getElementById('shareCopyBtn');
+  var ok = function () {
+    btn.textContent = 'Copiato'; btn.classList.add('done');
+    gfrom(btn, { scale: .9, duration: .26, ease: 'back.out(2.4)' });
+    showToast('Link copiato negli appunti');
+    setTimeout(function () { btn.textContent = 'Copia'; btn.classList.remove('done'); }, 2200);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(input.value).then(ok).catch(function () { input.select(); document.execCommand('copy'); ok(); });
+  } else { input.select(); document.execCommand('copy'); ok(); }
 }
-
-function closeShareOnBg(e) {
-  if (e.target === document.getElementById('shareOverlay')) closeShare();
-}
-
-function sendShare() {
-  var toEmail = document.getElementById('shareToEmail').value.trim();
-  if (!toEmail || toEmail.indexOf('@') === -1) {
-    document.getElementById('shareErr').textContent = 'Inserisci un indirizzo e-mail valido.';
-    return;
-  }
-  var ccEmail = document.getElementById('shareCcEmail').value.trim();
-  var azienda = (document.getElementById('f_nome') && document.getElementById('f_nome').value.trim()) || '';
-  var compilatore = (document.getElementById('f_compilatore_nome') && document.getElementById('f_compilatore_nome').value.trim()) || '';
-  var firma = compilatore || azienda || 'Studio Guzzetti / Promexa';
-
-  var subject = 'Invito a valutare la tua organizzazione commerciale — GoToMarket Assessment';
-
-  var body =
-    'Gentile,\n\n' +
-    'ho recentemente utilizzato il GoToMarket Assessment di Studio Guzzetti / Promexa ' +
-    'e ritengo possa essere uno strumento utile anche per te.\n\n' +
-    'Il questionario richiede circa 20 minuti e consente di valutare l\'organizzazione commerciale ' +
-    'della tua azienda rispetto al benchmark di mercato, identificando punti di forza e aree di miglioramento ' +
-    'in ' + DIMS.length + ' aree: ' + DIMS.map(function(d){ return d.label; }).join(', ') + '.\n\n' +
-    'Puoi compilare l\'assessment al seguente link:\n' +
-    '→ ' + getAccessUrl() + '\n\n' +
-    'Sono a disposizione per commentare insieme i risultati.\n\n' +
-    'Cordiali saluti,\n' +
-    firma + '\n\n' +
-    '—\n' +
-    'GoToMarket Assessment · Studio Guzzetti / Promexa\n' +
-    'https://www.studioguzzetti.it';
-
-  var mailto = 'mailto:' + encodeURIComponent(toEmail) +
-    '?subject=' + encodeURIComponent(subject) +
-    '&body=' + encodeURIComponent(body);
-  if (ccEmail) mailto += '&cc=' + encodeURIComponent(ccEmail);
-
-  window.location.href = mailto;
-  closeShare();
-  showToast('Client e-mail aperto — invia il messaggio dal tuo programma di posta');
+function nativeShare() {
+  if (!navigator.share) return;
+  navigator.share({ title: shareTitle(), url: shareLink() }).catch(function () {});
 }
 
 // ════════════════════════════════════════════════
@@ -3630,26 +3736,24 @@ function copyAccessUrl() {
 
 <!-- ══════════ SHARE MODAL ══════════ -->
 <div class="pwd-overlay no-print" id="shareOverlay" onclick="closeShareOnBg(event)">
-  <div class="pwd-box" style="max-width:480px">
+  <div class="pwd-box share-box">
     <div class="pwd-head">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg> Condividi Assessment</span>
+      <span>Condividi</span>
+      <button class="pwd-x" onclick="closeShare()" aria-label="Chiudi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <div class="pwd-body">
-      <p>Inserisci l'indirizzo e-mail a cui vuoi inviare l'invito a compilare il GoToMarket Assessment. Riceverai una copia in CC.</p>
-      <div style="margin-bottom:14px">
-        <label class="flabel" style="font-size:.82rem;margin-bottom:5px;display:block">E-mail destinatario *</label>
-        <input type="email" id="shareToEmail" placeholder="es. mario.rossi@azienda.it" onkeydown="if(event.key==='Enter')sendShare()">
+      <div class="share-targets" id="shareTargets"></div>
+      <div class="share-link">
+        <input type="text" id="shareUrl" readonly onclick="this.select()">
+        <button class="share-copy" id="shareCopyBtn" onclick="copyShareUrl()">Copia</button>
       </div>
-      <div style="margin-bottom:14px">
-        <label class="flabel" style="font-size:.82rem;margin-bottom:5px;display:block">La tua e-mail <span style="font-weight:400;color:var(--text-light)">(CC — opzionale)</span></label>
-        <input type="email" id="shareCcEmail" placeholder="es. paolo@studioguzzetti.it">
-      </div>
-      <div class="pwd-err" id="shareErr"></div>
-      <div class="pwd-actions">
-        <button class="btn btn-secondary" onclick="closeShare()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Annulla</button>
-        <button class="btn btn-ghost" onclick="sendShare()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Apri e-mail</button>
-      </div>
+      <button class="share-native" id="shareNativeBtn" onclick="nativeShare()" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m8 8 4-4 4 4"/><path d="M20 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-5"/></svg>
+        Altre app…
+      </button>
     </div>
+  </div>
+</div>
   </div>
 </div>
 
@@ -3667,6 +3771,17 @@ function copyAccessUrl() {
         <button class="btn btn-primary" onclick="closeLegal()">Ho capito</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ⚠️ PROVVISORIO — pannello scorciatoie per la review interna.
+     Compare solo con ?dev nell'URL. DA RIMUOVERE prima del rilascio. -->
+<div class="devbar no-print" id="devbar" hidden>
+  <button class="dev-toggle" onclick="document.getElementById('devbar').classList.toggle('open')" aria-label="Scorciatoie">DEV</button>
+  <div class="dev-panel">
+    <div class="dev-k">Vai a…</div>
+    <div class="dev-btns" id="devBtns"></div>
+    <label class="dev-chk"><input type="checkbox" id="devLoader" checked> con schermata di caricamento</label>
   </div>
 </div>
 
