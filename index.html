@@ -1074,7 +1074,7 @@ function showLoader(msg, mode, ms, done) {
     } else {
       gset(rr, { opacity: 0 }); gset(km, { opacity: 1, scale: 1 });
       if (HAS_DRAWSVG) {
-        gset(kmPaths, { stroke: 'currentColor', strokeWidth: 8 });
+        gset(kmPaths, { stroke: 'currentColor', strokeWidth: 6 });
         _loaderTl = GSAP.timeline({ repeat: -1, repeatDelay: .4 })
           .set(kmPaths, { fillOpacity: 0 })
           .fromTo(kmPaths, { drawSVG: '0%' }, { drawSVG: '100%', duration: 1.15, stagger: .07, ease: 'power1.inOut' })

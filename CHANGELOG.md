@@ -13,7 +13,7 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
   (e la regola CSS `.w0-eyebrow` non più usata). Zero scroll a 1440×900 confermato.
 - **Loader**: i loghi ancora più grandi (contenitore `clamp(96px,23vw,136px)`,
   wordmark fino a 80px, marchio 2R fino a 124px). Il tracciato del logo che si
-  disegna torna a **8** (compromesso: era 6 troppo fine, 11 troppo pesante).
+  disegna resta a **6**: a 8/11 risultava troppo pesante alla dimensione nuova.
 
 ---
 
