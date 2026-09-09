@@ -7,6 +7,152 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Round correzioni Nick — 2026-09-09 (3) — 🟡 in discussione
+
+Sette interventi. Nessuna modifica a `QUESTIONS`, `DIMS`, scoring o branching.
+
+**1. Header.** Tolta la scritta "GoToMarket Assessment", al suo posto il **logo RR**
+(SVG fornito da Nick) **ricolorato in nero** via `currentColor` (`.rr-logo{color:var(--ink)}`).
+Il divisore verticale fra i due loghi resta, alzato a 30px per accompagnare il marchio tondo.
+
+**2. Landing (`s0`).** Rimossa la pill "GoToMarket Assessment · accesso su invito" e il
+bottone secondario "Parla con lo studio". Resta **una sola CTA grande** (`.w0-cta-main`:
+60px di altezza, pill, ombra rossa). Ritmo verticale compresso (padding, margini, titolo su
+2 righe con `max-width:24ch`) → **zero scroll su desktop**: verificato 0px di overflow a
+1440×900 **e** 1280×800. In fondo un blocco **privacy / termini**: riga di accettazione con
+due link che aprono una **modale** (`openLegal`), più una riga con titolare e finalità.
+⚠️ I testi di privacy e T&C sono **provvisori** (segnalati da un badge "Bozza provvisoria"
+dentro la modale): servono a vedere l'impaginato, vanno fatti validare.
+
+**3. Onboarding, primo passo.** Tolta la card "Entrambe" → scelta secca **B2B / B2C** su due
+colonne, **senza descrizioni**: solo l'icona e la sigla, resa più grande (`.model-cards`).
+Il ramo `both` resta nel codice ma non è più raggiungibile, così nulla a valle si rompe.
+
+**4. Messaggio d'errore.** Da box ambra a **outline rossa + testo rosso su fondo rosso
+chiaro** (`--brand` / `--brand-wash`), angoli 12px, icona d'allerta e ombra morbida, con una
+piccola animazione d'ingresso. L'icona è un `::before` con background-image perché
+`onbWarn()` riscrive il `textContent` del box.
+
+**5. Header di sezione (domande).** Via il **box nero**: ora è pulito sullo sfondo chiaro.
+L'alternanza nero/bianco resta nel tag di sezione, diventato una **pillola scura con testo
+bianco** ("SEZIONE B · 1 DI 6"), titolo nero più grande, descrizione grigia. Di conseguenza
+la prima card domanda non è più agganciata all'header: tutti gli angoli tondi.
+
+**6. Risultati — dettaglio rimosso.** Eliminata l'intera lista "Dettaglio per dimensione"
+con percentuali, benchmark, target e legenda. Resta il **punteggio complessivo**, ora molto
+più grande (`clamp(3.6rem,13vw,5rem)`), con **barra di stato** sotto e badge di
+posizionamento. Il numero **conta da 0** al valore finale (`gcount`, 1,4s) e la barra cresce
+da 0.
+
+**7. Risultati — panoramica azienda.** La vecchia griglia chiave/valore è sostituita dalla
+**stessa carta d'identità del riepilogo onboarding** (`.idc`), in versione `.idc-compact`
+(padding, icone e testi ridotti) e **in sola lettura**: nessun pulsante "Modifica", niente
+hover cliccabili.
+
+**8. Risultati — grafico interattivo.** Il radar ora è cliccabile: `onClick` sul grafico
+apre il **pannello di dettaglio** della dimensione toccata. Sotto al grafico ci sono anche
+**6 pastiglie** colorate (`.dchip`) che fanno la stessa cosa — servono su mobile, dove i
+punti del radar sono bersagli minuscoli. Il pannello mostra nome, descrizione, punteggio
+grande, barra con i marker di benchmark e target, e si chiude con la ✕.
+**Animazioni GSAP**: il grafico entra ruotando e ingrandendosi (`back.out`), le pastiglie a
+cascata, il pannello sale in `power3.out` con la barra che cresce e la percentuale che conta.
+
+Mobile-first: verificato via CDP a **390px** (landing, onboarding, errore, domande,
+risultati) — **zero scroll orizzontale**; e a 1280 / 1440px. Nessun errore in console.
+
+Da decidere con Michele: (1) i testi legali provvisori; (2) l'interpretazione di "testo
+alternato nero/bianco" nell'header di sezione (ora: pillola scura + titolo nero).
+
+---
+
+## Favicon Keymove — 2026-09-09 — 🟡 in discussione
+
+Aggiunta la favicon: la "k" del logo Keymove (rosso brand `#f71e44`), fornita da
+Nick come SVG. Incollata **inline come data URI** in `<head>` (`<link rel="icon"
+type="image/svg+xml">`) — nessun file esterno, compatibile con la CSP del server
+e con l'hosting a file singolo. `viewBox` reso quadrato con padding uniforme così
+non viene tagliata nella tab. Sorgente anche come `favicon.svg` (non referenziato,
+solo archivio). Supportata da Chrome/Firefox/Edge e Safari 16.4+.
+
+---
+
+## GSAP — logo che si disegna + tendina a curva SVG — 2026-09-09 — 🟡 in discussione
+
+**Agg. 2026-09-09 (2): plugin installati.** Core GSAP portato da 3.12.5 a **3.13.0**
+e aggiunti inline **DrawSVGPlugin** + **MorphSVGPlugin** 3.13.0 (dal 2025 gratuiti).
+Gli effetti sono ora **attivi**: il logo si disegna davvero all'avvio, la tendina
+usa il morph "vero" (curva organica, non la sola interpolazione del `d`).
+Verificato via CDP a 1280px: nessun errore in console, logo che chiude pulito
+(fill pieno, stroke a 0), tendina che copre e atterra su `s1` con overlay
+nascosto. Il resto della descrizione qui sotto resta valido.
+
+
+
+Cablati due effetti richiesti da Michele/Nick, **con fallback**: girano solo se
+i file dei plugin sono presenti, altrimenti il sito è identico a prima.
+
+- **`registerPlugin` + flag** `HAS_DRAWSVG` / `HAS_MORPHSVG` nel blocco helper
+  GSAP: registrano DrawSVG / MorphSVG **se** i rispettivi file inline ci sono.
+- **`animateLogoDraw()`** — il wordmark `#kmLogo` (7 path *pieni*, niente
+  stroke) all'avvio prende un contorno rosso, si **disegna** (`drawSVG`,
+  stagger .1s), poi compare il riempimento e lo stroke sparisce. Chiamata in
+  init. Senza DrawSVG: **logo invariato** (no-op).
+- **`wipeTransition(cb)` + overlay `#wipe`** — tendina rossa a tutto schermo
+  (`<svg preserveAspectRatio="none">` + un `<path>` `--brand`): la curva sale →
+  copre → `cb()` cambia schermata → esce verso l'alto. Con MorphSVG il morph è
+  "vero"; senza, GSAP core interpola il `d` (4 forme, stessa struttura). Senza
+  GSAP / `prefers-reduced-motion`: cambio schermata immediato.
+- **`startAssessment()`** — il bottone "Inizia l'assessment" della welcome (`s0`)
+  ora fa `wipeTransition(() => goTo(1))` invece di `goTo(1)` diretto.
+- CSS: `.wipe` (fixed, `z-index:9999`, `visibility:hidden` a riposo).
+
+**Per accendere gli effetti** servono 3 passi manuali (in `NOTES.md` →
+"Plugin bonus GSAP"): aggiornare il core GSAP a 3.13.5 e incollare inline
+`DrawSVGPlugin.min.js` + `MorphSVGPlugin.min.js`. Dal 2025 sono gratuiti.
+
+Verificato via CDP (senza plugin, solo fallback core): welcome → click → la curva
+rossa copre → atterra su `s1`, overlay tornato nascosto, logo intatto. Mobile
+390px: la tendina copre tutto il viewport, nessun gap. Nessun errore in console.
+
+Da valutare con Michele: durata tendina (ora ~1,1s), se applicarla anche al
+passaggio riepilogo → prima sezione domande (`onbNext` ultimo step).
+
+---
+
+## Sezione domande → stile reference "MCT Mock Tests" — 2026-09-09 — 🟡 in discussione
+
+Restyle della sola **sezione domande** (`.q-row` / `.q-label` / `.a-cell`) sul
+riferimento mandato da Nick. **Progress bar, palette e logica (scoring /
+branching / rivelazione progressiva) invariate.** Solo CSS + due `innerHTML` in
+`renderQuestions`.
+
+- **Card unica per domanda**: da card bianca con ombra netta a **superficie
+  bianca con ombra morbida** (`0 12px 28px -14px`), angoli 14px. Il primo blocco
+  resta agganciato all'header scuro `.sec-head` (angoli alti piatti) — invariato.
+- **Eyebrow**: da `1 / 3` minuscolo maiuscolo tracciato a **"Domanda 1 di 3"**,
+  peso 500, colore `--text-light` (come il "Question 1" del reference).
+- **Testo domanda**: peso 700 → **600**, size fluida `clamp(.98rem,2.4vw,1.06rem)`,
+  colore `--ink`.
+- **Divisore** fra domanda e opzioni: hairline `--gray` con più aria sopra/sotto.
+- **Opzioni a riga piena**: radio **spostato a destra** (era a sinistra),
+  `justify-content:space-between`; riga non selezionata = fondo `#f6f4f5`, testo
+  **muted** `--text-light`, radio vuoto Ø19; hover = fondo bianco + bordo +
+  ombrina; **selezionata = rosso del logo** (richiesta Michele 08/09, invariata)
+  + alone rosso morbido + radio bianco pieno. Tap target ≥ 52px.
+- Regole mobile duplicate rimosse: le regole base ora sono fluide (`clamp`) e
+  mobile-first da sole.
+
+Mobile-first: verificato via CDP a **390px** (stato vuoto, stato con risposta +
+domanda successiva rivelata) e a **1280px** — zero scroll orizzontale, radio
+allineato, prima card agganciata all'header.
+
+Da valutare con Michele: (1) testo opzioni non selezionate muted vs. pieno;
+(2) se la selezionata deve restare rosso pieno o passare a bianco + barra
+d'accento a sinistra (come da reference letterale); (3) header scuro `.sec-head`
+lasciato com'è — nel reference è testo chiaro.
+
+---
+
 ## Riepilogo → "carta d'identità" azienda — 2026-09-08 — 🟡 in discussione
 
 Il passo finale `review` non è più un elenco chiave/valore ma una **card

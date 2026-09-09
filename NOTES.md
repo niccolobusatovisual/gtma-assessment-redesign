@@ -15,7 +15,8 @@
 | Blocco | Contenuto |
 |--------|-----------|
 | `<script>` #1 | Chart.js 4.4.0 incollato inline (CDN bloccato dalla CSP del server) |
-| `<script>` #2 | GSAP 3.12.5 incollato inline, stesso motivo (agg. dal 2026-09-08). Aggiornare ri-scaricando `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js` |
+| `<script>` #2 | GSAP **3.13.0** core incollato inline, stesso motivo (agg. 2026-09-09, era 3.12.5). Aggiornare ri-scaricando da `https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js` |
+| `<script>` #2b · #2c | **DrawSVGPlugin 3.13.0** (logo che si disegna) + **MorphSVGPlugin 3.13.0** (tendina a curva), inline subito dopo il core. Dal 2025 sono gratuiti (licenza standard, no Club). Stessi mirror: `…/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js` e `MorphSVGPlugin.min.js` |
 | `<style>` | tutto il CSS inline |
 | markup `<body>` | le schermate |
 | `<script>` #3 | logica applicativa in JS vanilla: helper GSAP (`gfrom/gto/gcount`, fallback se GSAP assente), `QUESTIONS`, `DIMS`, scoring, branching per segmento, render schermate (onboarding con passo `review` reso come "carta d'identità" azienda `.idc` in `onbRenderReview`, rivelazione progressiva domande `syncQuestionReveal`, risultati a 2 colonne), admin |
@@ -42,6 +43,29 @@ Nessun pulsante visibile ai clienti. Due ingressi nascosti (poi comunque protett
 - La **write key `GMA_WRITE_2026` è in chiaro** nel JS lato client, insieme a un pannello admin nello stesso file. Chiunque può leggerla e scrivere sull'API. Bassa gravità ma reale — da girare al referente.
 - La password Setup (`KeyMoveMMP`) è solo offuscata in base64 nel client: non è una vera protezione.
 - La copia è uno snapshot: se il collega continua a modificare il file live, questa versione va riallineata (basta ri-scaricare l'URL).
+
+## GSAP: core + plugin DrawSVG / MorphSVG (già installati inline)
+
+Dal **GSAP 3.13 (2025)** tutti i plugin sono **gratis** (Webflow ha comprato
+GreenSock): DrawSVG e MorphSVG si usano anche nei lavori clienti, senza account,
+senza "Club GSAP". Il CodePen ufficiale mostra ancora il badge "PRO" e il login:
+è etichettatura vecchia, non un paywall.
+
+**Stato: fatto (2026-09-09).** In `<head>` ci sono tre `<script>` inline:
+core `gsap.min.js` 3.13.0, poi `DrawSVGPlugin.min.js`, poi `MorphSVGPlugin.min.js`
+(tutti 3.13.0, presi da `https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/`).
+Per aggiornarli: riscarica i tre file dalla stessa cartella e sostituisci i tre
+blocchi (stesso ordine: core → DrawSVG → MorphSVG).
+
+Cablatura in `index.html` (tutto con fallback: se un domani i plugin non
+caricano, `HAS_DRAWSVG` / `HAS_MORPHSVG` tornano `false` e gli effetti degradano):
+- `registerPlugin` + flag `HAS_DRAWSVG` / `HAS_MORPHSVG` nel blocco helper GSAP.
+- `animateLogoDraw()` — logo `#kmLogo` (7 path pieni) che prende un contorno,
+  si disegna (`drawSVG`), poi compare il fill. Chiamato in init.
+- `wipeTransition(cb)` + overlay `#wipe` + `startAssessment()` — tendina rossa a
+  curva (MorphSVG fra 4 forme; fallback: GSAP core interpola il `d`). Il bottone
+  "Inizia l'assessment" della welcome chiama `startAssessment()`.
+  Riutilizzabile: `wipeTransition(function(){ /* cambia schermata */ })`.
 
 ## Cosa NON toccare nel redesign
 `QUESTIONS`, `DIMS`, matematica benchmark/target, branching per segmento — è il dominio del collega consulente. Il redesign lavora su markup + CSS + funzioni di render delle schermate.

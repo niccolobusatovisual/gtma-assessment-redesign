@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4.83 -1.94 19 19">
+  <!-- "k" Keymove — rosso brand #f71e44. Sorgente della favicon; nel sito è incollata
+       inline come data URI dentro <head> (index.html). viewBox reso quadrato con padding. -->
+  <path fill="#f71e44" d="M6.22,10.31c-.84,0-1.66.17-2.18.17-.37,0-.58-.09-.58-.39.04-1.23,5.88.04,5.88-3.57,0-1.34-1.15-2.27-2.53-2.27s-2.94.86-4,3.09V0H0v15.13h2.81v-4.69c.52,1.64,3.72-.35,3.72,3.35v1.34h2.81v-.69c0-3.5-1.58-4.13-3.11-4.13ZM2.81,9.94v-.89c0-1.77,1.79-3.02,2.9-3.02.43,0,.76.22.8.65.19,1.77-3.24,1.47-3.69,3.26Z"/>
+</svg>
