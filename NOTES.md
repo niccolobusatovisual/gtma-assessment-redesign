@@ -18,7 +18,7 @@
 | `<script>` #2 | GSAP **3.13.0** core incollato inline, stesso motivo (agg. 2026-09-09, era 3.12.5). Aggiornare ri-scaricando da `https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js` |
 | `<script>` #2b · #2c | **DrawSVGPlugin 3.13.0** (logo che si disegna) + **MorphSVGPlugin 3.13.0** (tendina a curva), inline subito dopo il core. Dal 2025 sono gratuiti (licenza standard, no Club). Stessi mirror: `…/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js` e `MorphSVGPlugin.min.js` |
 | `<style>` | tutto il CSS inline |
-| markup `<body>` | le schermate |
+| markup `<body>` | le schermate. Logo Keymove: SVG inline `viewBox="0 0 1122.53 305.71"`, 7 path, presente 2 volte (header `#kmLogo` + loader `#loaderKm`) |
 | `<script>` #3 | logica applicativa in JS vanilla: helper GSAP (`gfrom/gto/gcount`, fallback se GSAP assente), `QUESTIONS`, `DIMS`, scoring, branching per segmento, render schermate (onboarding con passo `review` reso come "carta d'identità" azienda `.idc` in `onbRenderReview`, rivelazione progressiva domande `syncQuestionReveal`, risultati a 2 colonne), admin |
 
 ## Flusso schermate (single-page, JS mostra/nasconde i `.screen`)

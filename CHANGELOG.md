@@ -7,6 +7,17 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Logo Keymove corretto — 2026-09-09 (8) — 🟡 in discussione
+
+Sostituito il wordmark Keymove con la versione corretta fornita da Nick: quello
+precedente aveva una **linea spuria sotto la "m"**. Nuovo `viewBox="0 0 1122.53 305.71"`
+(7 path, invariato il numero). Aggiornato in **entrambi** i punti dove compare:
+header (`#kmLogo`) e schermata di caricamento (`#loaderKm`). `fill="currentColor"`
+mantenuto, quindi colore e animazione DrawSVG continuano a funzionare.
+La favicon è la sola "k" (glifo separato, senza il problema della "m"): invariata.
+
+---
+
 ## Ritocchi Nick — 2026-09-09 (7) — 🟡 in discussione
 
 - **Landing**: rimosso l'occhiello "Keymove · accesso su invito" sopra il titolo
