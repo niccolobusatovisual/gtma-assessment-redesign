@@ -7,6 +7,23 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Schermate di caricamento — 2026-09-09 (6) — 🟡 in discussione
+
+Il peso visivo passa dal testo ai loghi.
+
+- **Loghi molto più grandi**: contenitore da ~70px a `clamp(84px,20vw,118px)`,
+  wordmark Keymove `clamp(48px,12vw,68px)`, marchio 2R `clamp(76px,18vw,106px)`.
+- **Testo in light**: da `font-weight:700` inchiostro a **400** in grigio
+  (`--text-light`), così il messaggio accompagna e non compete col logo.
+- **Staffetta più lenta** (onboarding → domande): ogni logo resta in campo ~1,2 s
+  invece di ~0,6 s, transizioni da .26/.30 s a .38/.42 s. Durata del loader portata
+  a **3,4 s** per far entrare una staffetta completa con calma.
+- **Disegno più marcato e più lento** (fine → risultati): tracciato da 6 a **11** di
+  spessore — prima era un filo quasi invisibile alla dimensione nuova — durata del
+  ciclo da .8 s a **1,15 s**, pause più lunghe. Loader a **3,2 s**.
+
+---
+
 ## Round correzioni Nick — 2026-09-09 (5) — 🟡 in discussione
 
 **Landing rifatta con una gerarchia esplicita.** Ordine di lettura: occhiello

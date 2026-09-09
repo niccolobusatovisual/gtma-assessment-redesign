@@ -67,6 +67,38 @@ caricano, `HAS_DRAWSVG` / `HAS_MORPHSVG` tornano `false` e gli effetti degradano
   "Inizia l'assessment" della welcome chiama `startAssessment()`.
   Riutilizzabile: `wipeTransition(function(){ /* cambia schermata */ })`.
 
+## Da fare prima della consegna
+
+### 1. Archiviazione dei dati — MySQL (deciso: da valutare/implementare)
+Keymove usa il MySQL di WordPress. **È fattibile**, ma la raccomandazione è di
+*non* passare da WordPress:
+
+- **Strada consigliata — endpoint PHP dedicato.** Una tabella `km_autovalutazioni`
+  nello stesso MySQL, accanto alle `wp_*`, scritta da un `api.php` posato accanto
+  all'HTML sul sottodominio. È lo stesso modello del `gma_api.php` attuale, quindi
+  lato client cambia solo l'URL. Nessuna dipendenza da WordPress, stessa origine
+  (niente CORS), e lì dentro andrà anche la generazione/invio del PDF.
+- Alternativa: rotta REST via plugin WordPress custom (`/wp-json/keymove/v1/...`),
+  ha senso **solo** se i risultati devono vivere nella bacheca di WP. Più costosa.
+- Sconsigliata: plugin form tipo Gravity Forms / WPForms — non sono pensati per
+  ricevere un payload strutturato da un'app esterna.
+
+**Da non sbagliare:**
+- La **write key non può stare nel JS** (oggi `GMA_WRITE_2026` è in chiaro).
+  Servono controllo di origine + rate limit, meglio un token monouso dal server.
+- **Salvare anche il consenso** (`f_consenso`) con data e ora: senza, non c'è prova
+  di averlo raccolto.
+- Policy di cancellazione coerente con l'informativa (bozza attuale: 24 mesi).
+- Fare lo schema **quando il flusso è approvato**: finché cambiano campi e domande,
+  cambia anche la tabella.
+
+### 2. Endpoint PDF
+`requestPdf()` è un segnaposto: manca il lato server che genera il PDF della
+valutazione e lo spedisce all'indirizzo del compilatore.
+
+### 3. Migrazione
+Tutto finirà su un **sottodominio Keymove** e il repo GitHub andrà eliminato.
+
 ## Da rimuovere prima del rilascio
 
 - **Barra DEV** (`?dev` nell'URL): `initDev()`, `devGo()`, `devFill()`, markup

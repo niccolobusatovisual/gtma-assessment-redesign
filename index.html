@@ -191,14 +191,14 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 /* ── Schermata di caricamento fra le fasi ── */
 .loader{position:fixed;inset:0;z-index:9500;background:var(--gray-light);display:grid;place-items:center;padding:24px}
 .loader[hidden]{display:none}
-.loader-inner{text-align:center;width:min(340px,100%)}
-.loader-logos{position:relative;height:clamp(52px,12vw,70px);display:grid;place-items:center;margin-bottom:clamp(22px,5vw,30px)}
+.loader-inner{text-align:center;width:min(440px,100%)}
+.loader-logos{position:relative;height:clamp(84px,20vw,118px);display:grid;place-items:center;margin-bottom:clamp(26px,6vw,36px)}
 .loader-mark{position:absolute;inset:0;display:grid;place-items:center}
 .loader-km{color:var(--brand)}
-.loader-km svg{height:clamp(28px,7vw,38px);width:auto;display:block}
+.loader-km svg{height:clamp(48px,12vw,68px);width:auto;display:block}
 .loader-rr{color:var(--ink)}
-.loader-rr svg{height:clamp(44px,10.5vw,58px);width:auto;display:block}
-.loader-msg{font-size:clamp(.95rem,2.4vw,1.08rem);font-weight:700;color:var(--ink);line-height:1.4}
+.loader-rr svg{height:clamp(76px,18vw,106px);width:auto;display:block}
+.loader-msg{font-size:clamp(.95rem,2.3vw,1.05rem);font-weight:400;color:var(--text-light);line-height:1.45;letter-spacing:.2px}
 
 /* ── Tendina di transizione a curva (GSAP MorphSVG, con fallback core) ── */
 .wipe{position:fixed;inset:0;z-index:9999;pointer-events:none;visibility:hidden}
@@ -1070,19 +1070,19 @@ function showLoader(msg, mode, ms, done) {
       gset(km, { opacity: 1, scale: 1 }); gset(rr, { opacity: 0, scale: .9 });
       gset(kmPaths, { fillOpacity: 1, strokeWidth: 0 });
       _loaderTl = GSAP.timeline({ repeat: -1 })
-        .to(km, { opacity: 0, scale: .9, duration: .26, ease: 'power2.in' }, 0.60)
-        .to(rr, { opacity: 1, scale: 1, duration: .30, ease: 'power2.out' }, 0.88)
-        .to(rr, { opacity: 0, scale: .9, duration: .26, ease: 'power2.in' }, 1.58)
-        .to(km, { opacity: 1, scale: 1, duration: .30, ease: 'power2.out' }, 1.86);
+        .to(km, { opacity: 0, scale: .93, duration: .38, ease: 'power2.in' },  1.15)
+        .to(rr, { opacity: 1, scale: 1,   duration: .42, ease: 'power2.out' }, 1.56)
+        .to(rr, { opacity: 0, scale: .93, duration: .38, ease: 'power2.in' },  2.85)
+        .to(km, { opacity: 1, scale: 1,   duration: .42, ease: 'power2.out' }, 3.26);
     } else {
       gset(rr, { opacity: 0 }); gset(km, { opacity: 1, scale: 1 });
       if (HAS_DRAWSVG) {
-        gset(kmPaths, { stroke: 'currentColor', strokeWidth: 6 });
-        _loaderTl = GSAP.timeline({ repeat: -1, repeatDelay: .25 })
+        gset(kmPaths, { stroke: 'currentColor', strokeWidth: 11 });
+        _loaderTl = GSAP.timeline({ repeat: -1, repeatDelay: .4 })
           .set(kmPaths, { fillOpacity: 0 })
-          .fromTo(kmPaths, { drawSVG: '0%' }, { drawSVG: '100%', duration: .8, stagger: .05, ease: 'power1.inOut' })
-          .to(kmPaths, { fillOpacity: 1, duration: .28, stagger: .03 }, '-=.3')
-          .to(kmPaths, { fillOpacity: 0, duration: .25 }, '+=.35');
+          .fromTo(kmPaths, { drawSVG: '0%' }, { drawSVG: '100%', duration: 1.15, stagger: .07, ease: 'power1.inOut' })
+          .to(kmPaths, { fillOpacity: 1, duration: .34, stagger: .04 }, '-=.35')
+          .to(kmPaths, { fillOpacity: 0, duration: .3 }, '+=.55');
       } else {
         _loaderTl = GSAP.timeline({ repeat: -1 })
           .fromTo(kmPaths, { opacity: .15 }, { opacity: 1, duration: .5, stagger: .07, ease: 'sine.inOut', yoyo: true, repeat: 1 });
@@ -2308,7 +2308,7 @@ function onbNext(skip){
     onbEditReturn = false; onbIndex = ONB.length - 1; renderOnbStep(); return;
   }
   if(onbIndex === ONB.length - 1){
-    showLoader('Stiamo creando il tuo profilo aziendale…', 'alt', 2500, nextFromA);
+    showLoader('Stiamo creando il tuo profilo aziendale…', 'alt', 3400, nextFromA);
     return;
   }
   // Avanza subito: il contenuto cambia all'istante e il puntino (elemento
@@ -2585,7 +2585,7 @@ function nextSection(dimId, currentScreen, nextScreen) {
   if (!allAnswered(dimId)) { w.style.display='block'; return; }
   w.style.display='none';
   if (nextScreen === RESULT_SCREEN) {
-    showLoader('Stiamo raccogliendo le tue risposte…', 'draw', 2500, function(){ goTo(nextScreen); });
+    showLoader('Stiamo raccogliendo le tue risposte…', 'draw', 3200, function(){ goTo(nextScreen); });
     return;
   }
   goTo(nextScreen);
@@ -3500,8 +3500,8 @@ function devGo(target) {
     else { devFill(); goTo(parseInt(target, 10)); }
   };
   if (!withLoader || target === 'welcome') { jump(); return; }
-  if (target === 'results') showLoader('Stiamo raccogliendo le tue risposte…', 'draw', 2500, jump);
-  else showLoader('Stiamo creando il tuo profilo aziendale…', 'alt', 2500, jump);
+  if (target === 'results') showLoader('Stiamo raccogliendo le tue risposte…', 'draw', 3200, jump);
+  else showLoader('Stiamo creando il tuo profilo aziendale…', 'alt', 3400, jump);
 }
 (function initDev() {
   var on = false;
