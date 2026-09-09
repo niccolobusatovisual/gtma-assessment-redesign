@@ -7,6 +7,16 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Ritocchi Nick — 2026-09-09 (7) — 🟡 in discussione
+
+- **Landing**: rimosso l'occhiello "Keymove · accesso su invito" sopra il titolo
+  (e la regola CSS `.w0-eyebrow` non più usata). Zero scroll a 1440×900 confermato.
+- **Loader**: i loghi ancora più grandi (contenitore `clamp(96px,23vw,136px)`,
+  wordmark fino a 80px, marchio 2R fino a 124px). Il tracciato del logo che si
+  disegna torna a **8** (compromesso: era 6 troppo fine, 11 troppo pesante).
+
+---
+
 ## Schermate di caricamento — 2026-09-09 (6) — 🟡 in discussione
 
 Il peso visivo passa dal testo ai loghi.

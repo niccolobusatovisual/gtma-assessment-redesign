@@ -143,7 +143,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 #s0::before{content:"";position:absolute;inset:-24px 0 auto;height:52%;background-image:radial-gradient(var(--gray) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse 72% 100% at 50% 0,#000,transparent 70%);mask-image:radial-gradient(ellipse 72% 100% at 50% 0,#000,transparent 70%);opacity:.65;pointer-events:none;z-index:0}
 .w0{position:relative;z-index:1;text-align:center;padding:clamp(12px,2.6vw,20px) 0 clamp(12px,2.4vw,18px)}
 
-.w0-eyebrow{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-light);background:#fff;border:1px solid var(--gray);border-radius:999px;padding:6px 15px;margin-bottom:clamp(12px,2.4vw,16px)}
 .w0-title{font-size:clamp(1.95rem,5.4vw,2.75rem);line-height:1.08;font-weight:800;letter-spacing:-.03em;color:var(--ink);margin:0 auto clamp(12px,2.2vw,16px)}
 .w0-hl{color:var(--brand)}
 .w0-sub{font-size:clamp(.97rem,2.2vw,1.08rem);line-height:1.58;color:var(--text-light);max-width:64ch;margin:0 auto clamp(18px,3.2vw,24px)}
@@ -192,12 +191,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .loader{position:fixed;inset:0;z-index:9500;background:var(--gray-light);display:grid;place-items:center;padding:24px}
 .loader[hidden]{display:none}
 .loader-inner{text-align:center;width:min(440px,100%)}
-.loader-logos{position:relative;height:clamp(84px,20vw,118px);display:grid;place-items:center;margin-bottom:clamp(26px,6vw,36px)}
+.loader-logos{position:relative;height:clamp(96px,23vw,136px);display:grid;place-items:center;margin-bottom:clamp(28px,6.5vw,40px)}
 .loader-mark{position:absolute;inset:0;display:grid;place-items:center}
 .loader-km{color:var(--brand)}
-.loader-km svg{height:clamp(48px,12vw,68px);width:auto;display:block}
+.loader-km svg{height:clamp(56px,14vw,80px);width:auto;display:block}
 .loader-rr{color:var(--ink)}
-.loader-rr svg{height:clamp(76px,18vw,106px);width:auto;display:block}
+.loader-rr svg{height:clamp(88px,21vw,124px);width:auto;display:block}
 .loader-msg{font-size:clamp(.95rem,2.3vw,1.05rem);font-weight:400;color:var(--text-light);line-height:1.45;letter-spacing:.2px}
 
 /* ── Tendina di transizione a curva (GSAP MorphSVG, con fallback core) ── */
@@ -845,8 +844,6 @@ textarea.onb-input{min-height:108px;resize:vertical}
 
 <div class="screen" id="s0">
   <div class="w0">
-    <div class="w0-eyebrow">Keymove · accesso su invito</div>
-
     <h1 class="w0-title">Questionario di<br><span class="w0-hl">autovalutazione 2R</span></h1>
 
     <p class="w0-sub">
@@ -1077,7 +1074,7 @@ function showLoader(msg, mode, ms, done) {
     } else {
       gset(rr, { opacity: 0 }); gset(km, { opacity: 1, scale: 1 });
       if (HAS_DRAWSVG) {
-        gset(kmPaths, { stroke: 'currentColor', strokeWidth: 11 });
+        gset(kmPaths, { stroke: 'currentColor', strokeWidth: 8 });
         _loaderTl = GSAP.timeline({ repeat: -1, repeatDelay: .4 })
           .set(kmPaths, { fillOpacity: 0 })
           .fromTo(kmPaths, { drawSVG: '0%' }, { drawSVG: '100%', duration: 1.15, stagger: .07, ease: 'power1.inOut' })
