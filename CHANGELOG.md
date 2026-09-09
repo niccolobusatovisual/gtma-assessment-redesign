@@ -7,6 +7,16 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Ritocchi Nick — 2026-09-09 (10) — 🟡 in discussione
+
+- CTA risultati: "Trasformiamo questi gap in un piano di crescita" → **"…crescita?"**
+- **Testo dei risultati: tolti i cap in `ch`** (`max-width:72ch/70ch/46ch`) su
+  riga di sintesi, sintesi valutativa e testo CTA. Andavano a capo presto lasciando
+  spazio vuoto a destra; ora il testo scorre a tutta la larghezza del contenitore
+  (che ha già il suo `max-width` a 1180px).
+
+---
+
 ## Ritocchi Nick — 2026-09-09 (9) — 🟡 in discussione
 
 - **Logo Keymove cliccabile** → apre `https://www.keymove.it/`. Il logo era un
