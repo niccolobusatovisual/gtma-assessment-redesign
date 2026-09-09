@@ -7,6 +7,64 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Round correzioni Nick — 2026-09-09 (4) — 🟡 in discussione
+
+**Testi.** Adottati i contenuti del documento *"Testi template questionario 02.09.26"*
+su landing e risultati: il prodotto si chiama ora **"Questionario di autovalutazione 2R"**
+(prima "GoToMarket Assessment"). Titolo del grafico → *"Fotografia della tua
+organizzazione"*. ⚠️ Rinominato **solo** landing e risultati: `<title>` della pagina,
+header e copy interni sono ancora quelli vecchi — da allineare quando il nome è confermato.
+
+**Header.** Rimossa l'animazione di disegno del logo Keymove all'avvio (restava
+"a metà" per un attimo a ogni caricamento). La funzione `animateLogoDraw` resta
+in codice, ora usata solo dalla schermata di caricamento.
+
+**Landing.** Titolo su **2 righe**. Rimosso "A cura di Studio Guzzetti" sotto il
+pulsante. Nuova **riga di numeri** (6 dimensioni · N domande · ~10′) e due schede
+("Due riferimenti" e "Output") con i testi del documento. Ritmo ulteriormente
+compresso: **zero scroll** sia a 1440×900 sia a **1280×800**.
+
+**Risultati** — riorganizzata tutta la pagina:
+- **Testata libera**, senza box scuro: occhiello, titolo, azienda, riga di sintesi.
+- **Sinistra: solo il grafico** (più la legenda). Tolti da lì elenco e pastiglie.
+- **Destra, in alto il punteggio**; sotto, **l'elenco delle sei dimensioni** in un
+  pannello dedicato: riga con pallino del colore, nome, indicatore di stato e
+  chevron. Cliccando, la riga si apre **a fisarmonica** sul dettaglio (descrizione,
+  punteggio grande che conta da 0, barra con marker benchmark/target). Anche il
+  click sul radar apre la riga corrispondente.
+- **Panoramica dell'azienda** a tutta larghezza, sotto il grafico.
+- **Sintesi valutativa** rifatta: non più box scuro ma card chiara con frase guida
+  e due colonne — *Maggiore solidità* (verde) e *Potenziale di sviluppo* (ambra) —
+  con le dimensioni come pastiglie, e riga di chiusura.
+- **CTA spostata in fondo**, appena sopra i pulsanti.
+- Tolto **"Stampa / PDF"**, al suo posto **"Richiedi il PDF della valutazione"**.
+  ⚠️ **DA FARE**: serve un endpoint lato server che generi il PDF e lo spedisca
+  all'indirizzo del compilatore, con una mail formattata. Per ora il pulsante
+  registra la richiesta e mostra una conferma con l'indirizzo. Vedi `requestPdf()`.
+
+**Pulsante Continua.** Sostituito il vecchio "pop" (`scale .9` + `back.out(2.2)`,
+sembrava uno scatto) con uno **stato "pronto"**: respiro brevissimo senza rimbalzo,
+freccia che avanza e una **passata di luce** continua finché la sezione è completa.
+Se torni indietro a cambiare una risposta, lo stato si spegne (`clearReady`).
+
+**Consenso privacy.** Nel passo dell'e-mail c'è ora una **checkbox obbligatoria**
+per autorizzare Keymove al trattamento dei dati, con link all'informativa. Senza
+spunta il passo non avanza. Nuovo campo nascosto `f_consenso`, azzerato da `resetAll`.
+
+**Schermate di caricamento.** Nuovo overlay `#loader` (messaggio + barra), usato
+in due punti:
+- **onboarding → domande**: *"Stiamo creando il tuo profilo aziendale…"*, i due
+  loghi si danno il cambio a staffetta (non in dissolvenza incrociata: sovrapposti
+  si leggevano come una collisione).
+- **ultima sezione → risultati**: *"Stiamo raccogliendo le tue risposte…"*, il
+  wordmark Keymove si **ridisegna in loop** con DrawSVG.
+Entrambe degradano a un caricamento statico senza GSAP o con reduced-motion.
+
+Verificato via CDP a 390 / 1280 / 1440px: zero scroll orizzontale, zero errori in
+console, consenso che blocca correttamente l'avanzamento.
+
+---
+
 ## Round correzioni Nick — 2026-09-09 (3) — 🟡 in discussione
 
 Sette interventi. Nessuna modifica a `QUESTIONS`, `DIMS`, scoring o branching.
