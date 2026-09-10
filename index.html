@@ -177,7 +177,8 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 
 /* privacy / termini */
 .w0-legal{border-top:1px solid var(--gray);padding-top:clamp(11px,2.2vw,14px)}
-.w0-legal-txt{font-size:.8rem;line-height:1.6;color:var(--text-light)}
+.w0-legal-txt{font-size:.82rem;line-height:1.5}
+.w0-legal-sep{margin:0 .55em;color:var(--text-light);opacity:.55;font-weight:400}
 .w0-legal-lnk{background:none;border:none;padding:0;font:inherit;color:var(--brand);font-weight:700;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .w0-legal-lnk:hover{color:var(--brand-dark)}
 .w0-legal-meta{font-size:.72rem;line-height:1.55;color:var(--text-light);opacity:.75;margin-top:7px;max-width:96ch;margin-left:auto;margin-right:auto}
@@ -186,6 +187,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
   .w0-cta{display:block}
   .w0-cta-main{width:100%}
   .w0-feats{grid-template-columns:1fr}
+  .w0-feat{padding:15px 20px}
 }
 
 /* ── Schermata di caricamento fra le fasi ── */
@@ -865,10 +867,11 @@ textarea.onb-input{min-height:108px;resize:vertical}
     <!-- Privacy / termini — testi PROVVISORI, da far validare -->
     <div class="w0-legal">
       <p class="w0-legal-txt">
-        Proseguendo dichiari di aver letto l’<button type="button" class="w0-legal-lnk" onclick="openLegal('privacy')">Informativa privacy</button>
-        e di accettare i <button type="button" class="w0-legal-lnk" onclick="openLegal('terms')">Termini e condizioni</button> dell’autovalutazione.
+        <button type="button" class="w0-legal-lnk" onclick="openLegal('privacy')">Informativa privacy</button>
+        <span class="w0-legal-sep" aria-hidden="true">·</span>
+        <button type="button" class="w0-legal-lnk" onclick="openLegal('terms')">Termini e condizioni</button>
       </p>
-      <p class="w0-legal-meta">Titolare del trattamento: Studio Guzzetti / Promexa · Dati trattati per sola finalità di analisi e ricontatto · Nessuna cessione a terzi.</p>
+      <p class="w0-legal-meta">Titolare del trattamento: Keymove · Dati trattati per sola finalità di analisi e ricontatto · Nessuna cessione a terzi.</p>
     </div>
   </div>
 </div>
@@ -1866,20 +1869,24 @@ function selectOpt(dimId, qi, oi, color) {
 // ════════════════════════════════════════════════
 //  SCORING
 // ════════════════════════════════════════════════
-// Punteggio della singola risposta su scala 1-5, proporzionale al numero di
-// risposte disponibili: la i-esima di n vale i*5/n (con 4 risposte: 1,25 · 2,5 · 3,75 · 5).
-function optScore(oi, nOpts) {
-  return (oi + 1) * 5 / nOpts;
+// Punteggio della risposta da 0 a 1: il suo valore diviso per il valore più alto della domanda.
+// Senza valori (pagina statica, senza database) conta la posizione: la i-esima di n vale i/n.
+function answerScore(q, oi) {
+  if (q.vals && q.vals.length === q.opts.length) {
+    const max = Math.max.apply(null, q.vals);
+    return max > 0 ? q.vals[oi] / max : 0;
+  }
+  return (oi + 1) / q.opts.length;
 }
 
-// Punteggio della sezione: media delle risposte, normalizzata 0-1 (= score/5)
+// Punteggio della sezione: media delle risposte, da 0 a 1
 function dimScore(dimId) {
   const qs = QUESTIONS[dimId][segment];
   const ans = answers[dimId] || [];
   let total = 0, count = 0;
   qs.forEach((q, i) => {
     if (ans[i] !== undefined) {
-      total += optScore(ans[i], q.opts.length) / 5;
+      total += answerScore(q, ans[i]);
       count++;
     }
   });
@@ -2178,7 +2185,7 @@ var SECTOR_ICO = {
 function sectorIco(name){ return SECTOR_ICO[name] || ICO.tag; }
 
 var ONB = [
-  { id:'model', ico:ICO.both, eyebrow:'Modello di business',
+  { id:'model', ico:ICO.ppl, eyebrow:'Modello di business',
     q:'Con chi lavora principalmente la tua azienda?',
     hint:'Da qui adattiamo le domande dell’autovalutazione al tuo contesto.' },
   { id:'you', ico:ICO.user, eyebrow:'I tuoi dati', type:'text',
@@ -2765,22 +2772,9 @@ function buildResults() {
     d.tg = (segment === 'b2b' ? d.tg_b2b : d.tg_b2c)[objIdx] || 0.60;
   });
 
-  // Company info
   const nome = document.getElementById('f_nome').value.trim() || '—';
-  const ruolo = document.getElementById('f_ruolo').value.trim() || '—';
   const settore = document.getElementById('f_settore').value.trim() || '—';
-  const fatturato = document.getElementById('f_fatturato').value.trim() || '—';
-  const dip = document.getElementById('f_dip').value || '—';
-  const clientiN = document.getElementById('f_clienti_n').value || '—';
-  const b2b = document.getElementById('f_b2b').value;
-  const b2c = document.getElementById('f_b2c').value;
-  const obiettivo = document.getElementById('f_obiettivo').value || '—';
-  const canali = [...document.querySelectorAll('.cb-item input:checked')].map(c=>c.value).join(', ') || '—';
-
   document.getElementById('res_company').textContent = nome + (settore && settore !== '—' ? ' · ' + settore : '');
-
-  const compilatoreNome = document.getElementById('f_compilatore_nome').value.trim() || '—';
-  const compilatoreEmail = document.getElementById('f_compilatore_email').value.trim() || '—';
   document.getElementById('res_idcard').innerHTML = resRenderIdCard();
 
   // Scores
@@ -2900,8 +2894,7 @@ function buildResults() {
                                         transformOrigin: '50% 50%', ease: 'back.out(1.4)' });
   gfrom('#dim_chips .drow', { opacity: 0, x: 14, duration: .34, stagger: .06, delay: .35, ease: 'power2.out' });
 
-  // Auto-save to database
-  saveAssessment(nome, ruolo, settore, fatturato, dip, clientiN, b2b, b2c, obiettivo, canali, scores, overallPct, segment);
+  saveAssessment(scores);
 }
 
 function resetAll() {
@@ -2974,21 +2967,7 @@ function openSetup() {
   setTimeout(() => document.getElementById('pwdInput').focus(), 80);
 }
 
-/* Accesso Setup NASCOSTO ai clienti — nessun pulsante visibile.
-   Ingressi interni: 1) URL con ?setup   2) 5 click rapidi sul logo Keymove.
-   Resta comunque protetto dal modal password. */
-(function initHiddenSetup(){
-  try { if (new URLSearchParams(location.search).has('setup')) setTimeout(openSetup, 350); } catch (e) {}
-  // il logo Keymove ora è un link al sito → l'ingresso nascosto passa al marchio RR
-  var taps = [];
-  var badge = document.getElementById('rrLogo');
-  if (badge) { badge.style.cursor = 'default'; badge.addEventListener('click', function(){
-    var now = Date.now();
-    taps = taps.filter(function(t){ return now - t < 1800; });
-    taps.push(now);
-    if (taps.length >= 5) { taps = []; openSetup(); }
-  }); }
-})();
+// Il pannello Setup qui sotto non ha più ingressi: domande e valori si modificano dal database.
 
 function closePwd() {
   document.getElementById('pwdOverlay').classList.remove('open');
@@ -3175,7 +3154,6 @@ function switchSetupTab(tabId) {
   if (btn) btn.classList.add('active');
   if (tabId === 'benchmark') { renderBmTable(); renderTargetTable(); }
   if (tabId === 'domande') renderQuestionsEditor();
-  if (tabId === 'database') loadDatabase();
 }
 
 // ════════════════════════════════════════════════
@@ -3323,84 +3301,34 @@ function moveQuestion(fromDim, seg, qi, toDim) {
 // ════════════════════════════════════════════════
 //  DATABASE
 // ════════════════════════════════════════════════
-var API_URL = 'https://gtma.studioguzzetti.it/gma_api.php';
-var API_KEY = 'GMA_WRITE_2026'; // write-only key per POST
-
-function loadDatabase() {
-  var el = document.getElementById('db_container');
-  if (!el) return;
-  el.innerHTML = '<p class="db-status">Caricamento in corso…</p>';
-  fetch(API_URL, { headers: {'X-GMA-Key': _k} })
-    .then(function(r) {
-      if (r.status === 403) throw new Error('Chiave admin non valida — accedi dal pannello Setup');
-      return r.json();
-    })
-    .then(function(data) {
-      if (!data.length) { el.innerHTML = '<p class="db-status">Nessuna autovalutazione salvata nel database.</p>'; return; }
-      var html = '<div class="db-toolbar">' +
-        '<p class="db-status">' + data.length + ' autovalutazioni registrate</p>' +
-        '<button class="btn btn-reset" onclick="loadDatabase()" style="font-size:.8rem;padding:7px 16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>Aggiorna</button>' +
-        '</div>' +
-        '<div class="db-table-wrap"><table class="db-table">' +
-        '<thead><tr><th>Data</th><th>Azienda</th><th>Compilatore</th><th>E-mail</th><th>Seg.</th><th>Score</th><th></th></tr></thead><tbody>';
-      data.forEach(function(rec) {
-        var date = rec.ts ? new Date(rec.ts * 1000).toLocaleDateString('it-IT') : '—';
-        var score = (rec.overall_pct != null) ? rec.overall_pct + '%' : '—';
-        html += '<tr>' +
-          '<td>' + date + '</td>' +
-          '<td>' + (rec.nome || '—') + '</td>' +
-          '<td>' + (rec.compilatore_nome || '—') + '</td>' +
-          '<td>' + (rec.compilatore_email || '—') + '</td>' +
-          '<td>' + (rec.segment ? rec.segment.toUpperCase() : '—') + '</td>' +
-          '<td>' + score + '</td>' +
-          '<td><button class="db-del-btn" onclick="deleteEntry(\'' + rec.id + '\')">' + ICN.trash + '</button></td>' +
-          '</tr>';
-      });
-      html += '</tbody></table></div>';
-      el.innerHTML = html;
-    })
-    .catch(function(e) {
-      el.innerHTML = '<p class="db-status">Errore connessione: ' + e.message + '</p>';
-    });
-}
-
-function deleteEntry(id) {
-  if (!confirm('Eliminare definitivamente questa autovalutazione?')) return;
-  fetch(API_URL + '?id=' + encodeURIComponent(id), { method: 'DELETE', headers: {'X-GMA-Key': _k} })
-    .then(function() {
-      loadDatabase();
-      showToast('Autovalutazione eliminata');
-    })
-    .catch(function(e) { showToast('Errore: ' + e.message, 'err'); });
-}
-
-function saveAssessment(nome, ruolo, settore, fatturato, dip, clientiN, b2b, b2c, obiettivo, canali, scores, overallPct, seg) {
-  var compilatoreNome = '';
-  var compilatoreEmail = '';
-  var el1 = document.getElementById('f_compilatore_nome');
-  var el2 = document.getElementById('f_compilatore_email');
-  if (el1) compilatoreNome = el1.value.trim();
-  if (el2) compilatoreEmail = el2.value.trim();
-  var payload = {
-    ts: Math.floor(Date.now() / 1000),
-    nome: nome, ruolo: ruolo, settore: settore,
-    fatturato: fatturato, dip: dip, clienti_n: clientiN,
-    b2b_pct: b2b, b2c_pct: b2c, obiettivo: obiettivo, canali: canali,
-    compilatore_nome: compilatoreNome,
-    compilatore_email: compilatoreEmail,
-    segment: seg,
-    scores: scores,
-    overall_pct: overallPct
+// Salva onboarding e risultati tramite index.php; le singole risposte non vengono inviate: il database non le conserva.
+function saveAssessment(scores) {
+  if (!window.KM2R) return;
+  const g = function (id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const obiettivo = parseInt(g('f_obiettivo'), 10);
+  const payload = {
+    versione_id: KM2R.versione_id,
+    compilatore_nome: g('f_compilatore_nome'),
+    compilatore_email: g('f_compilatore_email'),
+    azienda_nome: g('f_nome'),
+    ruolo: g('f_ruolo'),
+    settore: g('f_settore'),
+    fatturato: g('f_fatturato'),
+    dipendenti: g('f_dip'),
+    clienti_anno: g('f_clienti_n'),
+    quota_b2b: parseInt(g('f_b2b'), 10),
+    segmento: segment,
+    obiettivo_ordine: isNaN(obiettivo) ? null : obiettivo,
+    canali: [...document.querySelectorAll('.cb-item input:checked')].map(c => c.value),
+    descrizione: g('f_descr'),
+    consenso: g('f_consenso') === 'si',
+    punteggi: scores
   };
-  fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-GMA-Key': API_KEY },
-    body: JSON.stringify(payload)
-  }).then(function() {
-    showToast('Autovalutazione salvata nel database');
-  }).catch(function(e) {
-    console.warn('DB save failed:', e);
-  });
+  fetch(KM2R.api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    .then(function (r) {
+      if (!r.ok) return r.json().then(function (d) { throw new Error(d.errore || ('HTTP ' + r.status)); });
+    })
+    .catch(function (e) { console.warn('Salvataggio non riuscito:', e.message); });
 }
 
 // ════════════════════════════════════════════════
@@ -3413,7 +3341,7 @@ var LEGAL = {
   privacy: {
     title: 'Informativa privacy',
     body:
-      '<h4>1. Titolare del trattamento</h4><p>Il titolare del trattamento dei dati raccolti tramite l’Autovalutazione 2R è <strong>Studio Guzzetti / Promexa</strong>. Per ogni richiesta relativa ai tuoi dati puoi scrivere all’indirizzo di contatto indicato sul sito dello studio.</p>' +
+      '<h4>1. Titolare del trattamento</h4><p>Il titolare del trattamento dei dati raccolti tramite l’Autovalutazione 2R è <strong>Keymove</strong>. Per ogni richiesta relativa ai tuoi dati puoi scrivere all’indirizzo di contatto indicato su keymove.it.</p>' +
       '<h4>2. Quali dati raccogliamo</h4><ul>' +
         '<li>dati di contatto del compilatore: nome e indirizzo e-mail;</li>' +
         '<li>dati sull’azienda: ragione sociale, ruolo, settore, fatturato, numero di dipendenti e clienti, canali commerciali, obiettivo e descrizione libera;</li>' +
