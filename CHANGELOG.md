@@ -7,6 +7,39 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Ritocchi Nick — 2026-09-10 (11) — 🟡 in discussione
+
+- **Rinominato "assessment" → "autovalutazione"** in tutti i testi visibili (titolo
+  pagina, welcome, hint onboarding, CTA finale onboarding, testi privacy/termini,
+  pannello Setup e Database) per branding coerente e indicizzazione. Lasciati
+  invariati i soli nomi interni di funzioni/variabili JS (`startAssessment`,
+  `saveAssessment`, commenti) — zero impatto SEO, rinominarli è puro rischio.
+- **Risultati**: **Sintesi valutativa spostata sopra Panoramica dell'azienda**
+  (prima era il contrario) — così le informazioni di valutazione sono tutte
+  raggruppate prima dei dati aziendali. Nessuna CSS order-dipendente, swap sicuro.
+- **CTA finale "Chiamaci" → "Contattaci"**, icona da cornetta telefonica a busta
+  mail (stessa icona già usata per "Richiedi accesso" nella schermata locked).
+  Href invariato.
+- **Condividi semplificato**: rimossa la griglia di icone social (WhatsApp,
+  LinkedIn, e-mail, X, Facebook, Telegram) e il pulsante "Altre app…"
+  (`navigator.share`). Resta solo il link con pulsante Copia, più una riga di
+  testo che chiarisce che il link condiviso è solo quello del questionario — le
+  risposte e i dati aziendali appena inseriti restano privati. Rimosso il codice
+  morto associato (`SHARE_TARGETS`, `nativeShare()`, `shareTitle()`, CSS
+  `.share-t*`/`.share-native*`).
+- **Fix zoom automatico su mobile durante la digitazione**: gli input di testo
+  dell'onboarding (nome, azienda, ruolo, settore, fatturato, dipendenti, clienti,
+  descrizione) erano renderizzati a 14.4px invece dei 16px previsti — un
+  selettore generico (`input[type=text]`) batteva in specificità CSS la classe
+  `.onb-input` pensata apposta per evitare lo zoom-on-focus di iOS Safari (che
+  scatta sotto i 16px). Portati entrambi a `16px` espliciti.
+
+Verificato via Playwright (headless Chrome) a 390px e 1440px: ordine sezioni
+corretto, CTA e modale Condividi come da richiesta, zero scroll orizzontale,
+nessun errore console, tutti i campi di testo dell'onboarding a 16px esatti.
+
+---
+
 ## Ritocchi Nick — 2026-09-09 (10) — 🟡 in discussione
 
 - CTA risultati: "Trasformiamo questi gap in un piano di crescita" → **"…crescita?"**

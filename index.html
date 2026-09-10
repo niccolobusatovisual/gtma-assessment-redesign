@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoToMarket Assessment</title>
+<title>Questionario di autovalutazione 2R — Keymove</title>
 <!-- Favicon: "k" Keymove (rosso brand), SVG inline in data URI — nessun file esterno,
      compatibile con la CSP del server e con l'hosting a file singolo. -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='-4.83%20-1.94%2019%2019'%3E%3Cpath%20fill='%23f71e44'%20d='M6.22,10.31c-.84,0-1.66.17-2.18.17-.37,0-.58-.09-.58-.39.04-1.23,5.88.04,5.88-3.57,0-1.34-1.15-2.27-2.53-2.27s-2.94.86-4,3.09V0H0v15.13h2.81v-4.69c.52,1.64,3.72-.35,3.72,3.35v1.34h2.81v-.69c0-3.5-1.58-4.13-3.11-4.13ZM2.81,9.94v-.89c0-1.77,1.79-3.02,2.9-3.02.43,0,.76.22.8.65.19,1.77-3.24,1.47-3.69,3.26Z'/%3E%3C/svg%3E">
@@ -224,7 +224,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-light);color:
 .fg:last-child{margin-bottom:0}
 .flabel{display:block;font-weight:600;font-size:.85rem;margin-bottom:6px}
 .flabel .opt{color:var(--text-light);font-weight:400;font-size:.78rem}
-input[type=text],input[type=number],textarea,select{width:100%;padding:9px 12px;border:2px solid var(--gray);border-radius:8px;font-size:.9rem;font-family:inherit;color:var(--text);transition:border-color .2s}
+input[type=text],input[type=number],textarea,select{width:100%;padding:9px 12px;border:2px solid var(--gray);border-radius:8px;font-size:16px;font-family:inherit;color:var(--text);transition:border-color .2s}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--brand)}
 textarea{resize:vertical;min-height:72px}
 .pct-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -520,22 +520,13 @@ textarea{resize:vertical;min-height:72px}
 /* ── Foglio "Condividi" ── */
 .share-box{max-width:420px}
 .share-box .pwd-head{justify-content:space-between}
-.share-targets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:18px}
-.share-t{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 4px;border-radius:12px;text-decoration:none;transition:background .15s}
-.share-t:hover{background:var(--gray-light)}
-.share-t-ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center}
-.share-t-ic svg{width:22px;height:22px;fill:none}
-.share-t-l{font-size:.72rem;font-weight:600;color:var(--text-light);text-align:center}
 .share-link{display:flex;align-items:center;gap:8px;background:var(--gray-light);border:1.5px solid var(--gray);border-radius:12px;padding:5px 5px 5px 13px}
 .share-link input{flex:1;min-width:0;border:none;background:none;padding:0;font-size:.83rem;color:var(--text-light);font-family:inherit;text-overflow:ellipsis}
 .share-link input:focus{outline:none}
 .share-copy{flex-shrink:0;background:var(--brand);color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:inherit;font-size:.83rem;font-weight:700;cursor:pointer;transition:background .16s}
 .share-copy:hover{background:var(--brand-dark)}
 .share-copy.done{background:#188a56}
-.share-native{width:100%;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px;background:none;border:1.5px solid var(--gray);border-radius:12px;padding:12px;font-family:inherit;font-size:.85rem;font-weight:600;color:var(--ink);cursor:pointer}
-.share-native:hover{border-color:var(--ink)}
-.share-native svg{width:17px;height:17px}
-.share-native[hidden]{display:none}
+.share-note{font-size:.74rem;line-height:1.55;color:var(--text-light);opacity:.85;margin-top:12px}
 
 /* ── Modale privacy / termini (testi provvisori) ── */
 .legal-box{max-width:640px}
@@ -707,7 +698,7 @@ html.no-gsap .onb-step{animation:onbIn .3s cubic-bezier(.22,1,.36,1)}
 .onb-fields{display:flex;flex-direction:column;gap:clamp(12px,3vw,15px);margin-bottom:clamp(20px,5vw,26px)}
 .onb-field label{display:block;font-weight:600;font-size:.85rem;margin-bottom:6px;color:var(--ink)}
 .onb-field .opt{color:var(--text-light);font-weight:400}
-.onb-input{width:100%;padding:13px 15px;border:2px solid var(--gray);border-radius:10px;font-size:1rem;font-family:inherit;color:var(--text);background:#fff;transition:border-color .15s}
+.onb-input{width:100%;padding:13px 15px;border:2px solid var(--gray);border-radius:10px;font-size:16px;font-family:inherit;color:var(--text);background:#fff;transition:border-color .15s}
 .onb-input:focus{outline:none;border-color:var(--brand)}
 textarea.onb-input{min-height:108px;resize:vertical}
 .onb-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
@@ -829,7 +820,7 @@ textarea.onb-input{min-height:108px;resize:vertical}
   <div class="locked-box">
     <div class="locked-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></div>
     <h2>Accesso su invito</h2>
-    <p>Questo assessment è disponibile su invito di Studio Guzzetti&nbsp;/&nbsp;Promexa.
+    <p>Questa autovalutazione è disponibile su invito di Studio Guzzetti&nbsp;/&nbsp;Promexa.
     Contatta lo studio per ricevere il tuo link personale.</p>
     <a href="https://www.studioguzzetti.it/#contatti" target="_blank" rel="noopener"
        class="btn btn-primary" style="text-decoration:none;margin-top:22px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Richiedi accesso</a>
@@ -875,7 +866,7 @@ textarea.onb-input{min-height:108px;resize:vertical}
     <div class="w0-legal">
       <p class="w0-legal-txt">
         Proseguendo dichiari di aver letto l’<button type="button" class="w0-legal-lnk" onclick="openLegal('privacy')">Informativa privacy</button>
-        e di accettare i <button type="button" class="w0-legal-lnk" onclick="openLegal('terms')">Termini e condizioni</button> dell’assessment.
+        e di accettare i <button type="button" class="w0-legal-lnk" onclick="openLegal('terms')">Termini e condizioni</button> dell’autovalutazione.
       </p>
       <p class="w0-legal-meta">Titolare del trattamento: Studio Guzzetti / Promexa · Dati trattati per sola finalità di analisi e ricontatto · Nessuna cessione a terzi.</p>
     </div>
@@ -967,12 +958,6 @@ textarea.onb-input{min-height:108px;resize:vertical}
     </div>
   </div>
 
-  <!-- Panoramica dell’azienda: carta d’identità compatta, in sola lettura -->
-  <div class="res-sec">
-    <div class="res-sec-k">Panoramica dell’azienda</div>
-    <div id="res_idcard"></div>
-  </div>
-
   <!-- Sintesi valutativa -->
   <div class="synth" id="res_synth">
     <div class="synth-k">Sintesi valutativa</div>
@@ -990,13 +975,19 @@ textarea.onb-input{min-height:108px;resize:vertical}
     <p class="synth-foot">Rispetto al benchmark di settore, ci sono sempre margini di miglioramento. Contattaci, senza impegno, per approfondire ulteriormente.</p>
   </div>
 
+  <!-- Panoramica dell’azienda: carta d’identità compatta, in sola lettura -->
+  <div class="res-sec">
+    <div class="res-sec-k">Panoramica dell’azienda</div>
+    <div id="res_idcard"></div>
+  </div>
+
   <!-- CTA principale, in fondo -->
   <div class="res-cta" id="res_cta">
     <div class="res-cta-txt">
       <h3>Trasformiamo questi gap in un piano di crescita?</h3>
       <p>Prenota un confronto dedicato, senza impegno: analizziamo insieme i risultati e definiamo le priorità su cui intervenire.</p>
     </div>
-    <a class="btn btn-primary res-cta-btn" id="res_cta_btn" href="https://www.studioguzzetti.it/#contatti" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 10.5a11 11 0 0 0 5 5l1.7-2.3a1 1 0 0 1 1.1-.35 12.4 12.4 0 0 0 3.9.62 1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1A17 17 0 0 1 3 6a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1c0 1.35.2 2.66.62 3.9a1 1 0 0 1-.35 1.1z"/></svg>Chiamaci</a>
+    <a class="btn btn-primary res-cta-btn" id="res_cta_btn" href="https://www.studioguzzetti.it/#contatti" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Contattaci</a>
   </div>
 
   <div class="nav no-print">
@@ -2189,7 +2180,7 @@ function sectorIco(name){ return SECTOR_ICO[name] || ICO.tag; }
 var ONB = [
   { id:'model', ico:ICO.both, eyebrow:'Modello di business',
     q:'Con chi lavora principalmente la tua azienda?',
-    hint:'Da qui adattiamo le domande dell’assessment al tuo contesto.' },
+    hint:'Da qui adattiamo le domande dell’autovalutazione al tuo contesto.' },
   { id:'you', ico:ICO.user, eyebrow:'I tuoi dati', type:'text',
     q:'Come possiamo intestare il report?',
     hint:'Ti ricontattiamo qui per commentare insieme i risultati.',
@@ -2266,7 +2257,7 @@ function renderOnbStep(){
       (s.hint ? '<p class="onb-hint">'+s.hint+'</p>' : '')+
       body+
       '<div class="onb-nav">'+
-        '<button type="button" class="btn btn-primary" onclick="onbNext()">'+(last ? BI.check + 'Inizia l’assessment' : 'Continua' + BI.arrowR)+'</button>'+
+        '<button type="button" class="btn btn-primary" onclick="onbNext()">'+(last ? BI.check + 'Inizia l’autovalutazione' : 'Continua' + BI.arrowR)+'</button>'+
         '<button type="button" class="btn btn-secondary" onclick="onbBack()">'+BI.arrowL+backLabel+'</button>'+
       '</div>'+
       (s.skip ? '<button type="button" class="onb-skip" onclick="onbNext(true)">Salta questo passaggio</button>' : '')+
@@ -3115,7 +3106,7 @@ function downloadConfigured() {
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
-  a.download = 'gotomarket-assessment-cliente.html';
+  a.download = 'autovalutazione-cliente.html';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -3345,9 +3336,9 @@ function loadDatabase() {
       return r.json();
     })
     .then(function(data) {
-      if (!data.length) { el.innerHTML = '<p class="db-status">Nessun assessment salvato nel database.</p>'; return; }
+      if (!data.length) { el.innerHTML = '<p class="db-status">Nessuna autovalutazione salvata nel database.</p>'; return; }
       var html = '<div class="db-toolbar">' +
-        '<p class="db-status">' + data.length + ' assessment registrati</p>' +
+        '<p class="db-status">' + data.length + ' autovalutazioni registrate</p>' +
         '<button class="btn btn-reset" onclick="loadDatabase()" style="font-size:.8rem;padding:7px 16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>Aggiorna</button>' +
         '</div>' +
         '<div class="db-table-wrap"><table class="db-table">' +
@@ -3374,11 +3365,11 @@ function loadDatabase() {
 }
 
 function deleteEntry(id) {
-  if (!confirm('Eliminare definitivamente questo assessment?')) return;
+  if (!confirm('Eliminare definitivamente questa autovalutazione?')) return;
   fetch(API_URL + '?id=' + encodeURIComponent(id), { method: 'DELETE', headers: {'X-GMA-Key': _k} })
     .then(function() {
       loadDatabase();
-      showToast('Assessment eliminato');
+      showToast('Autovalutazione eliminata');
     })
     .catch(function(e) { showToast('Errore: ' + e.message, 'err'); });
 }
@@ -3406,7 +3397,7 @@ function saveAssessment(nome, ruolo, settore, fatturato, dip, clientiN, b2b, b2c
     headers: { 'Content-Type': 'application/json', 'X-GMA-Key': API_KEY },
     body: JSON.stringify(payload)
   }).then(function() {
-    showToast('Assessment salvato nel database');
+    showToast('Autovalutazione salvata nel database');
   }).catch(function(e) {
     console.warn('DB save failed:', e);
   });
@@ -3422,26 +3413,26 @@ var LEGAL = {
   privacy: {
     title: 'Informativa privacy',
     body:
-      '<h4>1. Titolare del trattamento</h4><p>Il titolare del trattamento dei dati raccolti tramite il GoToMarket Assessment è <strong>Studio Guzzetti / Promexa</strong>. Per ogni richiesta relativa ai tuoi dati puoi scrivere all’indirizzo di contatto indicato sul sito dello studio.</p>' +
+      '<h4>1. Titolare del trattamento</h4><p>Il titolare del trattamento dei dati raccolti tramite l’Autovalutazione 2R è <strong>Studio Guzzetti / Promexa</strong>. Per ogni richiesta relativa ai tuoi dati puoi scrivere all’indirizzo di contatto indicato sul sito dello studio.</p>' +
       '<h4>2. Quali dati raccogliamo</h4><ul>' +
         '<li>dati di contatto del compilatore: nome e indirizzo e-mail;</li>' +
         '<li>dati sull’azienda: ragione sociale, ruolo, settore, fatturato, numero di dipendenti e clienti, canali commerciali, obiettivo e descrizione libera;</li>' +
-        '<li>le risposte fornite alle domande dell’assessment e il punteggio calcolato.</li>' +
+        '<li>le risposte fornite alle domande dell’autovalutazione e il punteggio calcolato.</li>' +
       '</ul>' +
-      '<h4>3. Finalità e base giuridica</h4><p>I dati sono trattati per elaborare il risultato dell’assessment, per restituirti il report e per un eventuale ricontatto commerciale da parte dello studio. La base giuridica è il consenso che presti proseguendo con la compilazione, revocabile in qualsiasi momento.</p>' +
+      '<h4>3. Finalità e base giuridica</h4><p>I dati sono trattati per elaborare il risultato dell’autovalutazione, per restituirti il report e per un eventuale ricontatto commerciale da parte dello studio. La base giuridica è il consenso che presti proseguendo con la compilazione, revocabile in qualsiasi momento.</p>' +
       '<h4>4. Conservazione</h4><p>I dati sono conservati per il tempo necessario alle finalità sopra indicate e comunque non oltre <strong>24 mesi</strong> dalla compilazione, salvo diverso accordo o obblighi di legge.</p>' +
       '<h4>5. Comunicazione a terzi</h4><p>I dati non sono ceduti né venduti a terzi. Possono essere trattati da fornitori tecnici (hosting, posta elettronica) nominati responsabili del trattamento e vincolati a obblighi di riservatezza.</p>' +
       '<h4>6. I tuoi diritti</h4><p>Puoi in ogni momento chiedere accesso, rettifica, cancellazione, limitazione e portabilità dei dati, opporti al trattamento e revocare il consenso, scrivendo al titolare. Hai inoltre diritto di proporre reclamo al Garante per la protezione dei dati personali.</p>' +
-      '<h4>7. Cookie</h4><p>L’assessment non utilizza cookie di profilazione. Sono impiegati esclusivamente strumenti tecnici necessari al funzionamento della pagina.</p>'
+      '<h4>7. Cookie</h4><p>L’autovalutazione non utilizza cookie di profilazione. Sono impiegati esclusivamente strumenti tecnici necessari al funzionamento della pagina.</p>'
   },
   terms: {
     title: 'Termini e condizioni',
     body:
-      '<h4>1. Oggetto</h4><p>Il GoToMarket Assessment è uno strumento di autovalutazione messo a disposizione da Studio Guzzetti / Promexa. Consente di ottenere un punteggio indicativo sull’organizzazione commerciale della propria azienda, confrontato con valori di benchmark di mercato.</p>' +
+      '<h4>1. Oggetto</h4><p>L’Autovalutazione 2R è uno strumento messo a disposizione da Studio Guzzetti / Promexa. Consente di ottenere un punteggio indicativo sull’organizzazione commerciale della propria azienda, confrontato con valori di benchmark di mercato.</p>' +
       '<h4>2. Accesso</h4><p>L’accesso avviene su invito, tramite un codice personale. Il codice è riservato al destinatario e non deve essere condiviso con terzi senza autorizzazione dello studio.</p>' +
       '<h4>3. Natura del risultato</h4><p>Il punteggio e le indicazioni restituite hanno finalità <strong>puramente informativa e orientativa</strong>. Non costituiscono consulenza professionale, né una garanzia di risultato, e non sostituiscono un’analisi approfondita condotta sul campo.</p>' +
       '<h4>4. Correttezza dei dati</h4><p>L’attendibilità del risultato dipende dalla veridicità e dalla completezza delle informazioni inserite dall’utente, che se ne assume la responsabilità.</p>' +
-      '<h4>5. Limitazione di responsabilità</h4><p>Lo studio non risponde di decisioni aziendali assunte sulla base del solo esito dell’assessment, né di eventuali interruzioni o malfunzionamenti temporanei del servizio.</p>' +
+      '<h4>5. Limitazione di responsabilità</h4><p>Lo studio non risponde di decisioni aziendali assunte sulla base del solo esito dell’autovalutazione, né di eventuali interruzioni o malfunzionamenti temporanei del servizio.</p>' +
       '<h4>6. Proprietà intellettuale</h4><p>La struttura del questionario, il modello di calcolo, i benchmark e la veste grafica sono di proprietà dello studio. Non ne è consentita la riproduzione o la diffusione senza autorizzazione scritta.</p>' +
       '<h4>7. Modifiche</h4><p>Lo studio può aggiornare il questionario, i parametri di benchmark e i presenti termini. La versione applicabile è quella pubblicata al momento della compilazione.</p>' +
       '<h4>8. Legge applicabile</h4><p>I presenti termini sono regolati dalla legge italiana. Per ogni controversia è competente il foro della sede del titolare.</p>'
@@ -3518,31 +3509,10 @@ function devGo(target) {
   }).join('');
 })();
 
-// ── Condividi: foglio con link, copia e app di destinazione ────────────
-// Stessa logica del pannello "Condividi" di YouTube: gli intent social sono
-// semplici URL https, la copia usa navigator.clipboard, e su mobile si può
-// aprire il foglio nativo del sistema (navigator.share).
-var SHARE_TARGETS = [
-  { id:'whatsapp', label:'WhatsApp', color:'#25D366',
-    url:function(u,t){ return 'https://wa.me/?text=' + encodeURIComponent(t + ' ' + u); },
-    ico:'<path d="M20.5 3.5A10.4 10.4 0 0 0 3.6 16.1L2.5 21.5l5.5-1.1a10.4 10.4 0 0 0 12.5-16.9z"/><path d="M8.5 8.4c.3-.7.6-.7.9-.7h.7c.2 0 .5 0 .8.6l1 2.4c.1.3 0 .5-.1.7l-.5.6c-.2.2-.3.4-.1.7a8 8 0 0 0 3.6 3.1c.3.1.5.1.7-.1l.7-.8c.2-.2.4-.2.7-.1l2.2 1.1c.3.2.5.3.5.5s0 1-.4 1.5c-.4.5-1.3 1-2 1-2.9 0-6.1-2.3-7.7-4.6-1.1-1.6-1.6-3-1.6-4.2 0-.9.4-1.5.6-1.7z"/>' },
-  { id:'linkedin', label:'LinkedIn', color:'#0A66C2',
-    url:function(u){ return 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(u); },
-    ico:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.6v.01M11.5 16.5v-6M11.5 13c0-1.4 1-2.5 2.4-2.5s2.6 1 2.6 2.7v3.3"/>' },
-  { id:'email', label:'E-mail', color:'#5c5c68',
-    url:function(u,t){ return 'mailto:?subject=' + encodeURIComponent(t) + '&body=' + encodeURIComponent(t + '\n\n' + u); },
-    ico:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' },
-  { id:'x', label:'X', color:'#111',
-    url:function(u,t){ return 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(t) + '&url=' + encodeURIComponent(u); },
-    ico:'<path d="M4 4l7.5 9.5L4.5 20M20 4l-7.4 8.3L20 20h-4.2L4 4h4.2z"/>' },
-  { id:'facebook', label:'Facebook', color:'#1877F2',
-    url:function(u){ return 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(u); },
-    ico:'<path d="M14.5 21v-7h2.4l.4-3h-2.8V9.2c0-.9.2-1.5 1.5-1.5H17V5.1A19 19 0 0 0 14.9 5c-2.2 0-3.6 1.3-3.6 3.8V11H9v3h2.3v7z"/>' },
-  { id:'telegram', label:'Telegram', color:'#26A5E4',
-    url:function(u,t){ return 'https://t.me/share/url?url=' + encodeURIComponent(u) + '&text=' + encodeURIComponent(t); },
-    ico:'<path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 10-7-6 9"/>' }
-];
-// link pulito dell'assessment: solo origine + path + codice d'accesso.
+// ── Condividi: foglio con link e copia ──────────────────────────────────
+// Solo il link (nessun intent social): chi lo riceve compila la propria
+// autovalutazione, non vede le risposte di chi l'ha condiviso.
+// link pulito dell'autovalutazione: solo origine + path + codice d'accesso.
 // Nessun risultato è nell'URL, ma così togliamo anche ?dev / ?setup / hash.
 function shareLink() {
   try {
@@ -3551,26 +3521,16 @@ function shareLink() {
     return u.origin + u.pathname + (c ? '?c=' + encodeURIComponent(c) : '');
   } catch (e) { return window.location.href.split(/[?#]/)[0]; }
 }
-function shareTitle() { return 'Questionario di autovalutazione 2R — Keymove'; }
 
 function openShareModal() {
-  var url = shareLink(), title = shareTitle();
+  var url = shareLink();
   document.getElementById('shareUrl').value = url;
-  document.getElementById('shareTargets').innerHTML = SHARE_TARGETS.map(function (t) {
-    return '<a class="share-t" href="' + t.url(url, title) + '" target="_blank" rel="noopener">' +
-      '<span class="share-t-ic" style="background:' + t.color + '">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + t.ico + '</svg>' +
-      '</span><span class="share-t-l">' + t.label + '</span></a>';
-  }).join('');
-  var nat = document.getElementById('shareNativeBtn');
-  nat.hidden = !navigator.share;
   var btn = document.getElementById('shareCopyBtn');
   btn.textContent = 'Copia'; btn.classList.remove('done');
 
   var ov = document.getElementById('shareOverlay');
   ov.classList.add('open');
   gfrom(ov.querySelector('.pwd-box'), { opacity: 0, y: 20, scale: .97, duration: .3, ease: 'power3.out' });
-  gfrom('#shareTargets .share-t', { opacity: 0, y: 12, duration: .3, stagger: .04, delay: .06, ease: 'power2.out' });
 }
 function closeShare() { document.getElementById('shareOverlay').classList.remove('open'); }
 function closeShareOnBg(e) { if (e.target === document.getElementById('shareOverlay')) closeShare(); }
@@ -3588,11 +3548,6 @@ function copyShareUrl() {
     navigator.clipboard.writeText(input.value).then(ok).catch(function () { input.select(); document.execCommand('copy'); ok(); });
   } else { input.select(); document.execCommand('copy'); ok(); }
 }
-function nativeShare() {
-  if (!navigator.share) return;
-  navigator.share({ title: shareTitle(), url: shareLink() }).catch(function () {});
-}
-
 // ════════════════════════════════════════════════
 //  GESTIONE CODICE DI ACCESSO
 // ════════════════════════════════════════════════
@@ -3649,7 +3604,7 @@ function copyAccessUrl() {
 <div class="setup-overlay no-print" id="setupOverlay" onclick="closeSetupOnBg(event)">
   <div class="setup-box">
     <div class="setup-head">
-      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h9M17 8h3M4 16h3M11 16h9"/><circle cx="15" cy="8" r="2.3"/><circle cx="9" cy="16" r="2.3"/></svg> Setup GoToMarket Assessment</h2>
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h9M17 8h3M4 16h3M11 16h9"/><circle cx="15" cy="8" r="2.3"/><circle cx="9" cy="16" r="2.3"/></svg> Setup Autovalutazione 2R</h2>
       <button class="setup-close" onclick="closeSetup()" title="Chiudi">×</button>
     </div>
     <div class="setup-body">
@@ -3706,7 +3661,7 @@ function copyAccessUrl() {
 
         <div class="setup-sec-hdr" style="margin-top:24px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.9 12.1 20 3M16.5 6.5l2.5 2.5M13.5 9.5l2.5 2.5"/></svg> Codice di accesso</div>
         <div style="font-size:.82rem;color:var(--text-light);margin-bottom:10px;line-height:1.55">
-          Solo chi possiede il link con il codice corretto può compilare l'assessment.
+          Solo chi possiede il link con il codice corretto può compilare l'autovalutazione.
           Il codice viene incluso automaticamente dal pulsante <strong>Condividi</strong>.
           Lascia vuoto per rimuovere la protezione.
         </div>
@@ -3730,7 +3685,7 @@ function copyAccessUrl() {
       <!-- ── Tab 3: Database ── -->
       <div class="setup-tab-pane" id="stab_database">
         <div class="setup-desc">
-          Storico di tutti gli assessment compilati e salvati nel database. Puoi eliminare singole voci (es. assessment di prova).
+          Storico di tutte le autovalutazioni compilate e salvate nel database. Puoi eliminare singole voci (es. autovalutazioni di prova).
         </div>
         <div id="db_container"><p class="db-status">Clicca il tab Database per caricare i dati.</p></div>
       </div>
@@ -3747,15 +3702,11 @@ function copyAccessUrl() {
       <button class="pwd-x" onclick="closeShare()" aria-label="Chiudi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <div class="pwd-body">
-      <div class="share-targets" id="shareTargets"></div>
       <div class="share-link">
         <input type="text" id="shareUrl" readonly onclick="this.select()">
         <button class="share-copy" id="shareCopyBtn" onclick="copyShareUrl()">Copia</button>
       </div>
-      <button class="share-native" id="shareNativeBtn" onclick="nativeShare()" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m8 8 4-4 4 4"/><path d="M20 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-5"/></svg>
-        Altre app…
-      </button>
+      <p class="share-note">Questo link porta solo al questionario: i dati e le risposte che hai appena inserito restano privati e non vengono condivisi.</p>
     </div>
   </div>
 </div>
