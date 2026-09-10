@@ -990,7 +990,7 @@ textarea.onb-input{min-height:108px;resize:vertical}
       <h3>Trasformiamo questi gap in un piano di crescita?</h3>
       <p>Prenota un confronto dedicato, senza impegno: analizziamo insieme i risultati e definiamo le priorità su cui intervenire.</p>
     </div>
-    <a class="btn btn-primary res-cta-btn" id="res_cta_btn" href="https://www.studioguzzetti.it/#contatti" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Contattaci</a>
+    <a class="btn btn-primary res-cta-btn" id="res_cta_btn" href="mailto:report2r@keymove.it?subject=Autovalutazione%202R%20%E2%80%94%20richiesta%20di%20confronto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Contattaci</a>
   </div>
 
   <div class="nav no-print">
@@ -2855,6 +2855,28 @@ function buildResults() {
   const weak = DIMS.filter(d=>scores[d.id]<d.bm).map(d=>d.label);
   const strong = DIMS.filter(d=>scores[d.id]>=d.tg).map(d=>d.label);
   const overallLabel = overallPct >= 60 ? 'positivo' : overallPct >= 40 ? 'in sviluppo' : 'critico';
+
+  // CTA "Contattaci": mail precompilata verso KeyMove col contesto dell'autovalutazione
+  const _compilatore = (document.getElementById('f_compilatore_nome') || {}).value || '';
+  const _segLabel = segment === 'b2b' ? 'B2B' : 'B2C';
+  const _mailSub = 'Autovalutazione 2R — richiesta di confronto' + (nome && nome !== '—' ? ' · ' + nome : '');
+  const _mailBody = [
+    'Buongiorno,',
+    '',
+    'ho completato il Questionario di autovalutazione 2R e vorrei approfondire i risultati con voi.',
+    '',
+    'Azienda: ' + nome,
+    'Settore: ' + settore,
+    'Modello: ' + _segLabel,
+    'Punteggio complessivo: ' + overallPct + '% (posizionamento ' + overallLabel + ')',
+    '',
+    'Restiamo in contatto per fissare un confronto senza impegno.',
+    '',
+    'Grazie,',
+    _compilatore
+  ].join('\r\n');
+  const _cta = document.getElementById('res_cta_btn');
+  if (_cta) _cta.href = 'mailto:report2r@keymove.it?subject=' + encodeURIComponent(_mailSub) + '&body=' + encodeURIComponent(_mailBody);
 
   document.getElementById('res_synth_lead').innerHTML =
     'Il punteggio complessivo della tua organizzazione è <strong>' + overallPct + '%</strong>, ' +
