@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Content-Security-Policy: tutte le risorse della pagina sono inline o data: URI,
+     quindi nessuna origine esterna serve. 'unsafe-inline' resta necessario finche'
+     ci sono i blocchi script/style inline e gli attributi onclick=.
+     NOTA: frame-ancestors e' ignorato dentro un <meta>: l'anti-clickjacking vero
+     e' l'header X-Frame-Options/CSP inviato da server/index.php. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; frame-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Questionario di autovalutazione 2R — Keymove</title>
 <!-- Favicon: "k" Keymove (rosso brand), SVG inline in data URI — nessun file esterno,
      compatibile con la CSP del server e con l'hosting a file singolo. -->
@@ -824,7 +831,7 @@ textarea.onb-input{min-height:108px;resize:vertical}
     <h2>Accesso su invito</h2>
     <p>Questa autovalutazione è disponibile su invito di Studio Guzzetti&nbsp;/&nbsp;Promexa.
     Contatta lo studio per ricevere il tuo link personale.</p>
-    <a href="https://www.studioguzzetti.it/#contatti" target="_blank" rel="noopener"
+    <a href="https://www.studioguzzetti.it/#contatti" target="_blank" rel="noopener noreferrer"
        class="btn btn-primary" style="text-decoration:none;margin-top:22px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Richiedi accesso</a>
   </div>
 </div>
@@ -1792,7 +1799,7 @@ function renderQuestions(dimId, containerId) {
     const label = document.createElement('div');
     label.className = 'q-label';
     label.innerHTML = `<span class="q-idx">Domanda ${qi+1} di ${qs.length}</span>
-                       <div class="q-text">${q.text}</div>`;
+                       <div class="q-text">${_esc(q.text)}</div>`;
     row.appendChild(label);
 
     // — Colonne 2-4: risposte in griglia 3 colonne —
@@ -1805,7 +1812,7 @@ function renderQuestions(dimId, containerId) {
       cell.id = `opt_${dimId}_${qi}_${oi}`;
       // il colore della selezione (rosso logo) è gestito da .a-cell.sel — niente stile inline
       // testo a sinistra, radio a destra (struttura reference)
-      cell.innerHTML = `<span class="a-txt">${opt}</span><span class="a-dot"></span>`;
+      cell.innerHTML = `<span class="a-txt">${_esc(opt)}</span><span class="a-dot"></span>`;
       cell.onclick = () => selectOpt(dimId, qi, oi, color);
       answers_wrap.appendChild(cell);
     });
@@ -1922,14 +1929,14 @@ function buildSectionScreens() {
     return '<div class="screen" id="s' + n + '">' +
       '<div class="sec-head">' +
         '<div class="sec-tag">Sezione ' + (letters[i] || '') + ' · ' + (i+1) + ' di ' + DIMS.length + '</div>' +
-        '<h2>' + d.label + '</h2>' +
-        '<p>' + (d.desc || '') + '</p>' +
+        '<h2>' + _esc(d.label) + '</h2>' +
+        '<p>' + _esc(d.desc || '') + '</p>' +
       '</div>' +
-      '<div id="qs_' + d.id + '"></div>' +
+      '<div id="qs_' + _esc(d.id) + '"></div>' +
       '<div class="warn" id="warnS' + n + '">Rispondi a tutte le domande per continuare.</div>' +
       '<div class="nav">' +
         '<button class="btn btn-secondary" onclick="goTo(' + (n-1) + ')">' + BI.arrowL + 'Indietro</button>' +
-        '<button class="btn btn-primary" onclick="nextSection(\'' + d.id + '\',' + n + ',' + (n+1) + ')">' +
+        '<button class="btn btn-primary" onclick="nextSection(\'' + _escJs(d.id) + '\',' + n + ',' + (n+1) + ')">' +
           (last ? BI.check + 'Vedi i risultati' : 'Continua' + BI.arrowR) +
         '</button>' +
       '</div>' +
@@ -2311,7 +2318,12 @@ function onbWarn(msg){
   if(w){ w.textContent = msg; w.style.display='block'; w.scrollIntoView({block:'center',behavior:'smooth'}); }
 }
 function _setF(id,val){ var el = document.getElementById(id); if(el) el.value = val; }
-function _esc(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function _esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+// Escape per un valore che finisce dentro una stringa JS in un attributo evento
+// (onclick="fn('...')"). Prima i metacaratteri JS, poi quelli HTML: il browser
+// decodifica le entita' prima di eseguire l'handler, quindi la funzione riceve
+// comunque il valore originale.
+function _escJs(s){ return _esc(String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")); }
 
 /* --- passo: modello di business --- */
 function onbSplitHTML(){
@@ -2978,7 +2990,12 @@ const DEFAULT_BM_B2B = {mercato:0.60,clienti:0.50,offerta:0.65,organizzazione:0.
 const DEFAULT_BM_B2C = {mercato:0.65,clienti:0.45,offerta:0.60,organizzazione:0.48,marketing:0.55,strumenti:0.42};
 const DEFAULT_TG_B2B = {mercato:[0.70, 0.70, 0.75, 0.60, 0.60, 0.60, 0.65],clienti:[0.70, 0.70, 0.65, 0.75, 0.65, 0.60, 0.65],offerta:[0.80, 0.70, 0.70, 0.65, 0.65, 0.65, 0.65],organizzazione:[0.62, 0.73, 0.68, 0.68, 0.73, 0.62, 0.65],marketing:[0.75, 0.75, 0.75, 0.65, 0.65, 0.65, 0.70],strumenti:[0.65, 0.70, 0.65, 0.70, 0.75, 0.60, 0.65]};
 const DEFAULT_TG_B2C = {mercato:[0.75, 0.75, 0.80, 0.65, 0.65, 0.65, 0.70],clienti:[0.65, 0.65, 0.60, 0.70, 0.60, 0.55, 0.60],offerta:[0.75, 0.65, 0.65, 0.60, 0.60, 0.60, 0.60],organizzazione:[0.57, 0.68, 0.62, 0.62, 0.68, 0.57, 0.60],marketing:[0.80, 0.80, 0.80, 0.70, 0.70, 0.70, 0.75],strumenti:[0.60, 0.65, 0.60, 0.65, 0.70, 0.55, 0.60]};
-const _k = atob('S2V5TW92ZU1NUA=='); // password offuscata
+// Impronta SHA-256 della password del Setup: la password non e' piu' ricavabile
+// leggendo il sorgente (prima era base64, cioe' in chiaro).
+// ATTENZIONE: resta un controllo lato client, quindi aggirabile da console.
+// NON e' una barriera di sicurezza: va sostituito da una verifica server-side
+// quando esistera' adminreport2r.
+const _kh = '7832bb5c42852ad9d211df166a734415f76409d11fe95cd869a9cf2a72785fc2';
 
 // ── Password gate ──
 function openSetup() {
@@ -3007,13 +3024,22 @@ function togglePwdVisibility() {
   if (b) b.innerHTML = wasHidden ? ICN.eyeOff : ICN.eye;
 }
 
-function checkPwd() {
+async function checkPwd() {
+  const err = document.getElementById('pwdErr');
   const val = document.getElementById('pwdInput').value;
-  if (val === _k) {
+  let ok = false;
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+    ok = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('') === _kh;
+  } catch (e) {
+    // crypto.subtle esiste solo in contesto sicuro (https o localhost)
+    err.textContent = 'Setup accessibile solo via https.';
+    return;
+  }
+  if (ok) {
     closePwd();
     _openSetupPanel();
   } else {
-    const err = document.getElementById('pwdErr');
     err.textContent = 'Password non corretta. Riprova.';
     document.getElementById('pwdInput').value = '';
     document.getElementById('pwdInput').focus();
@@ -3213,11 +3239,11 @@ function renderQuestionsEditor() {
     body.id = 'qe_body_' + d.id;
     body.innerHTML =
       '<div class="qe-seg-tabs">' +
-        '<button class="qe-seg-btn active" id="qeseg_b2b_' + d.id + '" onclick="switchEditorSeg(\'' + d.id + '\',\'b2b\')">B2B</button>' +
-        '<button class="qe-seg-btn" id="qeseg_b2c_' + d.id + '" onclick="switchEditorSeg(\'' + d.id + '\',\'b2c\')">B2C</button>' +
+        '<button class="qe-seg-btn active" id="qeseg_b2b_' + _esc(d.id) + '" onclick="switchEditorSeg(\'' + _escJs(d.id) + '\',\'b2b\')">B2B</button>' +
+        '<button class="qe-seg-btn" id="qeseg_b2c_' + _esc(d.id) + '" onclick="switchEditorSeg(\'' + _escJs(d.id) + '\',\'b2c\')">B2C</button>' +
       '</div>' +
-      '<div id="qe_qlist_' + d.id + '"></div>' +
-      '<button class="qe-add-q-btn" onclick="addQuestion(\'' + d.id + '\')">+ Aggiungi domanda</button>';
+      '<div id="qe_qlist_' + _esc(d.id) + '"></div>' +
+      '<button class="qe-add-q-btn" onclick="addQuestion(\'' + _escJs(d.id) + '\')">+ Aggiungi domanda</button>';
     acc.appendChild(body);
     container.appendChild(acc);
     renderQList(d.id, _editorSeg);
@@ -3258,28 +3284,28 @@ function renderQList(dimId, seg) {
     var item = document.createElement('div');
     item.className = 'qe-q-item';
     var moveOpts = DIMS.filter(function(d) { return d.id !== dimId; })
-      .map(function(d) { return '<option value="' + d.id + '">' + d.label + '</option>'; }).join('');
+      .map(function(d) { return '<option value="' + _esc(d.id) + '">' + _esc(d.label) + '</option>'; }).join('');
     var optsHTML = q.opts.map(function(opt, oi) {
       var score = ((5 / q.opts.length) * (oi + 1)).toFixed(2);
       var safeOpt = opt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
       return '<div class="qe-opt-row">' +
         '<span class="qe-opt-score">Score ' + score + '</span>' +
         '<input class="qe-opt-input" value="' + safeOpt + '" ' +
-          'onchange="updateOpt(\'' + dimId + '\',\'' + seg + '\',' + qi + ',' + oi + ',this.value)">' +
+          'onchange="updateOpt(\'' + _escJs(dimId) + '\',\'' + _escJs(seg) + '\',' + qi + ',' + oi + ',this.value)">' +
         '<button class="qe-btn-sm qe-btn-del" ' +
-          'onclick="deleteOpt(\'' + dimId + '\',\'' + seg + '\',' + qi + ',' + oi + ')" title="Elimina risposta">' + ICN.x + '</button>' +
+          'onclick="deleteOpt(\'' + _escJs(dimId) + '\',\'' + _escJs(seg) + '\',' + qi + ',' + oi + ')" title="Elimina risposta">' + ICN.x + '</button>' +
       '</div>';
     }).join('');
     var safeText = q.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     item.innerHTML =
       '<textarea class="qe-q-text" rows="2" ' +
-        'onchange="updateQText(\'' + dimId + '\',\'' + seg + '\',' + qi + ',this.value)">' + safeText + '</textarea>' +
+        'onchange="updateQText(\'' + _escJs(dimId) + '\',\'' + _escJs(seg) + '\',' + qi + ',this.value)">' + safeText + '</textarea>' +
       '<div class="qe-q-actions">' +
-        '<button class="qe-btn-sm" onclick="addOpt(\'' + dimId + '\',\'' + seg + '\',' + qi + ')">+ Risposta</button>' +
+        '<button class="qe-btn-sm" onclick="addOpt(\'' + _escJs(dimId) + '\',\'' + _escJs(seg) + '\',' + qi + ')">+ Risposta</button>' +
         '<select class="qe-move-sel" ' +
-          'onchange="moveQuestion(\'' + dimId + '\',\'' + seg + '\',' + qi + ',this.value);this.value=\'\'"><option value="">Sposta in...</option>' + moveOpts + '</select>' +
+          'onchange="moveQuestion(\'' + _escJs(dimId) + '\',\'' + _escJs(seg) + '\',' + qi + ',this.value);this.value=\'\'"><option value="">Sposta in...</option>' + moveOpts + '</select>' +
         '<button class="qe-btn-sm qe-btn-del" ' +
-          'onclick="deleteQuestion(\'' + dimId + '\',\'' + seg + '\',' + qi + ')">' + ICN.trash + 'Elimina</button>' +
+          'onclick="deleteQuestion(\'' + _escJs(dimId) + '\',\'' + _escJs(seg) + '\',' + qi + ')">' + ICN.trash + 'Elimina</button>' +
       '</div>' +
       '<div class="qe-opt-list">' + optsHTML + '</div>';
     container.appendChild(item);
@@ -3455,7 +3481,7 @@ function devGo(target) {
     .concat(DIMS.map(function (d, i) { return [String(i + 2), 'Sezione ' + (i + 1) + ' \u00b7 ' + (DIM_SHORT[d.id] || d.label)]; }))
     .concat([['results', 'Risultati']]);
   document.getElementById('devBtns').innerHTML = rows.map(function (r) {
-    return '<button type="button" onclick="devGo(\'' + r[0] + '\')">' + r[1] + '</button>';
+    return '<button type="button" onclick="devGo(\'' + _escJs(r[0]) + '\')">' + _esc(r[1]) + '</button>';
   }).join('');
 })();
 
@@ -3538,7 +3564,7 @@ function copyAccessUrl() {
     <div class="pwd-body">
       <p>Inserisci la password per accedere alla configurazione dei benchmark.</p>
       <div class="pwd-input-wrap">
-        <input type="password" id="pwdInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPwd()">
+        <input type="password" id="pwdInput" placeholder="Password" autocomplete="off" spellcheck="false" aria-label="Password di accesso al Setup" onkeydown="if(event.key==='Enter')checkPwd()">
         <button class="pwd-toggle" onclick="togglePwdVisibility()" title="Mostra/Nascondi" id="pwdToggleBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <div class="pwd-err" id="pwdErr"></div>

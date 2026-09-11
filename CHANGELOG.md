@@ -7,6 +7,73 @@ Stati: 🔲 da rivedere · 🟡 in discussione · ✅ approvata · ↩️ da cor
 
 ---
 
+## Hardening sicurezza — 2026-09-11 (13) — 🔲 da rivedere
+
+Passata di sicurezza sull'HTML, richiesta da Nick. **Nessuna modifica a CSS,
+layout, classi o logica funzionale**: solo escaping, header e credenziali.
+Diff: 51 righe aggiunte, 25 tolte in `index.html`.
+
+- **XSS memorizzato (il problema serio).** `q.text`, `opt`, `d.label`, `d.desc`
+  finivano in `innerHTML` senza escape. Sono testi che arrivano **dal
+  database**, quindi chi scrive le domande poteva iniettare JS eseguito nel
+  browser di ogni compilatore. Verificato: sul file pre-patch il payload
+  partiva 4 volte, ora è neutralizzato.
+- **`_esc()` completata**: prima copriva solo `&`, `"`, `<`; ora anche `>` e
+  l'apice singolo.
+- **Nuova `_escJs()`** per i valori che finiscono dentro una stringa JS in un
+  attributo evento (`onclick="fn('…')"`): lì il solo escaping HTML non basta,
+  perché il browser decodifica le entità *prima* di eseguire l'handler.
+  Applicata a 12 punti (schermate sezione, editor domande, barra DEV).
+- **Password del Setup**: era `atob('…')`, cioè in chiaro. Ora in `_kh` c'è
+  solo l'impronta SHA-256 e `checkPwd()` confronta via Web Crypto.
+  ⚠️ Resta un controllo lato client, aggirabile da console: **non è una
+  barriera di sicurezza**, va rifatta server-side con `adminreport2r`.
+- **Reverse tabnabbing**: aggiunto `noreferrer` al link con `target="_blank"`.
+- **CSP** in un `<meta>` + `Referrer-Policy`. Nessuna origine esterna serve
+  (tutto è inline o `data:`), quindi la policy è stretta e senza `unsafe-eval`.
+  `unsafe-inline` resta obbligatorio finché ci sono i 49 `onclick=` inline.
+- **Header lato server** in `server/index.php`: CSP con `frame-ancestors 'self'`
+  (in un `<meta>` sarebbe ignorato), `X-Frame-Options`, `X-Content-Type-Options`,
+  `Referrer-Policy`, `Permissions-Policy`.
+- **Campo password**: `autocomplete="off"`, così il browser non propone di
+  salvare una password condivisa.
+
+Collaudo in Chrome headless: nessuna violazione CSP, nessun errore JS, flusso
+completo fino ai risultati con il radar Chart.js, e la pagina continua a
+funzionare anche con una chiave di sezione ostile. Dettagli in `NOTES.md`.
+
+---
+
+## Backend PHP + MySQL — 2026-09-10 (12) — 🔲 da rivedere
+
+Non è più solo UX/UI: da qui l'autovalutazione ha un backend vero. Dettagli
+tecnici completi in `NOTES.md` → "Backend PHP + MySQL"; qui il riassunto per
+la review.
+
+- **Database** (`db/`): 15 tabelle in un unico database MySQL — questionario
+  (sezioni, domande, risposte con valore libero, benchmark, target, versioni
+  bozza/pubblicata), dati (compilazioni, punteggi di sezione, documenti,
+  link di download), admin (account, storico). Seed generato dal
+  questionario attuale: stessi punteggi di oggi finché nessuno li cambia.
+- **Scelta di Michele: niente più risposte singole salvate.** Solo dati
+  onboarding, punteggio complessivo, punteggio per sezione, consenso.
+- **Applicazione PHP** (`server/`): `index.php` inietta il questionario dal
+  database in una copia di `index.html`; `api/compilazione.php` salva
+  onboarding + risultati con tutti i controlli lato server (origine,
+  consenso, formato, valori). Sostituisce del tutto `gma_api.php` e la sua
+  chiave in chiaro.
+- **Punteggio delle risposte**: da posizione fissa (1,25·2,5·3,75·5) a
+  valore libero per risposta, diviso per il massimo della domanda
+  (`answerScore()`). Stesso risultato di oggi con il seed attuale.
+- **Pannello Setup rimosso** (i due ingressi nascosti non ci sono più):
+  domande, benchmark e target si modificano nel database, non più nel file.
+  Markup e funzioni JS restano nel file ma sono morti — pulizia rimandata.
+- **Caricato su `provareport2r.keymove.it`** (non ancora protetto da
+  password sul lato hosting). Verificato via `curl`/`php -l`; **la verifica
+  nel browser vero non è stata completata** — da rifare prima del collasso.
+
+---
+
 ## Ritocchi Nick — 2026-09-10 (11) — 🟡 in discussione
 
 - **Rinominato "assessment" → "autovalutazione"** in tutti i testi visibili (titolo
