@@ -212,8 +212,13 @@ Ordine ragionevole per riprendere:
    segnaposto (mostra solo un toast). Tre documenti pianificati (PDF
    cliente, PDF interno, presentazione stile slide) via motore Chrome-based
    (PDFMonkey proposto, non confermato) — vedi la memoria di progetto per il
-   ragionamento completo. La mail al cliente è ferma in attesa di link
-   prenotazione, telefono/WhatsApp e a nome di chi firma.
+   ragionamento completo. Mockup della mail (dati fittizi Rossi Illuminazione)
+   in `mail/report-email-preview.html`, header identico a quello reale
+   (logo Keymove + 2R). Confermati: telefono `+39 02 3676 7138`, LinkedIn
+   `linkedin.com/company/keymove`. Ancora aperti: link di prenotazione,
+   se il numero è utilizzabile su WhatsApp Business, nome/ruolo di chi
+   firma, se il mittente automatico resta `report2r@keymove.it` o ne serve
+   uno dedicato.
 8. **Iubenda**: da attivare per privacy/T&C + registro consensi; sostituirà
    i testi provvisori in `LEGAL` (JS).
 9. **Pulizia**: barra DEV (`?dev`, `initDev/devGo/devFill`, `#devbar`),

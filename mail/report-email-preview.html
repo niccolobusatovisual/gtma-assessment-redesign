@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Report 2R — anteprima interna</title>
+<style>
+  :root{
+    --bg:#faf8f8; --surface:#ffffff; --ink:#1c1c22; --text-2:#5c5c68; --hairline:#e6e3e7;
+    --brand:#f71e44; --brand-hover:#d4123a; --tint:#fdeaee;
+    --below-bg:#f7e6e2; --below-fg:#b23a22;
+    --above-bg:#fbf1dc; --above-fg:#9a6a12;
+    --target-bg:#e6f3ea; --target-fg:#1f7a4d;
+    --tick-bm:#8a8a94; --tick-tg:#1c1c22;
+    --d-mercato:#f59e0b; --d-clienti:#10b981; --d-offerta:#8b5cf6;
+    --d-org:#0ea5e9; --d-marketing:#3b82f6; --d-strumenti:#f97316;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18151a; --surface:#221e24; --ink:#f2eef0; --text-2:#b3abb2; --hairline:#38323b;
+      --brand:#ff4468; --brand-hover:#ff6f8b; --tint:#3a1720;
+      --below-bg:#3a2019; --below-fg:#e8846b;
+      --above-bg:#3a2f14; --above-fg:#e2af4f;
+      --target-bg:#15301f; --target-fg:#5ecf93;
+      --tick-bm:#8f8994; --tick-tg:#f2eef0;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18151a; --surface:#221e24; --ink:#f2eef0; --text-2:#b3abb2; --hairline:#38323b;
+    --brand:#ff4468; --brand-hover:#ff6f8b; --tint:#3a1720;
+    --below-bg:#3a2019; --below-fg:#e8846b;
+    --above-bg:#3a2f14; --above-fg:#e2af4f;
+    --target-bg:#15301f; --target-fg:#5ecf93;
+    --tick-bm:#8f8994; --tick-tg:#f2eef0;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Segoe UI',Arial,sans-serif;
+    padding:32px 16px 64px; padding-block:32px 64px;
+  }
+  .page{max-width:648px; margin:0 auto; display:flex; flex-direction:column; gap:22px}
+
+  .eyebrow{display:flex; flex-direction:column; gap:6px}
+  .eyebrow .tag{
+    display:inline-flex; align-self:flex-start; align-items:center; gap:6px;
+    font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    color:var(--brand); background:var(--tint); border-radius:999px; padding:5px 11px;
+  }
+  .eyebrow h1{margin:0; font-size:1.3rem; font-weight:700; text-wrap:balance}
+  .eyebrow p{margin:0; font-size:.92rem; color:var(--text-2); line-height:1.55; max-width:56ch}
+  .eyebrow b{color:var(--ink)}
+
+  /* --- mail app frame --- */
+  .frame{
+    background:var(--surface); border:1px solid var(--hairline); border-radius:16px;
+    overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,.04);
+  }
+  .frame-head{padding:16px 20px; display:flex; flex-direction:column; gap:12px; border-bottom:1px solid var(--hairline)}
+  .frame-row{display:flex; align-items:center; gap:12px}
+  .avatar{
+    width:34px; height:34px; border-radius:50%; background:var(--brand); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:.78rem; font-weight:700; flex-shrink:0;
+  }
+  .from-block{display:flex; flex-direction:column; min-width:0; flex:1}
+  .from-name{font-size:.86rem; font-weight:600; color:var(--ink)}
+  .from-addr{font-size:.78rem; color:var(--text-2)}
+  .frame-date{font-size:.76rem; color:var(--text-2); white-space:nowrap}
+  .subject{font-size:.98rem; font-weight:700; color:var(--ink)}
+  .preheader{font-size:.82rem; color:var(--text-2); line-height:1.4}
+
+  /* --- the actual email body: fixed white surface, this is the rendered artifact --- */
+  .msg{background:#ffffff; color:#1c1c22}
+  .msg-header{background:#fff; padding:17px 24px; display:flex; align-items:center; justify-content:center; gap:17px; border-bottom:1px solid #e6e3e7}
+  .logo-mark{height:25px; width:auto; display:block; color:#f71e44}
+  .hdr-div{width:1px; height:30px; background:#e6e3e7; flex-shrink:0}
+  .rr-mark{height:31px; width:auto; display:block; color:#1c1c22}
+  .msg-body{padding:30px 40px 8px; display:flex; flex-direction:column; gap:18px}
+  .msg-body p{margin:0; font-size:.95rem; line-height:1.65; color:#33313a; max-width:52ch}
+  .greeting{font-size:1.02rem; font-weight:700; color:#1c1c22}
+
+  .score-hero{
+    display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+    border:1px solid #eee0e2; background:#fffaf9; border-radius:12px; padding:18px 20px;
+  }
+  .score-num{font-size:2.6rem; font-weight:800; color:#f71e44; line-height:1; font-variant-numeric:tabular-nums}
+  .score-label{font-size:.8rem; color:#5c5c68}
+  .score-status{font-size:.82rem; color:#5c5c68; width:100%; margin-top:2px}
+
+  .dims{display:flex; flex-direction:column; gap:16px; margin-top:4px}
+  .dim-row{display:flex; flex-direction:column; gap:6px}
+  .dim-top{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .dim-name{display:flex; align-items:center; gap:8px; font-size:.85rem; font-weight:600; color:#1c1c22}
+  .dot{width:8px; height:8px; border-radius:50%; flex-shrink:0}
+  .dim-right{display:flex; align-items:center; gap:8px}
+  .dim-val{font-size:.85rem; font-weight:700; color:#1c1c22; font-variant-numeric:tabular-nums}
+  .pill{font-size:.68rem; font-weight:700; padding:3px 8px; border-radius:999px; white-space:nowrap}
+  .pill.below{background:#f7e6e2; color:#b23a22}
+  .pill.above{background:#fbf1dc; color:#9a6a12}
+  .pill.target{background:#e6f3ea; color:#1f7a4d}
+
+  .track{position:relative; height:8px; border-radius:5px; background:#efeaeb}
+  .fill{position:absolute; inset:0 auto 0 0; height:100%; border-radius:5px}
+  .tick{position:absolute; top:-2px; width:2px; height:12px; border-radius:1px}
+
+  .legend{display:flex; gap:14px; font-size:.72rem; color:#5c5c68; flex-wrap:wrap; margin-top:2px}
+  .legend span{display:inline-flex; align-items:center; gap:5px}
+  .legend i{width:10px; height:2px; display:inline-block; border-radius:1px}
+
+  .cta-wrap{padding:8px 40px 6px; display:flex; flex-direction:column; align-items:flex-start; gap:8px}
+  .cta{
+    display:inline-flex; align-items:center; gap:8px; background:#f71e44; color:#fff;
+    font-size:.9rem; font-weight:700; text-decoration:none; padding:13px 24px; border-radius:999px;
+  }
+  .pending-inline{
+    font-size:.76rem; font-style:italic; color:#8a6a1f; background:#fdf6e6;
+    border:1px dashed #d8bd7a; border-radius:7px; padding:3px 9px; display:inline-block;
+  }
+  .contact-line{padding:2px 40px 0; font-size:.85rem; color:#33313a; line-height:1.6}
+
+  .msg-footer{padding:26px 40px 30px; margin-top:10px; border-top:1px solid #eee}
+  .sign{font-size:.88rem; color:#33313a; line-height:1.6}
+  .social-link{display:inline-flex; margin-top:14px; color:#1c1c22; text-decoration:none}
+  .social-link svg{width:26px; height:26px; display:block}
+  .fine-print{font-size:.72rem; color:#9a97a0; line-height:1.6; margin-top:16px}
+
+  /* --- open questions callout, page chrome --- */
+  .callout{
+    background:var(--surface); border:1px solid var(--hairline); border-radius:14px; padding:20px 22px;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .callout h2{margin:0; font-size:.92rem; font-weight:700}
+  .callout ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px}
+  .callout li{
+    display:flex; gap:10px; font-size:.86rem; line-height:1.5; color:var(--ink);
+    border-left:2px solid var(--brand); padding-left:12px;
+  }
+  .callout li b{display:block; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-2); margin-bottom:2px}
+
+  @media (max-width:480px){
+    .msg-header,.msg-body,.cta-wrap,.contact-line,.msg-footer{padding-left:22px; padding-right:22px}
+    .score-num{font-size:2.1rem}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">
+    <span class="tag">Anteprima interna · dati fittizi</span>
+    <h1>Come apparirà la mail del report</h1>
+    <p>Sotto trovi la mail così com'è oggi, con dati di prova per <b>Rossi Illuminazione</b>. Sopra la mail vera e propria, l'intestazione mostra come comparirebbe in una casella di posta (mittente, oggetto, anteprima).</p>
+  </div>
+
+  <div class="frame">
+    <div class="frame-head">
+      <div class="frame-row">
+        <div class="avatar">KM</div>
+        <div class="from-block">
+          <span class="from-name">KeyMove</span>
+          <span class="from-addr">report2r@keymove.it</span>
+        </div>
+        <span class="frame-date">oggi, 09:14</span>
+      </div>
+      <div>
+        <div class="subject">Il tuo report Autovalutazione 2R è pronto, Marco</div>
+        <div class="preheader">Rossi Illuminazione ha completato la valutazione — punteggio complessivo e prossimi passi dentro.</div>
+      </div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-header">
+        <a href="https://www.keymove.it/" aria-label="Keymove">
+          <svg class="logo-mark" viewBox="0 0 1122.53 305.71" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M748.33,61.23c-100.51,0-97.97,164.88.32,164.88s100.2-164.88-.32-164.88ZM763.55,215.02c-44.7,9.51-73.24-133.49-30.12-142.69,43.76-9.51,75.78,132.86,30.12,142.69Z"/><path d="M930.77,64.41c0,37.09,16.49,47.24.95,97.65l-13.63,44.4-40.59-142.05h-42.8l45.34,158.53h42.81l49.14-158.53h-41.22Z"/><path d="M1092.72,182.68c-1.9,15.21-8.88,32.97-26.63,32.97-15.22,0-30.76-13.63-33.61-36.46-5.4-44.08,78-33.93,82.12-75.15,2.85-28.22-32.03-42.81-58.66-42.81-100.51,0-97.98,164.88.32,164.88,32.97,0,55.17-18.7,66.27-43.43h-29.81ZM1041.04,72.33c2.85-.63,5.39-.95,8.24-.95,14.27,0,26.64,9.19,24.1,32.66-3.49,34.56-40.59,29.8-47.56,58.02-10.47-38.36-8.57-84.66,15.22-89.73Z"/><path d="M602.54,64.41c-21.88,0-37.74,13.63-45.98,33.29-7.61-22.52-26-33.29-45.66-33.29-13.41,0-24.17,4.76-32.43,12.55-5.09,4.8-8.74,10.93-10.83,17.61l-39.59,126.45-.35,1.11-.25.81h45.96v-113.82c0-14.01,6.36-25.37,20.37-25.37h5c14.01,0,25.37,11.36,25.37,25.37v113.82h36.21v-113.82c0-14.01,11.36-25.37,25.37-25.37,7.01,0,13.35,2.84,17.93,7.43,4.59,4.59,7.43,10.93,7.43,17.94v113.82h41.23v-99.24c0-40.27-23.47-59.29-49.78-59.29Z"/><path d="M91.32,151.25c-12.36,0-24.41,2.53-32.02,2.53-5.39,0-8.56-1.26-8.56-5.7.63-18.08,86.24.63,86.24-52.32,0-19.66-16.81-33.29-37.1-33.29s-43.12,12.68-58.66,45.34V0H0v221.96h41.22v-68.81c7.61,24.1,54.54-5.07,54.54,49.15v19.66h41.22v-10.15c0-51.37-23.15-60.56-45.66-60.56ZM41.22,145.86v-13c0-26,26.32-44.39,42.49-44.39,6.34,0,11.1,3.17,11.73,9.51,2.86,26-47.56,21.56-54.22,47.88Z"/><path d="M262.95,181.69c-1.9,15.22-8.88,32.97-26.64,32.97-15.22,0-30.75-13.63-33.61-36.46-5.39-44.07,78-33.93,82.13-75.15,2.85-28.22-32.03-42.8-58.66-42.8-100.52,0-97.98,164.88.31,164.88,32.98,0,55.18-18.71,66.27-43.44h-29.8ZM211.26,71.34c2.86-.63,5.39-.95,8.25-.95,14.27,0,26.63,9.2,24.1,32.66-3.49,34.56-40.59,29.81-47.57,58.03-10.46-38.37-8.56-84.66,15.22-89.74Z"/><path d="M394.5,64.42c0,37.1,16.49,47.24.96,97.66l-13.64,44.39-40.58-142.05h-42.81l45.34,158.54h32.98l-3.49,9.83c-10.46,29.48-45.34,36.78-71.02,42.8l28.21,30.12c26.96-16.8,44.71-45.97,56.13-82.75l49.14-158.54h-41.22Z"/></svg>
+        </a>
+        <span class="hdr-div"></span>
+        <span role="img" aria-label="2R" style="display:flex">
+          <svg class="rr-mark" viewBox="0 0 74.44 74.44" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M51.99,24.37c-5.08-.58-8.82,1.9-11.41,6.27,0,0,0,0,0,0l-9.27,13.41s-1.32,1.89-1.61,2.22c-.5.59-1.13,1.04-1.75,1.51-1.23.93-2.68,1.3-4.23,1.23-3.66-.18-7.15-3.22-7.57-6.86-.54-4.68,3.12-8.65,7.68-8.65,1.55,0,2.98.45,4.19,1.23.48.31.6.96.26,1.43l-5.2,7.26c-.39.54,0,1.3.67,1.3h1.51c.23,0,.46-.11.59-.3l4.83-6.75s0,0,0,0l2.1-2.94,5.21-7.29,2.12-2.96c.2-.28,0-.66-.34-.66h-2.22c-.28,0-.54.14-.71.36l-4.03,5.63c-.15.21-.39.34-.65.34h-5.44c-.44,0-.81-.36-.81-.81v-4.66c0-.47-.39-.86-.86-.86h-1.76c-.47,0-.86.39-.86.86v5.54s-.01.04-.03.04c-5.64.72-9.95,5.67-9.65,11.57.28,5.52,4.7,10.05,10.21,10.47,4.36.33,8.24-1.86,10.33-5.27l10.82-15.7c.83-1.33,1.81-2.14,2.37-2.5,1.66-1.05,3.74-1.48,5.91-.98,2.89.66,5.17,2.98,5.77,5.88,1.04,4.99-2.76,9.39-7.56,9.39-1.55,0-2.98-.45-4.19-1.23-.48-.31-.6-.96-.26-1.43l5.2-7.26c.39-.54,0-1.3-.67-1.3h-1.45c-.28,0-.53.13-.7.36l-4.79,6.7s0,0,0,0l-2.1,2.94-5.21,7.29-1.62,2.26c-.41.57,0,1.36.7,1.36h1.36c.28,0,.54-.13.7-.36l4.03-5.63c.15-.21.4-.34.66-.34h5.44c.44,0,.81.36.81.81v4.66c0,.47.39.86.86.86h1.76c.47,0,.86-.39.86-.86v-5.54s.01-.04.03-.04c6.68-.86,11.5-7.65,8.99-14.92-1.21-3.51-5.34-6.65-9.03-7.07Z"/>
+            <circle cx="37.22" cy="37.22" r="35" fill="none" stroke="currentColor" stroke-width="4.44" stroke-miterlimit="10"/>
+          </svg>
+        </span>
+      </div>
+
+      <div class="msg-body">
+        <p class="greeting">Ciao Marco,</p>
+        <p>grazie per aver completato l'Autovalutazione 2R per <strong>Rossi Illuminazione</strong>. Abbiamo confrontato le tue risposte con i benchmark del settore: ecco il risultato.</p>
+
+        <div class="score-hero">
+          <span class="score-num">62%</span>
+          <span class="score-label">Punteggio complessivo</span>
+          <span class="score-status">Sopra il benchmark di settore (52%) · sotto il target ideale (70%)</span>
+        </div>
+
+        <div class="dims">
+
+          <div class="dim-row">
+            <div class="dim-top">
+              <span class="dim-name"><span class="dot" style="background:#f59e0b"></span>Mercato e scenario competitivo</span>
+              <span class="dim-right"><span class="pill below">Sotto benchmark</span><span class="dim-val">55%</span></span>
+            </div>
+            <div class="track">
+              <div class="fill" style="width:55%; background:#b23a22"></div>
+              <div class="tick" style="left:60%; background:#8a8a94"></div>
+              <div class="tick" style="left:70%; background:#1c1c22"></div>
+            </div>
+          </div>
+
+          <div class="dim-row">
+            <div class="dim-top">
+              <span class="dim-name"><span class="dot" style="background:#10b981"></span>Conoscenza dei clienti</span>
+              <span class="dim-right"><span class="pill above">Sopra benchmark</span><span class="dim-val">68%</span></span>
+            </div>
+            <div class="track">
+              <div class="fill" style="width:68%; background:#9a6a12"></div>
+              <div class="tick" style="left:50%; background:#8a8a94"></div>
+              <div class="tick" style="left:70%; background:#1c1c22"></div>
+            </div>
+          </div>
+
+          <div class="dim-row">
+            <div class="dim-top">
+              <span class="dim-name"><span class="dot" style="background:#8b5cf6"></span>Prodotti e servizi offerti</span>
+              <span class="dim-right"><span class="pill target">Sopra target</span><span class="dim-val">82%</span></span>
+            </div>
+            <div class="track">
+              <div class="fill" style="width:82%; background:#1f7a4d"></div>
+              <div class="tick" style="left:65%; background:#8a8a94"></div>
+              <div class="tick" style="left:80%; background:#1c1c22"></div>
+            </div>
+          </div>
+
+          <div class="dim-row">
+            <div class="dim-top">
+              <span class="dim-name"><span class="dot" style="background:#0ea5e9"></span>Organizzazione e processi commerciali</span>
+              <span class="dim-right"><span class="pill above">Sopra benchmark</span><span class="dim-val">58%</span></span>
+            </div>
+            <div class="track">
+              <div class="fill" style="width:58%; background:#9a6a12"></div>
+              <div class="tick" style="left:55%; background:#8a8a94"></div>
+              <div class="tick" style="left:62%; background:#1c1c22"></div>
+            </div>
+          </div>
+
+          <div class="dim-row">
+            <div class="dim-top">
+              <span class="dim-name"><span class="dot" style="background:#3b82f6"></span>Marketing e Comunicazione</span>
+              <span class="dim-right"><span class="pill below">Sotto benchmark</span><span class="dim-val">40%</span></span>
+            </div>
+            <div class="track">
+              <div class="fill" style="width:40%; background:#b23a22"></div>
+              <div class="tick" style="left:47%; background:#8a8a94"></div>
+              <div class="tick" style="left:75%; background:#1c1c22"></div>
+            </div>
+          </div>
+
+          <div class="dim-row">
+            <div class="dim-top">
+              <span class="dim-name"><span class="dot" style="background:#f97316"></span>Strumenti e tecnologie</span>
+              <span class="dim-right"><span class="pill target">Sopra target</span><span class="dim-val">71%</span></span>
+            </div>
+            <div class="track">
+              <div class="fill" style="width:71%; background:#1f7a4d"></div>
+              <div class="tick" style="left:38%; background:#8a8a94"></div>
+              <div class="tick" style="left:65%; background:#1c1c22"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="legend">
+          <span><i style="background:#8a8a94"></i>benchmark di settore</span>
+          <span><i style="background:#1c1c22"></i>target ideale</span>
+        </div>
+
+        <p>Il report completo, con il dettaglio di ogni risposta e i consigli operativi per Rossi Illuminazione, è allegato in PDF a questa email.</p>
+      </div>
+
+      <div class="cta-wrap">
+        <a class="cta" href="#">Prenota una call con KeyMove →</a>
+        <span class="pending-inline">link di prenotazione da confermare</span>
+      </div>
+
+      <p class="contact-line">Preferisci parlarne subito? Chiamaci al <strong>+39 02 3676 7138</strong> oppure scrivici a report2r@keymove.it.</p>
+
+      <div class="msg-footer">
+        <p class="sign">A presto,<br><span class="pending-inline">nome e ruolo da confermare</span> · KeyMove</p>
+        <a class="social-link" href="https://www.linkedin.com/company/keymove/" aria-label="KeyMove su LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <p class="fine-print">Hai ricevuto questa email perché hai completato l'Autovalutazione 2R su report2r.keymove.it.<br>© 2026 KeyMove — Milano.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h2>Da confermare prima di poter inviare questa mail davvero</h2>
+    <ul>
+      <li><div><b>Prenotazione</b>quale link colleghiamo al pulsante "Prenota una call" — Calendly, altro?</div></li>
+      <li><div><b>WhatsApp</b>+39 02 3676 7138 è utilizzabile anche su WhatsApp Business, o mostriamo solo "chiamaci"?</div></li>
+      <li><div><b>Firma</b>nome e ruolo di chi firma la mail a nome di KeyMove</div></li>
+      <li><div><b>Mittente</b>va bene <code>report2r@keymove.it</code> — lo stesso del pulsante "Contattaci" — o ne serve uno dedicato per l'invio automatico?</div></li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
