@@ -38,6 +38,19 @@ Diff: 51 righe aggiunte, 25 tolte in `index.html`.
 - **Campo password**: `autocomplete="off"`, così il browser non propone di
   salvare una password condivisa.
 
+**Simulazione d'attacco (pentest locale sul backend PHP+MySQL reale).** Montato
+un ambiente isolato e attaccato l'endpoint `api/compilazione.php` e la pagina
+servita da `index.php`. Esito: SQL injection neutralizzata (prepared statement),
+consenso/range/allowlist/email validati, metodi non-POST respinti, CSRF
+cross-origin bloccato (Origin + Sec-Fetch-Site), error disclosure gestito (lo
+username del DB non trapela), clickjacking bloccato, noindex attivo.
+**Il pentest ha però scoperto 5 punti XSS che la prima passata aveva mancato**:
+`d.label` finiva grezzo anche in welcome pills, barra dimensioni, chip di
+sintesi e nelle due tabelle del Setup. Iniettando un payload nel *testo di una
+sezione del database* si otteneva esecuzione JS end-to-end (confermata nel
+browser). Ora tutti e cinque passano da `_esc()`; ri-test end-to-end: bloccati,
+zero regressioni con dati puliti.
+
 Collaudo in Chrome headless: nessuna violazione CSP, nessun errore JS, flusso
 completo fino ai risultati con il radar Chart.js, e la pagina continua a
 funzionare anche con una chiave di sezione ostile. Dettagli in `NOTES.md`.

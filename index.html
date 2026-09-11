@@ -1995,7 +1995,7 @@ function buildDimStrip(screenIdx) {
     const label = dim?.label.replace(' Commerciale','').replace(' Clienti','') || dimId;
     const check = isDone && !isActive ? '✓ ' : '';
     return `<div class="dim-chip${extra}" style="${chipStyle}">
-      <span class="dc-dot" style="${dotStyle}"></span>${check}${label}
+      <span class="dc-dot" style="${dotStyle}"></span>${check}${_esc(label)}
     </div>`;
   }).join('');
 }
@@ -2895,7 +2895,7 @@ function buildResults() {
     'un posizionamento <strong>' + overallLabel + '</strong> rispetto al benchmark di settore.';
   const chips = function(list, empty){
     return list.length
-      ? list.map(function(l){ return '<span class="synth-chip">' + l + '</span>'; }).join('')
+      ? list.map(function(l){ return '<span class="synth-chip">' + _esc(l) + '</span>'; }).join('')
       : '<span class="synth-chip none">' + empty + '</span>';
   };
   document.getElementById('synth_strong').innerHTML = chips(strong, 'Nessuna dimensione sopra il target');
@@ -2956,7 +2956,7 @@ function resetAll() {
 // init
 (function buildWelcome() {
   const pills = document.getElementById('welcomePills');
-  if (pills) pills.innerHTML = DIMS.map(function(d){ return '<span class="pill">' + d.label + '</span>'; }).join('');
+  if (pills) pills.innerHTML = DIMS.map(function(d){ return '<span class="pill">' + _esc(d.label) + '</span>'; }).join('');
   const nDims = document.getElementById('welcomeDims');
   if (nDims) nDims.textContent = DIMS.length;
   const nQs = document.getElementById('welcomeQs');
@@ -3165,7 +3165,7 @@ function renderBmTable() {
   DIMS.forEach(function(d) {
     var tr = document.createElement('tr');
     tr.innerHTML =
-      '<td class="dim-lbl">' + d.label + '</td>' +
+      '<td class="dim-lbl">' + _esc(d.label) + '</td>' +
       '<td><div class="pct-wrap"><input type="number" id="sb_b2b_' + d.id + '" value="' + Math.round(d.bm_b2b * 100) + '" min="0" max="100" step="1"><span>%</span></div></td>' +
       '<td><div class="pct-wrap"><input type="number" id="sb_b2c_' + d.id + '" value="' + Math.round(d.bm_b2c * 100) + '" min="0" max="100" step="1"><span>%</span></div></td>';
     tbody.appendChild(tr);
@@ -3183,7 +3183,7 @@ function renderTargetTable() {
     var vB2c = Math.round((d.tg_b2c[objIdx] || 0.55) * 100);
     var tr = document.createElement('tr');
     tr.innerHTML =
-      '<td class="dim-lbl">' + d.label + '</td>' +
+      '<td class="dim-lbl">' + _esc(d.label) + '</td>' +
       '<td><div class="pct-wrap"><input type="number" id="st_b2b_' + d.id + '" value="' + vB2b + '" min="0" max="100" step="1"><span>%</span></div></td>' +
       '<td><div class="pct-wrap"><input type="number" id="st_b2c_' + d.id + '" value="' + vB2c + '" min="0" max="100" step="1"><span>%</span></div></td>';
     tbody.appendChild(tr);
